@@ -23,12 +23,13 @@ namespace Ffitness.Models
         [Range(1, 5)]
         public int DifficultyLevel { get; set; }
 
-        [StringLength(7)]
+        [MaxLength(7), MinLength(4)]
         public String Colour { 
             get { return hexCode; }
             set {
                 if (value == null)
                     hexCode = "#9D908D";
+                else hexCode = value.ToUpper();
             }
         }
     }

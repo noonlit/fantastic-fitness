@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210513112836_AddActivity")]
+    [Migration("20210513120039_AddActivity")]
     partial class AddActivity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
