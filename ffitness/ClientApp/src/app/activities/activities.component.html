@@ -1,0 +1,24 @@
+<h1 id="tableLabel">Services</h1>
+
+<p>This component lists the services.</p>
+
+<p *ngIf="!activities"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="activities">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Difficulty</th>
+      <th>Colour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let activity of activities">
+      <td>{{ activity.name }}</td>
+      <td>{{ activity.type }}</td>
+      <td>{{ activity.difficultyLevel }}</td>
+      <td>{{ activity.colour }}</td>
+    </tr>
+  </tbody>
+</table>

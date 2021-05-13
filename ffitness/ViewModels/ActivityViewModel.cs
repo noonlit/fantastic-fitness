@@ -17,4 +17,3 @@ namespace Ffitness.ViewModels
         public String Colour { get; set; }
     }
 }
-}
