@@ -42,6 +42,30 @@ namespace Ffitness.Controllers
             return activity;
         }
 
+        //GET: api/Activities/FilterByDifficulty/1
+        [HttpGet]
+        [Route("filterByDifficulty/{maxDifficulty}")]
+        public async Task<ActionResult<IEnumerable<Activity>>> FilterByDifficulty (int maxDifficulty)
+        {
+            return await _context.Activities.Where(a => a.DifficultyLevel <= maxDifficulty).OrderBy(a => a.DifficultyLevel).ToListAsync();
+        }
+
+        //GET: api/Activities/FilterByType/yoga
+        [HttpGet]
+        [Route("filterByType/{activityType}")]
+        public async Task<ActionResult<IEnumerable<Activity>>> FilterByType(string activityType)
+        {
+            return await _context.Activities.Where(a => a.Type.Equals(activityType)).ToListAsync(); 
+        }
+
+        //GET: api/Activities/SortByName
+        [HttpGet]
+        [Route("sortByName")]
+        public async Task<ActionResult<IEnumerable<Activity>>> SortByName()
+        {
+            return await _context.Activities.OrderBy(a => a.Name).ToListAsync();
+        }
+
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
