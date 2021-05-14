@@ -32,7 +32,5 @@ namespace Ffitness.Models
                 else hexCode = value.ToUpper();
             }
         }
-
-        public virtual ICollection<Trainer> Trainers { get; set; }
     }
 }
