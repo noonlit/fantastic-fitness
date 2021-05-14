@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ffitness.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class Trainer
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
         public String FirstName { get; set; }
         [Required]
         public String LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        [Required, MinLength(5)]
+        public String Description { get; set; }
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }
