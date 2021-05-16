@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Ffitness.Models;
+using Ffitness.ViewModels;
 
 namespace Ffitness.Automapper
 {   
@@ -6,7 +8,7 @@ namespace Ffitness.Automapper
   {
     public MappingProfile()
     {
-      // CreateMap<Entity, EntityViewModel>();
+       CreateMap<ScheduledActivity, ScheduledActivityViewModel>();
     }
   }
 }
