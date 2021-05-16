@@ -57,6 +57,8 @@ namespace Ffitness
 							{
 								options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 							});
+		
+			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

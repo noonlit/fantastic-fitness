@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
+using AutoMapper;
 
 namespace Ffitness.Controllers
 {
@@ -15,10 +16,11 @@ namespace Ffitness.Controllers
     public class TrainersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public TrainersController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public TrainersController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Trainers
