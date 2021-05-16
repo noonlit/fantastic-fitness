@@ -72,7 +72,7 @@ namespace Ffitness.Areas.Identity.Pages.Account
 
             [Display(Name = "Birth date")]
             [DataType(DataType.Date)]
-            public DateTime BirthDate { get; set; }
+            public DateTime ?BirthDate { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)

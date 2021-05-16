@@ -13,6 +13,6 @@ namespace Ffitness.Models
         public String FirstName { get; set; }
         [Required]
         public String LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime ?BirthDate { get; set; }
     }
 }

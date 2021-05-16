@@ -1,0 +1,10 @@
+.carousel-item {
+  height: 500px;
+  background-size: cover;
+  background-position: center center;
+}
+
+.caption {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.2)
+}
