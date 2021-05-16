@@ -1,6 +1,4 @@
 import { ChangeDetectorRef, Component, Inject, Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ScheduledActivity } from './calendar.model';
 
 import {
   ChangeDetectionStrategy,
@@ -8,20 +6,7 @@ import {
   TemplateRef,
 
 } from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { takeUntil } from 'rxjs/operators';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -31,21 +16,10 @@ import {
 } from 'angular-calendar';
 import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-defaults.service';
 import { endOfHour } from 'date-fns/esm';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
+import { CalendarComponentService } from './shared/calendar.service';
+import { ScheduledActivity } from './shared/calendar.model';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -55,9 +29,7 @@ const colors: any = {
 })
 export class CalendarComponent implements OnInit {
 
-  activities: Array<ScheduledActivity>;
-
-  private apiUrl;
+  activities: ScheduledActivity[];
 
   public startDatePickerOptions: FlatpickrDefaultsInterface = {
     allowInput: true,
@@ -82,23 +54,17 @@ export class CalendarComponent implements OnInit {
   }
 
   view: CalendarView = CalendarView.Week;
-
   viewDate: Date = new Date();
-
   daysInWeek = 7;
-
   selectedDayViewDate: Date;
-
   weekStartsOn = DAYS_OF_WEEK.MONDAY;
-
   activeDayIsOpen: boolean = true;
 
-  constructor(private cd: ChangeDetectorRef, private modal: NgbModal, private http: HttpClient, @Inject('API_URL') apiUrl: string) {
-    this.apiUrl = apiUrl;
+  constructor(private cd: ChangeDetectorRef, private modal: NgbModal, private service: CalendarComponentService, private auth: AuthorizeService) {
   }
 
   ngOnInit() {
-    this.http.get<Array<ScheduledActivity>>(this.apiUrl + 'scheduledactivities')
+    this.service.getScheduledActivities()
       .subscribe(result => {
         for (let item of result) {
           this.events = [
@@ -107,6 +73,7 @@ export class CalendarComponent implements OnInit {
               title: item.activity.name,
               start: new Date(item.startTime),
               end: new Date(item.endTime),
+              actions: this.actions,
               color: { primary: item.activity.colour, secondary: item.activity.colour },
               draggable: true,
               resizable: {
@@ -118,6 +85,11 @@ export class CalendarComponent implements OnInit {
         }
 
         this.cd.detectChanges();
+
+        // TODO remove this, but only show actions if user is logged in.
+        this.auth.getUser().subscribe(data => {
+          console.log(data); //You will get all your user related information in this field
+        })
 
       }, error => console.error(error));
   }
@@ -179,7 +151,7 @@ export class CalendarComponent implements OnInit {
       title: 'New event',
       start: date,
       end: endOfHour(date),
-      color: colors.red,
+      color: { primary: "", secondary: "" },
       draggable: true,
       resizable: {
         beforeStart: true,
