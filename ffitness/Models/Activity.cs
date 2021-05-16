@@ -25,11 +25,11 @@ namespace Ffitness.Models
 
         [MaxLength(7), MinLength(4)]
         public String Colour { 
-            get { return hexCode; }
+            get { return this.hexCode; }
             set {
                 if (value == null)
-                    hexCode = "#9D908D";
-                else hexCode = value.ToUpper();
+                    this.hexCode = "#9D908D";
+                else this.hexCode = value.ToUpper();
             }
         }
 
