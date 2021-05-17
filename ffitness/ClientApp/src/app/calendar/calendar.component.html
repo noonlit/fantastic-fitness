@@ -42,10 +42,18 @@
       <div class="row">
         {{ modalData.event.meta.description }}
       </div>
+      <div class="row">
+        Trainer: {{  modalData.event.meta.trainer.firstName }}  {{  modalData.event.meta.trainer.lastName }}
+      </div>
+      <div class="row">
+        Available spots: {{  modalData.event.meta.capacity }}
+      </div>
       <br>
     </div>
 
-    <button class="btn btn-primary" (click)="bookEvent(modalData.event)">
+    <a [routerLink]='["/authentication/login"]' *ngIf="!(isAuthenticated | async)">To book a spot, log in</a>
+
+    <button class="btn btn-primary"  *ngIf="isAuthenticated | async" (click)="bookEvent(modalData.event)">
       Book your spot
     </button>
   </div>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Ffitness.Controllers
 {
@@ -84,9 +85,14 @@ namespace Ffitness.Controllers
         [HttpPost("BookSpot")]
         public async Task<ActionResult<Booking>> BookSpot(ScheduledActivity activity)
         {
-            var booking = new Booking { ScheduledActivityId = activity.Id, UserId = "7065cd8a-3e37-4483-8792-ba012b94aa5f" }; // TODO
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var booking = new Booking { ScheduledActivityId = activity.Id, UserId = userId };
 
             _context.Bookings.Add(booking);
+            activity.Capacity--;
+            _context.Entry(activity).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
