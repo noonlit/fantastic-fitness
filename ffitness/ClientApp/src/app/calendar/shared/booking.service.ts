@@ -22,4 +22,8 @@ export class BookingComponentService {
   bookSpot(scheduledActivity): Observable<Booking> {
     return this.httpClient.post<Booking>(this.getApiUrl() + '/BookSpot', scheduledActivity);
   }
+
+  getBookingForCurrentUserAndActivity(scheduledActivity): Observable<Booking> {
+    return this.httpClient.get<Booking>(this.getApiUrl() + '/ScheduledActivity/' + scheduledActivity.id);
+  }
 }
