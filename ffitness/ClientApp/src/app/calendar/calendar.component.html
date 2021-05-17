@@ -51,10 +51,20 @@
       <br>
     </div>
 
-    <a [routerLink]='["/authentication/login"]' *ngIf="!(isAuthenticated | async)">To book a spot, log in</a>
+    <a [routerLink]='["/authentication/login"]' *ngIf="!(isAuthenticated | async)">To book a spot, log in.</a>
 
-    <button class="btn btn-primary"  *ngIf="isAuthenticated | async" (click)="bookEvent(modalData.event)">
-      Book your spot
-    </button>
+    <div *ngIf="isAuthenticated | async">
+      <button class="btn btn-primary" *ngIf="eventCanBeBooked(modalData.event)" (click)="bookEvent(modalData.event);">
+        Book your spot!
+      </button>
+
+      <div *ngIf="!(eventHasCapacity(modalData.event))">
+        We ran out of spots!
+      </div>
+
+      <div *ngIf="userHasBooking(modalData.event)">
+        You have a booking. Woohoo!
+      </div>
+    </div>
   </div>
 </ng-template>

@@ -17,7 +17,9 @@ import { CalendarComponentService } from './shared/calendar.service';
 import { ScheduledActivity } from './shared/calendar.model';
 import { BookingComponentService } from './shared/booking.service';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Booking } from '../bookings/shared/booking.model';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -99,18 +101,42 @@ export class CalendarComponent implements OnInit {
   };
 
   openModal(event: CalendarEvent): void {
-    this.modalData = { event };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.bookingService.getBookingForCurrentUserAndActivity(event.meta)
+      .pipe(
+        catchError(error => {
+          return of([]);
+        })
+      )
+      .subscribe(result => {
+        event.meta.currentBooking = result;
+        this.modalData = { event };
+        this.modal.open(this.modalContent, { size: 'lg' });
+        this.cd.detectChanges();
+
+      }, error => error => console.error(error));
+  }
+
+  userHasBooking(event: CalendarEvent) {
+    return event.meta.currentBooking != undefined &&
+      event.meta.currentBooking != null &&
+      Object.keys(event.meta.currentBooking).length > 0;
+  }
+
+  eventHasCapacity(event: CalendarEvent) {
+    return event.meta.capacity > 0;
+  }
+
+  eventCanBeBooked(event: CalendarEvent) {
+    return !this.userHasBooking(event) && this.eventHasCapacity(event);
   }
 
   bookEvent(event: CalendarEvent): void {
-    console.log(event);
-
     this.bookingService.bookSpot(event.meta)
       .subscribe(result => {
-        console.log(result);
-
-        // TODO: update view, ensure user cannot book twice
+        event.meta.currentBooking = result;
+        event.meta.capacity--;
+        this.modalData = { event };
+        this.cd.detectChanges();
       }, error => console.error(error));
   }
 

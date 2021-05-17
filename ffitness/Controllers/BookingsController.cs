@@ -46,6 +46,21 @@ namespace Ffitness.Controllers
             return booking;
         }
 
+        [HttpGet("ScheduledActivity/{activityId}")]
+        public async Task<ActionResult<Booking>> GetBookingForCurrentUserAndActivity(int activityId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var booking = await _context.Bookings.Where(b => b.UserId == userId && b.ScheduledActivityId == activityId).FirstOrDefaultAsync();
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return booking;
+        }
+
         // PUT: api/Bookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
