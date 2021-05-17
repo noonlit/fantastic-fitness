@@ -98,6 +98,23 @@ namespace Ffitness.Controllers
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
         }
 
+        [HttpGet("/Bookings/Current")]
+        public async Task<ActionResult<IEnumerable<Booking>>> GetBookingsForCurrentUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return new List<Booking>();
+            }
+
+            var bookingIds = _context.Bookings.Select(b => b.UserId);
+
+            return await _context.Bookings
+                .Where(b => b.UserId == userId)
+                .ToListAsync();
+        }
+
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
