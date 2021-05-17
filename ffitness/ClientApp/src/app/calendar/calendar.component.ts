@@ -17,6 +17,7 @@ import {
 import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-defaults.service';
 import { CalendarComponentService } from './shared/calendar.service';
 import { ScheduledActivity } from './shared/calendar.model';
+import { BookingComponentService } from './shared/booking.service';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -57,7 +58,11 @@ export class CalendarComponent implements OnInit {
   weekStartsOn = DAYS_OF_WEEK.MONDAY;
   activeDayIsOpen: boolean = true;
 
-  constructor(private cd: ChangeDetectorRef, private modal: NgbModal, private service: CalendarComponentService) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private modal: NgbModal,
+    private service: CalendarComponentService,
+    private bookingService: BookingComponentService) {
   }
 
   ngOnInit() {
@@ -71,6 +76,7 @@ export class CalendarComponent implements OnInit {
               start: new Date(item.startTime),
               end: new Date(item.endTime),
               color: { primary: item.activity.colour, secondary: item.activity.colour },
+              meta: item
             },
           ];
         }
@@ -80,7 +86,7 @@ export class CalendarComponent implements OnInit {
       }, error => console.error(error));
   }
 
-  events: CalendarEvent<ScheduledActivity>[] = [];
+  events: CalendarEvent[] = [];
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -92,6 +98,14 @@ export class CalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  bookEvent(event: CalendarEvent): void {
+    console.log(event);
+    this.bookingService.bookSpot(event.meta)
+      .subscribe(result => {
+        console.log(result);
+      }, error => console.error(error));
   }
 
   setView(view: CalendarView) {

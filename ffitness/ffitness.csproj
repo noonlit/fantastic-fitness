@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.6" />
@@ -48,8 +49,10 @@
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\booking.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
