@@ -15,8 +15,9 @@ namespace Ffitness.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
-
         public DbSet<ScheduledActivity> ScheduledActivities { get; set; }
+        
+        public DbSet<Booking> Bookings { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,

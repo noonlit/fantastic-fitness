@@ -3,12 +3,13 @@ using Ffitness.Models;
 using Ffitness.ViewModels;
 
 namespace Ffitness.Automapper
-{   
-  public class MappingProfile : Profile
-  {
-    public MappingProfile()
+{
+    public class MappingProfile : Profile
     {
-       CreateMap<ScheduledActivity, ScheduledActivityViewModel>();
+        public MappingProfile()
+        {
+            CreateMap<ScheduledActivity, ScheduledActivityViewModel>();
+            CreateMap<Booking, BookingViewModel>();
+        }
     }
-  }
 }
