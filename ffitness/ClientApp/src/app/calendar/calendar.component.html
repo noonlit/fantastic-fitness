@@ -1,0 +1,48 @@
+<h1 id="tableLabel">Activities Calendar</h1>
+
+<div class="row text-right">
+  <div class="col-md-4 offset-md-8 col-sm-12 offset-sm-0">
+    <div class="btn-group">
+      <div class="btn btn-outline-secondary"
+           mwlCalendarToday
+           [(viewDate)]="viewDate">
+        This week
+      </div>
+      <div class="btn btn-primary"
+           mwlCalendarNextView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (viewDateChange)="closeOpenMonthViewDay()">
+        Next
+      </div>
+    </div>
+  </div>
+  </div>
+
+<br>
+
+  <mwl-calendar-week-view [viewDate]="viewDate"
+                          [events]="events"
+                          [refresh]="refresh"
+                          [dayStartHour]="9"
+                          [dayEndHour]="18"
+                          [weekStartsOn]="weekStartsOn"
+                          (eventClicked)="handleEvent('Event details', $event.event)">
+  </mwl-calendar-week-view>
+
+  <ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">{{ modalData?.action }}</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        {{ modalData.event.title }}
+        {{ modalData.event.start }}
+        <br>
+        <button class="btn btn-primary" (click)="bookEvent(modalData.event)">Book your spot</button>
+      </div>
+    </div>
+  </ng-template>
