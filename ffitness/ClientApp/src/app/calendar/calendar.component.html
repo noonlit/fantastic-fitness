@@ -27,7 +27,7 @@
                         [dayStartHour]="9"
                         [dayEndHour]="18"
                         [weekStartsOn]="weekStartsOn"
-                        (eventClicked)="handleEvent('Event details', $event.event)">
+                        (eventClicked)="openModal($event.event)">
 </mwl-calendar-week-view>
 
 <ng-template #modalContent let-close="close">

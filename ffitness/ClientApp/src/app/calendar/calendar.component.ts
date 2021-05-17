@@ -91,17 +91,17 @@ export class CalendarComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   modalData: {
-    action: string;
     event: CalendarEvent;
   };
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
+  openModal(event: CalendarEvent): void {
+    this.modalData = { event };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   bookEvent(event: CalendarEvent): void {
     console.log(event);
+
     this.bookingService.bookSpot(event.meta)
       .subscribe(result => {
         console.log(result);
