@@ -16,13 +16,22 @@ namespace Ffitness.Data
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<ScheduledActivity> ScheduledActivities { get; set; }
-        
+
         public DbSet<Booking> Bookings { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Booking>()
+                .HasIndex(b => new { b.UserId, b.ScheduledActivityId })
+                .IsUnique();
         }
     }
 }
