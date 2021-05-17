@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
 using AutoMapper;
+using System.Security.Claims;
 
 namespace Ffitness.Controllers
 {
