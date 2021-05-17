@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Injectable, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import {
   ChangeDetectionStrategy,
@@ -9,8 +9,6 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
   CalendarView,
   DAYS_OF_WEEK
 } from 'angular-calendar';
@@ -18,6 +16,8 @@ import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-default
 import { CalendarComponentService } from './shared/calendar.service';
 import { ScheduledActivity } from './shared/calendar.model';
 import { BookingComponentService } from './shared/booking.service';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -57,15 +57,19 @@ export class CalendarComponent implements OnInit {
   selectedDayViewDate: Date;
   weekStartsOn = DAYS_OF_WEEK.MONDAY;
   activeDayIsOpen: boolean = true;
+  isAuthenticated: Observable<boolean>;
 
   constructor(
     private cd: ChangeDetectorRef,
     private modal: NgbModal,
     private service: CalendarComponentService,
-    private bookingService: BookingComponentService) {
+    private bookingService: BookingComponentService,
+    private authorizeService: AuthorizeService) {
   }
 
   ngOnInit() {
+    this.isAuthenticated = this.authorizeService.isAuthenticated();
+
     this.service.getScheduledActivities()
       .subscribe(result => {
         for (let item of result) {
@@ -105,6 +109,8 @@ export class CalendarComponent implements OnInit {
     this.bookingService.bookSpot(event.meta)
       .subscribe(result => {
         console.log(result);
+
+        // TODO: update view, ensure user cannot book twice
       }, error => console.error(error));
   }
 
