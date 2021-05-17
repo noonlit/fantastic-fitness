@@ -15,8 +15,10 @@ import {
   DAYS_OF_WEEK
 } from 'angular-calendar';
 import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-defaults.service';
-import { CalendarComponentService } from './shared/calendar.service';
-import { ScheduledActivity } from './shared/calendar.model';
+import { endOfHour } from 'date-fns/esm';
+import { map } from 'rxjs/operators';
+import { ScheduledActivity } from '../../shared/calendar.model';
+import { CalendarComponentService } from '../../shared/calendar.service';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -24,7 +26,7 @@ import { ScheduledActivity } from './shared/calendar.model';
   styleUrls: ['./calendar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CalendarComponent implements OnInit {
+export class AdminCalendarComponent implements OnInit {
 
   activities: ScheduledActivity[];
 
@@ -70,17 +72,58 @@ export class CalendarComponent implements OnInit {
               title: item.activity.name,
               start: new Date(item.startTime),
               end: new Date(item.endTime),
+              actions: this.actions,
               color: { primary: item.activity.colour, secondary: item.activity.colour },
+              draggable: true,
+              resizable: {
+                beforeStart: true,
+                afterEnd: true,
+              },
             },
           ];
         }
 
         this.cd.detectChanges();
-
       }, error => console.error(error));
   }
 
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      a11yLabel: 'Edit',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      },
+    },
+    {
+      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      a11yLabel: 'Delete',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter((iEvent) => iEvent !== event);
+        this.handleEvent('Deleted', event);
+      },
+    },
+  ];
+
   events: CalendarEvent<ScheduledActivity>[] = [];
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map((iEvent) => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd,
+        };
+      }
+      return iEvent;
+    });
+    this.handleEvent('Dropped or resized', event);
+  }
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -92,6 +135,46 @@ export class CalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  hourSegmentClicked(date: Date) {
+    this.selectedDayViewDate = date;
+
+    let event: CalendarEvent<ScheduledActivity> = {
+      title: 'New event',
+      start: date,
+      end: endOfHour(date),
+      color: { primary: "", secondary: "" },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+    }
+
+    let activity: ScheduledActivity = {
+      startTime: event.start,
+      endTime: endOfHour(date),
+    }
+    event.meta = activity;
+
+    this.modalData = { action: "Schedule New Event", event: event };
+    this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter((event) => event !== eventToDelete);
+  }
+
+  addEvent(eventToAdd: CalendarEvent): void {
+    this.events = [
+      ... this.events,
+      eventToAdd
+    ];
+  }
+
+  saveEvent(eventToSave: CalendarEvent) {
+    console.log(eventToSave);
   }
 
   setView(view: CalendarView) {

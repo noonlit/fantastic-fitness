@@ -22,6 +22,9 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { LayoutModule } from '@angular/cdk/layout';
+import { AccountComponent } from './account/account.component';
+import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
+import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { LayoutModule } from '@angular/cdk/layout';
     CounterComponent,
     FetchDataComponent,
     ActivitiesComponent,
-    CalendarComponent
+    CalendarComponent,
+    AccountComponent,
+    SidebarNavMenuComponent,
+    AdminCalendarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,7 +49,9 @@ import { LayoutModule } from '@angular/cdk/layout';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'activities', component: ActivitiesComponent },
-      { path: 'calendar', component: CalendarComponent }
+      { path: 'calendar', component: CalendarComponent },
+      { path: 'account', component: AccountComponent },
+      { path: 'create-calendar', component: AdminCalendarComponent }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

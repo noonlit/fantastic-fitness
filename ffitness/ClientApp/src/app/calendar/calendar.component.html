@@ -3,13 +3,6 @@
 <div class="row text-right">
   <div class="col-md-4 offset-md-8 col-sm-12 offset-sm-0">
     <div class="btn-group">
-      <div class="btn btn-primary"
-           mwlCalendarPreviousView
-           [view]="view"
-           [(viewDate)]="viewDate"
-           (viewDateChange)="closeOpenMonthViewDay()">
-        Previous
-      </div>
       <div class="btn btn-outline-secondary"
            mwlCalendarToday
            [(viewDate)]="viewDate">
@@ -34,9 +27,7 @@
                           [dayStartHour]="9"
                           [dayEndHour]="18"
                           [weekStartsOn]="weekStartsOn"
-                          (eventClicked)="handleEvent('Clicked', $event.event)"
-                          (eventTimesChanged)="eventTimesChanged($event)"
-                          (hourSegmentClicked)="hourSegmentClicked($event.date)">
+                          (eventClicked)="handleEvent('Event details', $event.event)">
   </mwl-calendar-week-view>
 
   <ng-template #modalContent let-close="close">
@@ -48,30 +39,10 @@
     </div>
     <div class="modal-body">
       <div>
-        Activity: <input type="text"
-                         class="form-control"
-                         [(ngModel)]="modalData.event.title" /><br>
-        Starts At: <input class="form-control"
-                          type="text"
-                          mwlFlatpickr
-                          [(ngModel)]="modalData.event.start"
-                          [altInput]="true"
-                          [convertModelValue]="true"
-                          [enableTime]="true"
-                          placeholder="Not set"
-                          [options]="startDatePickerOptions" />
-        Ends At: <input class="form-control"
-                        type="text"
-                        mwlFlatpickr
-                        [(ngModel)]="modalData.event.end"
-                        [altInput]="true"
-                        [convertModelValue]="true"
-                        [enableTime]="true"
-                        [options]="endDatePickerOptions"
-                        placeholder="Not set" />
-
+        {{ modalData.event.title }}
+        {{ modalData.event.start }}
         <br>
-        <button class="btn btn-light btn-outline-success" (click)="saveEvent(modalData.event)">Save</button>
+        <button class="btn btn-primary" (click)="bookEvent(modalData.event)">Book your spot</button>
       </div>
     </div>
   </ng-template>
