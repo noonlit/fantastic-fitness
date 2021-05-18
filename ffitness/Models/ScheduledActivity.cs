@@ -21,11 +21,15 @@ namespace Ffitness.Models
 
 		public int TrainerId { get; set; }
 
-		[Required]
-		public DateTime StartTime { get; set; }
+		private DateTime startDate;
 
 		[Required]
-		public DateTime EndTime { get; set; }
+		public DateTime StartTime { get => startDate; set => startDate = DateTime.SpecifyKind(value, DateTimeKind.Utc); }
+
+		private DateTime endDate;
+
+		[Required]
+		public DateTime EndTime { get => endDate; set => endDate = DateTime.SpecifyKind(value, DateTimeKind.Utc); }
 
 		[Required]
 		public int Capacity { get; set; }
