@@ -29,7 +29,7 @@ namespace Ffitness.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ScheduledActivity>>> GetScheduledActivities()
         {
-            return await _context.ScheduledActivities.Include(a => a.Activity).Include(t => t.Trainer).ToListAsync();
+            return await _context.ScheduledActivities.Include(a => a.Activity).Include(a => a.Trainer).ToListAsync();
         }
 
         // GET: api/ScheduledActivities/5

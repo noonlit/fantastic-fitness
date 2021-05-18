@@ -17,6 +17,6 @@ namespace Ffitness.Models
         public String LastName { get; set; }
         [Required, MinLength(5)]
         public String Description { get; set; }
-        public virtual ICollection<Activity> Activities { get; set; }
+        public List<Activity> Activities { get; set; }
     }
 }
