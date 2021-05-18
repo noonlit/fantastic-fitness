@@ -47,6 +47,9 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
+  </ItemGroup>
+  <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\booking.model.ts" />
