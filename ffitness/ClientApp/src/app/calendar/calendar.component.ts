@@ -127,7 +127,7 @@ export class CalendarComponent implements OnInit {
   }
 
   eventCanBeBooked(event: CalendarEvent) {
-    return !this.userHasBooking(event) && this.eventHasCapacity(event);
+    return !this.userHasBooking(event) && this.eventHasCapacity(event) && event.start > new Date();
   }
 
   bookEvent(event: CalendarEvent): void {
