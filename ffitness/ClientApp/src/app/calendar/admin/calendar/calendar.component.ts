@@ -110,6 +110,19 @@ export class AdminCalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
+
+    const overlappingEvents = this.events.filter((otherEvent) => {
+      if (event.meta.id === otherEvent.meta.id) {
+        return false;
+      }
+
+      return this.intervalsOverlap(newStart, newEnd, otherEvent.start, otherEvent.end);
+    });
+
+    if (overlappingEvents.length > 0) {
+      return;
+    }
+
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
@@ -121,7 +134,12 @@ export class AdminCalendarComponent implements OnInit {
       return iEvent;
     });
 
-    console.log('Dropped or resized', event);
+    this.service.saveScheduledActivity(event.meta);
+  }
+
+  intervalsOverlap(start: Date, end: Date, otherStart: Date, otherEnd: Date): boolean {
+    return start >= otherStart && start <= otherEnd ||
+      end >= otherStart && end <= otherEnd;
   }
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
