@@ -83,6 +83,10 @@ export class AdminCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
+        if (event.start < new Date()) {
+          return;
+        }
+
         this.openModal(event);
       },
     },
@@ -90,6 +94,10 @@ export class AdminCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
+        if (event.start < new Date()) {
+          return;
+        }
+
         this.deleteEvent(event);
       },
     },
@@ -147,6 +155,10 @@ export class AdminCalendarComponent implements OnInit {
 
   hourSegmentClicked(date: Date) {
     this.selectedDayViewDate = date;
+
+    if (date < new Date()) {
+      return;
+    }
 
     let event: CalendarEvent = {
       title: 'New event',
