@@ -49,13 +49,13 @@
   <div class="modal-body">
     <div>
       Description: <input type="text"
-                       class="form-control"
-                       [(ngModel)]="modalData.event.meta.description" />
+                          class="form-control"
+                          [(ngModel)]="modalData.event.meta.description" />
       <br>
       Starts At: <input class="form-control"
                         type="text"
                         mwlFlatpickr
-                        [(ngModel)]="modalData.event.start"
+                        [(ngModel)]="modalData.event.meta.startTime"
                         [altInput]="true"
                         [convertModelValue]="true"
                         [enableTime]="true"
@@ -65,7 +65,7 @@
       Ends At: <input class="form-control"
                       type="text"
                       mwlFlatpickr
-                      [(ngModel)]="modalData.event.end"
+                      [(ngModel)]="modalData.event.meta.endTime"
                       [altInput]="true"
                       [convertModelValue]="true"
                       [enableTime]="true"
@@ -74,22 +74,31 @@
       <br>
       Activity: <select class="form-control"
                         (change)="filterTrainers($event.target.value)"
-                        [(ngModel)]="modalData.event.meta.activity.id">
-                  <option *ngFor="let activityOption of modalData.options.availableActivities"
-                    value="{{ activityOption.id }}">
-                      {{ activityOption.name }}
-                  </option>
-                </select>
+                        [(ngModel)]="modalData.event.meta.activityId">
+        <option *ngFor="let activityOption of modalData.options.availableActivities"
+                value="{{ activityOption.id }}">
+          {{ activityOption.name }}
+        </option>
+      </select>
 
       <br>
-      Trainer: <select class="form-control"  [(ngModel)]="modalData.event.meta.trainer.id">
-                 <option *ngFor="let trainerOption of modalData.options.availableTrainers"
-                         value="{{ trainerOption.id }}">
-                    {{ trainerOption.firstName }} {{ trainerOption.lastName }}
-                  </option>
-                </select>
+      Trainer: <select class="form-control" [(ngModel)]="modalData.event.meta.trainerId">
+        <option value="">--</option>
+        <option *ngFor="let trainerOption of modalData.options.availableTrainers"
+                value="{{ trainerOption.id }}">
+          {{ trainerOption.firstName }} {{ trainerOption.lastName }}
+        </option>
+      </select>
 
       <br>
+      Price: <input class="form-control"
+                    type="number"
+                    [(ngModel)]="modalData.event.meta.price" />
+
+      <br>
+      Capacity: <input class="form-control"
+                    type="number"
+                    [(ngModel)]="modalData.event.meta.capacity" />
       <button class="btn btn-light btn-outline-success" (click)="saveEvent(modalData.event)">Save</button>
     </div>
   </div>

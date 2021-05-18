@@ -70,19 +70,7 @@ export class AdminCalendarComponent implements OnInit {
         for (let item of result) {
           this.events = [
             ...this.events,
-            {
-              title: item.activity.name,
-              start: new Date(item.startTime),
-              end: new Date(item.endTime),
-              actions: this.actions,
-              color: { primary: item.activity.colour, secondary: item.activity.colour },
-              draggable: true,
-              resizable: {
-                beforeStart: true,
-                afterEnd: true,
-              },
-              meta: item
-            },
+            this.createEventFromScheduledActivity(item)
           ];
         }
 
@@ -194,8 +182,39 @@ export class AdminCalendarComponent implements OnInit {
     ];
   }
 
+  createEventFromScheduledActivity(scheduledActivity: ScheduledActivity) {
+    const event: CalendarEvent = {
+      title: scheduledActivity.activity.name,
+      start: new Date(scheduledActivity.startTime),
+      end: new Date(scheduledActivity.endTime),
+      actions: this.actions,
+      color: { primary: scheduledActivity.activity.colour, secondary: scheduledActivity.activity.colour },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      meta: scheduledActivity
+    };
+
+    return event;
+  }
+
+
   saveEvent(eventToSave: CalendarEvent) {
-    console.log(eventToSave);
+    if (eventToSave.meta.id) {
+
+      return;
+    }
+
+
+    this.service.saveScheduledActivity(eventToSave.meta)
+      .subscribe(result => {
+        const event = this.createEventFromScheduledActivity(result);
+        this.addEvent(event);
+        this.cd.detectChanges();
+        this.modal.dismissAll();
+      }, error => console.error(error));
   }
 
   setView(view: CalendarView) {
