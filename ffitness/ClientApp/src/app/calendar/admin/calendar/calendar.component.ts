@@ -134,7 +134,7 @@ export class AdminCalendarComponent implements OnInit {
       return iEvent;
     });
 
-    this.service.saveScheduledActivity(event.meta);
+    this.saveEvent(event);
   }
 
   intervalsOverlap(start: Date, end: Date, otherStart: Date, otherEnd: Date): boolean {
