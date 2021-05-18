@@ -130,11 +130,25 @@ export class CalendarComponent implements OnInit {
     return !this.userHasBooking(event) && this.eventHasCapacity(event) && event.start > new Date();
   }
 
+  eventBookingCanBeCanceled(event: CalendarEvent) {
+    return this.userHasBooking(event) && event.start > new Date();
+  }
+
   bookEvent(event: CalendarEvent): void {
     this.bookingService.bookSpot(event.meta)
       .subscribe(result => {
         event.meta.currentBooking = result;
         event.meta.capacity--;
+        this.modalData = { event };
+        this.cd.detectChanges();
+      }, error => console.error(error));
+  }
+
+  cancelEventBooking(event: CalendarEvent): void {
+    this.bookingService.cancelBooking(event.meta.currentBooking)
+      .subscribe(result => {
+        event.meta.currentBooking = null;
+        event.meta.capacity++;
         this.modalData = { event };
         this.cd.detectChanges();
       }, error => console.error(error));

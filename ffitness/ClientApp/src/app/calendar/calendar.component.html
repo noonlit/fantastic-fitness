@@ -70,6 +70,9 @@
 
       <div *ngIf="userHasBooking(modalData.event)">
         You have a booking. Woohoo!
+        <div>
+          <button class="btn btn-danger" *ngIf="eventBookingCanBeCanceled(modalData.event)" (click)="cancelEventBooking(modalData.event);">Cancel booking</button>
+        </div>
       </div>
     </div>
   </div>
