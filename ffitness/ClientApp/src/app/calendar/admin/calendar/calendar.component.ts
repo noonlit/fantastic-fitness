@@ -110,6 +110,9 @@ export class AdminCalendarComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
+    if (newStart < new Date()) {
+      return;
+    }
 
     const overlappingEvents = this.events.filter((otherEvent) => {
       if (event.meta.id === otherEvent.meta.id) {
