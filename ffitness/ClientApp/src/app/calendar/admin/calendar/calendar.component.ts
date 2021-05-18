@@ -16,7 +16,8 @@ import {
 } from 'angular-calendar';
 import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-defaults.service';
 import { endOfHour } from 'date-fns/esm';
-import { map } from 'rxjs/operators';
+import { Activity } from '../../../activities/shared/activity.model';
+import { ActivityComponentService } from '../../../activities/shared/activity.service';
 import { ScheduledActivity } from '../../shared/calendar.model';
 import { CalendarComponentService } from '../../shared/calendar.service';
 
@@ -27,9 +28,6 @@ import { CalendarComponentService } from '../../shared/calendar.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminCalendarComponent implements OnInit {
-
-  activities: ScheduledActivity[];
-
   public startDatePickerOptions: FlatpickrDefaultsInterface = {
     allowInput: true,
     enableTime: true,
@@ -59,7 +57,11 @@ export class AdminCalendarComponent implements OnInit {
   weekStartsOn = DAYS_OF_WEEK.MONDAY;
   activeDayIsOpen: boolean = true;
 
-  constructor(private cd: ChangeDetectorRef, private modal: NgbModal, private service: CalendarComponentService) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private modal: NgbModal,
+    private service: CalendarComponentService,
+    private activityService: ActivityComponentService) {
   }
 
   ngOnInit() {
@@ -68,18 +70,7 @@ export class AdminCalendarComponent implements OnInit {
         for (let item of result) {
           this.events = [
             ...this.events,
-            {
-              title: item.activity.name,
-              start: new Date(item.startTime),
-              end: new Date(item.endTime),
-              actions: this.actions,
-              color: { primary: item.activity.colour, secondary: item.activity.colour },
-              draggable: true,
-              resizable: {
-                beforeStart: true,
-                afterEnd: true,
-              },
-            },
+            this.createEventFromScheduledActivity(item)
           ];
         }
 
@@ -92,6 +83,10 @@ export class AdminCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
+        if (event.start < new Date()) {
+          return;
+        }
+
         this.openModal(event);
       },
     },
@@ -99,6 +94,10 @@ export class AdminCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
+        if (event.start < new Date()) {
+          return;
+        }
+
         this.deleteEvent(event);
       },
     },
@@ -129,21 +128,42 @@ export class AdminCalendarComponent implements OnInit {
 
   modalData: {
     event: CalendarEvent;
+    options: {
+      availableActivities?: Activity[]
+      availableTrainers?: any
+    };
   };
 
   openModal(event: CalendarEvent): void {
-    this.modalData = { event };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.activityService.getActivities()
+      .subscribe(result => {
+
+        this.modalData = {
+          "event": event,
+          "options": {
+            "availableActivities": result
+          }
+        };
+
+        if (event.meta && event.meta.trainer) {
+          this.modalData.options.availableTrainers = [ event.meta.trainer ];
+        }
+
+        this.modal.open(this.modalContent, { size: 'lg' });
+      }, error => console.error(error));
   }
 
   hourSegmentClicked(date: Date) {
     this.selectedDayViewDate = date;
 
-    let event: CalendarEvent<ScheduledActivity> = {
+    if (date < new Date()) {
+      return;
+    }
+
+    let event: CalendarEvent = {
       title: 'New event',
       start: date,
       end: endOfHour(date),
-      color: { primary: "", secondary: "" },
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -151,14 +171,16 @@ export class AdminCalendarComponent implements OnInit {
       },
     }
 
-    let activity: ScheduledActivity = {
-      startTime: event.start,
-      endTime: endOfHour(date),
+    let scheduledActivity: ScheduledActivity = {
+      "startTime": event.start,
+      "endTime": endOfHour(date),
+      "activity": {},
+      "trainer": {}
     }
-    event.meta = activity;
 
-    this.modalData = { event: event };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    event.meta = scheduledActivity;
+
+    this.openModal(event);
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -172,8 +194,39 @@ export class AdminCalendarComponent implements OnInit {
     ];
   }
 
+  createEventFromScheduledActivity(scheduledActivity: ScheduledActivity) {
+    const event: CalendarEvent = {
+      title: scheduledActivity.activity.name,
+      start: new Date(scheduledActivity.startTime),
+      end: new Date(scheduledActivity.endTime),
+      actions: this.actions,
+      color: { primary: scheduledActivity.activity.colour, secondary: scheduledActivity.activity.colour },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
+      },
+      meta: scheduledActivity
+    };
+
+    return event;
+  }
+
+
   saveEvent(eventToSave: CalendarEvent) {
-    console.log(eventToSave);
+    if (eventToSave.meta.id) {
+
+      return;
+    }
+
+
+    this.service.saveScheduledActivity(eventToSave.meta)
+      .subscribe(result => {
+        const event = this.createEventFromScheduledActivity(result);
+        this.addEvent(event);
+        this.cd.detectChanges();
+        this.modal.dismissAll();
+      }, error => console.error(error));
   }
 
   setView(view: CalendarView) {
@@ -182,5 +235,17 @@ export class AdminCalendarComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  filterTrainers(activityId) {
+    const activity = this.modalData.options.availableActivities.find(o => o.id == activityId);
+
+    if (activity === undefined) {
+      this.modalData.options.availableTrainers = [];
+    } else {
+      this.modalData.options.availableTrainers = activity.trainers;
+    }
+
+    this.cd.detectChanges();
   }
 }

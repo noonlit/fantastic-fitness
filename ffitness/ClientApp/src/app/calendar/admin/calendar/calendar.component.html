@@ -36,42 +36,70 @@
                             (eventTimesChanged)="eventTimesChanged($event)"
                             (hourSegmentClicked)="hourSegmentClicked($event.date)">
     </mwl-calendar-week-view>
+  </div>
+</div>
+
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Add/edit event</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Description: <input type="text"
+                          class="form-control"
+                          [(ngModel)]="modalData.event.meta.description" />
+      <br>
+      Starts At: <input class="form-control"
+                        type="text"
+                        mwlFlatpickr
+                        [(ngModel)]="modalData.event.meta.startTime"
+                        [altInput]="true"
+                        [convertModelValue]="true"
+                        [enableTime]="true"
+                        placeholder="Not set"
+                        [options]="startDatePickerOptions" />
+      <br>
+      Ends At: <input class="form-control"
+                      type="text"
+                      mwlFlatpickr
+                      [(ngModel)]="modalData.event.meta.endTime"
+                      [altInput]="true"
+                      [convertModelValue]="true"
+                      [enableTime]="true"
+                      [options]="endDatePickerOptions"
+                      placeholder="Not set" />
+      <br>
+      Activity: <select class="form-control"
+                        (change)="filterTrainers($event.target.value)"
+                        [(ngModel)]="modalData.event.meta.activityId">
+        <option *ngFor="let activityOption of modalData.options.availableActivities"
+                value="{{ activityOption.id }}">
+          {{ activityOption.name }}
+        </option>
+      </select>
+
+      <br>
+      Trainer: <select class="form-control" [(ngModel)]="modalData.event.meta.trainerId">
+        <option value="">--</option>
+        <option *ngFor="let trainerOption of modalData.options.availableTrainers"
+                value="{{ trainerOption.id }}">
+          {{ trainerOption.firstName }} {{ trainerOption.lastName }}
+        </option>
+      </select>
+
+      <br>
+      Price: <input class="form-control"
+                    type="number"
+                    [(ngModel)]="modalData.event.meta.price" />
+
+      <br>
+      Capacity: <input class="form-control"
+                    type="number"
+                    [(ngModel)]="modalData.event.meta.capacity" />
+      <button class="btn btn-light btn-outline-success" (click)="saveEvent(modalData.event)">Save</button>
     </div>
   </div>
-
-    <ng-template #modalContent let-close="close">
-      <div class="modal-header">
-        <h5 class="modal-title">Add/edit event</h5>
-        <button type="button" class="close" (click)="close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>
-          Activity: <input type="text"
-                           class="form-control"
-                           [(ngModel)]="modalData.event.title" /><br>
-          Starts At: <input class="form-control"
-                            type="text"
-                            mwlFlatpickr
-                            [(ngModel)]="modalData.event.start"
-                            [altInput]="true"
-                            [convertModelValue]="true"
-                            [enableTime]="true"
-                            placeholder="Not set"
-                            [options]="startDatePickerOptions" />
-          Ends At: <input class="form-control"
-                          type="text"
-                          mwlFlatpickr
-                          [(ngModel)]="modalData.event.end"
-                          [altInput]="true"
-                          [convertModelValue]="true"
-                          [enableTime]="true"
-                          [options]="endDatePickerOptions"
-                          placeholder="Not set" />
-
-          <br>
-          <button class="btn btn-light btn-outline-success" (click)="saveEvent(modalData.event)">Save</button>
-        </div>
-      </div>
-    </ng-template>
+</ng-template>

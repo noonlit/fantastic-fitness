@@ -55,7 +55,7 @@ namespace Ffitness.Controllers
 
             if (booking == null)
             {
-                return NotFound();
+                return new EmptyResult();
             }
 
             return booking;
@@ -92,10 +92,6 @@ namespace Ffitness.Controllers
             return NoContent();
         }
 
-        private async Task<ApplicationUser> GetCurrentUser()
-        {
-            return await _manager.GetUserAsync(HttpContext.User);
-        }
 
         [HttpPost("BookSpot")]
         public async Task<ActionResult<Booking>> BookSpot(ScheduledActivity activity)
@@ -152,6 +148,9 @@ namespace Ffitness.Controllers
             }
 
             _context.Bookings.Remove(booking);
+            var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
+            activity.Capacity--;
+            _context.Entry(activity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();

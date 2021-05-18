@@ -42,8 +42,12 @@
       <div class="row">
         {{ modalData.event.meta.description }}
       </div>
+      <br>
       <div class="row">
         Trainer: {{  modalData.event.meta.trainer.firstName }}  {{  modalData.event.meta.trainer.lastName }}
+      </div>
+      <div class="row">
+        Difficulty: {{ modalData.event.meta.activity.difficultyLevel }}
       </div>
       <div class="row">
         Available spots: {{  modalData.event.meta.capacity }}
@@ -51,19 +55,24 @@
       <br>
     </div>
 
-    <a [routerLink]='["/authentication/login"]' *ngIf="!(isAuthenticated | async)">To book a spot, log in.</a>
+    <div *ngIf="!(eventHasCapacity(modalData.event))">
+      We ran out of spots!
+    </div>
+
+    <div *ngIf="!(isAuthenticated | async)">
+      <a [routerLink]='["/authentication/login"]' *ngIf="eventCanBeBooked(modalData.event)">To book a spot, log in.</a>
+    </div>
 
     <div *ngIf="isAuthenticated | async">
       <button class="btn btn-primary" *ngIf="eventCanBeBooked(modalData.event)" (click)="bookEvent(modalData.event);">
         Book your spot!
       </button>
 
-      <div *ngIf="!(eventHasCapacity(modalData.event))">
-        We ran out of spots!
-      </div>
-
       <div *ngIf="userHasBooking(modalData.event)">
         You have a booking. Woohoo!
+        <div>
+          <button class="btn btn-danger" *ngIf="eventBookingCanBeCanceled(modalData.event)" (click)="cancelEventBooking(modalData.event);">Cancel booking</button>
+        </div>
       </div>
     </div>
   </div>

@@ -9,6 +9,7 @@ using Ffitness.Data;
 using Ffitness.Models;
 using AutoMapper;
 using System.Security.Claims;
+using Ffitness.ViewModels;
 
 namespace Ffitness.Controllers
 {
@@ -29,7 +30,7 @@ namespace Ffitness.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ScheduledActivity>>> GetScheduledActivities()
         {
-            return await _context.ScheduledActivities.Include(a => a.Activity).Include(t => t.Trainer).ToListAsync();
+            return await _context.ScheduledActivities.Include(a => a.Activity).Include(a => a.Trainer).ToListAsync();
         }
 
         // GET: api/ScheduledActivities/5
@@ -80,12 +81,18 @@ namespace Ffitness.Controllers
         // POST: api/ScheduledActivities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ScheduledActivity>> PostScheduledActivity(ScheduledActivity scheduledActivity)
+        public async Task<ActionResult<ScheduledActivityViewModel>> PostScheduledActivity(ScheduledActivityViewModel scheduledActivity)
         {
-            _context.ScheduledActivities.Add(scheduledActivity);
+            var entity      = _mapper.Map<ScheduledActivity>(scheduledActivity);
+            var activity    = _context.Activities.Find(entity.ActivityId);
+            var trainer     = _context.Trainers.Find(entity.TrainerId);
+            entity.Trainer  = trainer;
+            entity.Activity = activity;
+
+            _context.ScheduledActivities.Add(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetScheduledActivity", new { id = scheduledActivity.Id }, scheduledActivity);
+            return CreatedAtAction("GetScheduledActivity", new { id = entity.Id }, _mapper.Map<ScheduledActivityViewModel>(entity));
         }
 
         // DELETE: api/ScheduledActivities/5

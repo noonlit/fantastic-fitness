@@ -7,11 +7,13 @@ namespace Ffitness.ViewModels
 	{
 		public int Id { get; set; }
 
-		public Activity Activity { get; set; }
+		public string Description { get; set; }
+
+		public ActivityViewModel Activity { get; set; }
 
 		public int ActivityId { get; set; }
 
-		public Trainer Trainer { get; set; }
+		public TrainerViewModel Trainer { get; set; }
 
 		public int TrainerId { get; set; }
 

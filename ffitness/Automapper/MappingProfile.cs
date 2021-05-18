@@ -9,7 +9,13 @@ namespace Ffitness.Automapper
         public MappingProfile()
         {
             CreateMap<ScheduledActivity, ScheduledActivityViewModel>();
+            CreateMap<ScheduledActivityViewModel, ScheduledActivity>();
             CreateMap<Booking, BookingViewModel>();
+            CreateMap<Activity, ActivityViewModel>();
+            CreateMap<ActivityViewModel, Activity>();
+            CreateMap<Activity, ActivityWithTrainersViewModel>();
+            CreateMap<Trainer, TrainerViewModel>();
+            CreateMap<TrainerViewModel, Trainer>();
         }
     }
 }
