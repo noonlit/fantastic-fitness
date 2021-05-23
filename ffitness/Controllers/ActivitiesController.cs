@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
+using AutoMapper;
+using Ffitness.ViewModels;
 
 namespace Ffitness.Controllers
 {
@@ -15,17 +17,21 @@ namespace Ffitness.Controllers
     public class ActivitiesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ActivitiesController(ApplicationDbContext context)
+        public ActivitiesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityWithTrainersViewModel>>> GetActivities()
         {
-            return await _context.Activities.ToListAsync();
+            return await _context.Activities
+                .Include(a => a.Trainers)
+                .Select(a => _mapper.Map<ActivityWithTrainersViewModel>(a)).ToListAsync();
         }
 
         // GET: api/Activities/5

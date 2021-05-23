@@ -33,6 +33,6 @@ namespace Ffitness.Models
             }
         }
 
-        public virtual ICollection<Trainer> Trainers { get; set; }
+        public List<Trainer> Trainers { get; set; }
     }
 }
