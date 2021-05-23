@@ -60,7 +60,7 @@
     </div>
 
     <div *ngIf="!(isAuthenticated | async)">
-      <a [routerLink]='["/authentication/login"]' *ngIf="eventCanBeBooked(modalData.event)">To book a spot, log in.</a>
+      <p *ngIf="eventCanBeBooked(modalData.event)">To book a spot, you must be logged in.</p>
     </div>
 
     <div *ngIf="isAuthenticated | async">
