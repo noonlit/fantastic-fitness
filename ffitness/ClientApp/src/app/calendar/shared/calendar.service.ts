@@ -26,6 +26,14 @@ export class CalendarComponentService {
   }
 
   saveScheduledActivity(activity: ScheduledActivity): Observable<ScheduledActivity> {
-    return this.httpClient.post<any>(this.getApiUrl(), activity);
+    return this.httpClient.post<ScheduledActivity>(this.getApiUrl(), activity);
+  }
+
+  updateScheduledActivity(activity: ScheduledActivity) {
+    return this.httpClient.put(this.getApiUrl() + '/' + activity.id, activity);
+  }
+
+  deleteScheduledActivity(activity: ScheduledActivity) {
+    return this.httpClient.delete(this.getApiUrl() + '/' + activity.id);
   }
 }
