@@ -1,0 +1,79 @@
+<h1 id="tableLabel">Activities Calendar</h1>
+
+<div class="row text-right">
+  <div class="col-md-4 offset-md-8 col-sm-12 offset-sm-0">
+    <div class="btn-group">
+      <div class="btn btn-outline-secondary"
+           mwlCalendarToday
+           [(viewDate)]="viewDate">
+        This week
+      </div>
+      <div class="btn btn-primary"
+           mwlCalendarNextView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (viewDateChange)="closeOpenMonthViewDay()">
+        Next
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<mwl-calendar-week-view [viewDate]="viewDate"
+                        [events]="events"
+                        [refresh]="refresh"
+                        [dayStartHour]="9"
+                        [dayEndHour]="18"
+                        [weekStartsOn]="weekStartsOn"
+                        (eventClicked)="openModal($event.event)">
+</mwl-calendar-week-view>
+
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ modalData?.event.title }}</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        {{ modalData.event.meta.description }}
+      </div>
+      <br>
+      <div class="row">
+        Trainer: {{  modalData.event.meta.trainer.firstName }}  {{  modalData.event.meta.trainer.lastName }}
+      </div>
+      <div class="row">
+        Difficulty: {{ modalData.event.meta.activity.difficultyLevel }}
+      </div>
+      <div class="row">
+        Available spots: {{  modalData.event.meta.capacity }}
+      </div>
+      <br>
+    </div>
+
+    <div *ngIf="!(eventHasCapacity(modalData.event))">
+      We ran out of spots!
+    </div>
+
+    <div *ngIf="!(isAuthenticated | async)">
+      <p *ngIf="eventCanBeBooked(modalData.event)">To book a spot, you must be logged in.</p>
+    </div>
+
+    <div *ngIf="isAuthenticated | async">
+      <button class="btn btn-primary" *ngIf="eventCanBeBooked(modalData.event)" (click)="bookEvent(modalData.event);">
+        Book your spot!
+      </button>
+
+      <div *ngIf="userHasBooking(modalData.event)">
+        You have a booking. Woohoo!
+        <div>
+          <button class="btn btn-danger" *ngIf="eventBookingCanBeCanceled(modalData.event)" (click)="cancelEventBooking(modalData.event);">Cancel booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
