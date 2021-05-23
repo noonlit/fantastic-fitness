@@ -3,7 +3,8 @@ export class Activity {
   name?: string;
   type?: string;
   difficultyLevel?: number;
-  colour?: string;
+  primaryColour?: string;
+  secondaryColour?: string;
   trainers?: any;
 }
 
