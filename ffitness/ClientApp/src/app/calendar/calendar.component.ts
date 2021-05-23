@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit {
               title: item.activity.name,
               start: new Date(item.startTime),
               end: new Date(item.endTime),
-              color: { primary: item.activity.colour, secondary: item.activity.colour },
+              color: { primary: item.activity.primaryColour, secondary: item.activity.secondaryColour },
               meta: item
             },
           ];

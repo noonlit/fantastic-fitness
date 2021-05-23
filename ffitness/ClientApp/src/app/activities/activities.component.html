@@ -9,16 +9,20 @@
     <tr>
       <th>Name</th>
       <th>Type</th>
+      <th>Description</th>
       <th>Difficulty</th>
-      <th>Colour</th>
+      <th>Primary Colour</th>
+      <th>Secondary Colour</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let activity of activities">
       <td>{{ activity.name }}</td>
       <td>{{ activity.type }}</td>
+      <td>{{ activity.description }}</td>
       <td>{{ activity.difficultyLevel }}</td>
-      <td>{{ activity.colour }}</td>
+      <td>{{ activity.primaryColour }}</td>
+      <td>{{ activity.secondaryColour }}</td>
     </tr>
   </tbody>
 </table>
