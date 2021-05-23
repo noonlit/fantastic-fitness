@@ -54,7 +54,7 @@ export class AdminCalendarComponent implements OnInit {
   viewDate: Date = new Date();
   daysInWeek = 7;
   selectedDayViewDate: Date;
-  weekStartsOn = DAYS_OF_WEEK.MONDAY;
+  weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   activeDayIsOpen: boolean = true;
 
   constructor(
@@ -137,6 +137,8 @@ export class AdminCalendarComponent implements OnInit {
       return iEvent;
     });
 
+    event.meta.startTime = newStart;
+    event.meta.endTime = newEnd;
     this.saveEvent(event);
   }
 
@@ -205,7 +207,11 @@ export class AdminCalendarComponent implements OnInit {
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    this.service.deleteScheduledActivity(eventToDelete.meta)
+      .subscribe(result => {
+        this.events = this.events.filter((event) => event !== eventToDelete);
+        this.cd.detectChanges();
+      }, error => console.error(error));
   }
 
   addEvent(eventToAdd: CalendarEvent): void {
@@ -236,6 +242,11 @@ export class AdminCalendarComponent implements OnInit {
 
   saveEvent(eventToSave: CalendarEvent) {
     if (eventToSave.meta.id) {
+      this.service.updateScheduledActivity(eventToSave.meta)
+        .subscribe(result => {
+          this.cd.detectChanges();
+          this.modal.dismissAll();
+        }, error => console.error(error));
 
       return;
     }
