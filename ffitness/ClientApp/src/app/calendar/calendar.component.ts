@@ -57,7 +57,7 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   daysInWeek = 7;
   selectedDayViewDate: Date;
-  weekStartsOn = DAYS_OF_WEEK.MONDAY;
+  weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   activeDayIsOpen: boolean = true;
   isAuthenticated: Observable<boolean>;
 
@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit {
               title: item.activity.name,
               start: new Date(item.startTime),
               end: new Date(item.endTime),
-              color: { primary: item.activity.colour, secondary: item.activity.colour },
+              color: { primary: item.activity.primaryColour, secondary: item.activity.secondaryColour },
               meta: item
             },
           ];

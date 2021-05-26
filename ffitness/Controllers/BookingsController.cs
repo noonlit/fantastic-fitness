@@ -149,7 +149,7 @@ namespace Ffitness.Controllers
 
             _context.Bookings.Remove(booking);
             var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
-            activity.Capacity--;
+            activity.Capacity++;
             _context.Entry(activity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
