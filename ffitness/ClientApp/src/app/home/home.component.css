@@ -8,3 +8,68 @@
     color: #fff;
     background-color: rgba(0, 0, 0, 0.2)
 }
+
+.home-instructors-wrapper {
+    width: 80%;
+    margin: auto;
+}
+
+.home-instructors-title {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+.home-card-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-card--item__photo .test-img {
+  width: 100%;
+  height: 280px;
+  background-color: red;
+}
+
+.home-card--item__photo {
+  position: relative;
+}
+
+.home-card--item__photo .home-card--item__pill {
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 25px;
+    border-radius: 30px;
+    background: linear-gradient(70deg, rgb(17, 197, 17), rgb(17, 197, 17), rgb(78, 199, 247));
+}
+
+.home-card--item__details {
+    padding: 15px;
+}
+
+.home-card--item {
+  overflow: hidden;
+  height: auto;
+  border-radius: 5px;
+  margin: 30px 10px;
+  width: 23%;
+  box-shadow: 0px 0px 6px 1px rgb(190, 189, 189);
+}
+
+.home-card--item .home-card--item__details {
+  text-align: center;
+}
+
+.home-card--item__details-description {
+  font-size: 15px;
+  opacity: 0.6;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden
+}

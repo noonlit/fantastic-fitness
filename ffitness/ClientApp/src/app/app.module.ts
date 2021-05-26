@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
+import { AdminAddTrainerComponent } from './add-trainer/add-trainer.component';
 
 @NgModule({
   declarations: [
@@ -37,12 +39,14 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
     CalendarComponent,
     AccountComponent,
     SidebarNavMenuComponent,
-    AdminCalendarComponent
+    AdminCalendarComponent,
+    AdminAddTrainerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -51,7 +55,8 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
       { path: 'activities', component: ActivitiesComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'account', component: AccountComponent },
-      { path: 'create-calendar', component: AdminCalendarComponent }
+      { path: 'create-calendar', component: AdminCalendarComponent },
+      { path: 'add-trainer', component: AdminAddTrainerComponent },
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

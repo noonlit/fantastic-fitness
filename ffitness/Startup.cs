@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Reflection;
 using System.IO;
+using Ffitness.Controllers;
 
 namespace Ffitness
 {
@@ -35,8 +36,9 @@ namespace Ffitness
 							Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddDatabaseDeveloperPageExceptionFilter();
-
+			
 			services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+					.AddRoles<IdentityRole>()
 					.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddIdentityServer()
@@ -44,7 +46,7 @@ namespace Ffitness
 
 			services.AddAuthentication()
 					.AddIdentityServerJwt();
-			services.AddControllersWithViews();
+			services.AddControllersWithViews().AddNewtonsoftJson();
 			services.AddRazorPages();
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration =>
