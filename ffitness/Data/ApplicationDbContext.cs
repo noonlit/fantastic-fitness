@@ -17,6 +17,8 @@ namespace Ffitness.Data
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<ScheduledActivity> ScheduledActivities { get; set; }
 
+        public DbSet<UserRole> Roles { get; set; }
+
         public DbSet<Booking> Bookings { get; set; }
 
         public ApplicationDbContext(
@@ -32,6 +34,9 @@ namespace Ffitness.Data
             modelBuilder.Entity<Booking>()
                 .HasIndex(b => new { b.UserId, b.ScheduledActivityId })
                 .IsUnique();
+            modelBuilder.Entity<UserRole>()
+                .HasData(new UserRole { Name = "User" },
+                         new UserRole { Name = "Admin" });
         }
     }
 }
