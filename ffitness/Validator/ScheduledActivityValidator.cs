@@ -15,7 +15,7 @@ namespace Ffitness.Validator
 			RuleFor(m => m.Capacity).GreaterThan(0);
 			RuleFor(m => m.StartTime).NotNull();
 			RuleFor(m => m.EndTime).NotNull();
-			RuleFor(m => m.StartTime).GreaterThan(m => m.EndTime).WithMessage("The start time must be earlier than end time.");
+			RuleFor(m => m.StartTime).LessThan(m => m.EndTime).WithMessage("The start time must be earlier than the end time.");
 		}
 
 	}
