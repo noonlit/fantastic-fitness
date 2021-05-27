@@ -31,9 +31,17 @@ namespace Ffitness.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.ActivityId).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.TrainerId).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.StartTime).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.EndTime).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.Price).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.Capacity).IsRequired();
+
             modelBuilder.Entity<Booking>()
                 .HasIndex(b => new { b.UserId, b.ScheduledActivityId })
                 .IsUnique();
+
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Name = "User" },
                          new UserRole { Name = "Admin" });
