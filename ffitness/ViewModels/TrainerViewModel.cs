@@ -15,8 +15,6 @@ namespace Ffitness.ViewModels
         public String LastName { get; set; }
         public String Description { get; set; }
 
-        public List<Activity> Activities { get; set; }
-
         //public IFormFile ProfileImage { get; set; }
     }
 }
