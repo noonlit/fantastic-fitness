@@ -18,5 +18,8 @@ namespace Ffitness.Models
         [Required, MinLength(5)]
         public String Description { get; set; }
         public List<Activity> Activities { get; set; }
+
+        //[Required(ErrorMessage = "Please choose profile image")]
+        //public string ProfilePicture { get; set; }
     }
 }

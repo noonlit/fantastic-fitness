@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using static Ffitness.Models.ApplicationUser;
 
 namespace Ffitness.Areas.Identity.Pages.Account
 {
@@ -73,6 +74,9 @@ namespace Ffitness.Areas.Identity.Pages.Account
             [Display(Name = "Birth date")]
             [DataType(DataType.Date)]
             public DateTime ?BirthDate { get; set; }
+
+            [Display(Name = "Gender")]
+            public GenderType ?Gender { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -87,8 +91,12 @@ namespace Ffitness.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FirstName = Input.FirstName, LastName = Input.LastName, 
-                                                UserName = Input.Email, Email = Input.Email, BirthDate = Input.BirthDate };
+                var user = new ApplicationUser 
+                { 
+                    FirstName = Input.FirstName, LastName = Input.LastName, UserName = Input.Email, Email = Input.Email, 
+                    BirthDate = Input.BirthDate, Gender = Input.Gender
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
