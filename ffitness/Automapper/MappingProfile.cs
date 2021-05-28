@@ -16,6 +16,7 @@ namespace Ffitness.Automapper
             CreateMap<Activity, ActivityWithTrainersViewModel>();
             CreateMap<Trainer, TrainerViewModel>();
             CreateMap<TrainerViewModel, Trainer>();
+            CreateMap<BookingStats, BookingStatsViewModel>();
         }
     }
 }

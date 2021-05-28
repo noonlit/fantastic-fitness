@@ -21,6 +21,11 @@ namespace Ffitness.Data
 
         public DbSet<Booking> Bookings { get; set; }
 
+        public DbSet<BookingStats> BookingStats { get; set; }
+
+        public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
+
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -45,6 +50,8 @@ namespace Ffitness.Data
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Name = "User" },
                          new UserRole { Name = "Admin" });
+
+            modelBuilder.Entity<BookingStats>().HasNoKey();
         }
     }
 }
