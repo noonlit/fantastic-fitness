@@ -17,12 +17,10 @@ namespace Ffitness.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-		private readonly UserManager<ApplicationUser> _manager;
 
-		public BookingsController(ApplicationDbContext context, UserManager<ApplicationUser> manager)
+		public BookingsController(ApplicationDbContext context)
         {
             _context = context;
-            _manager = manager;
         }
 
         // GET: api/Bookings
