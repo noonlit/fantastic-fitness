@@ -7,5 +7,6 @@ export class ScheduledActivity {
   startTime: Date
   endTime: Date
   trainer?: any
+  timeZoneOffsetMinutes?: number
 }
 
