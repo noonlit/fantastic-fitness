@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Trainer } from '../../types/trainer';
+import { Trainer } from './trainer';
 
 @Injectable({providedIn: 'root'})
 export class TrainerService {

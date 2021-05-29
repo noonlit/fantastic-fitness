@@ -26,7 +26,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminAddTrainerComponent } from './add-trainer/add-trainer.component';
+import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
 
 @NgModule({
   declarations: [
