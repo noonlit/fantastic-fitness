@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TrainerService } from '../services/trainer/trainer.service';
-import { Trainer } from '../types/trainer';
+import { Trainer } from '../trainers/shared/trainer';
+import { TrainerService } from '../trainers/shared/trainer.service';
+
 
 @Component({
   selector: 'app-home',
