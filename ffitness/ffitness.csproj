@@ -42,28 +42,24 @@
 
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-    <None Update="Pics\Activities\5.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pics\activity.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Pics\ff-color-logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
+    <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
+    <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
+    <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
+    <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
+    <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
@@ -81,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\src\app\services\trainer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\ff-color-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
