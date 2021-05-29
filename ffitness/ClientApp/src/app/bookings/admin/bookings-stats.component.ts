@@ -1,7 +1,8 @@
-import { OnInit } from '@angular/core';
+import { ChangeDetectorRef, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { BookingStatsComponentService } from '../shared/booking-stats.service';
 
 @Component({
   selector: 'app-bookings-stats',
@@ -9,9 +10,18 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./bookings-stats.component.css']
 })
 export class BookingsStatsComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private bookingStatsService: BookingStatsComponentService,
+    private cd: ChangeDetectorRef
+  ) { }
+
+  public bookedScheduledActivitiesStats = [];
 
   ngOnInit() {
-    
+    this.bookingStatsService.getBookedScheduledActivitiesStats().subscribe(result => {
+      this.bookedScheduledActivitiesStats = result;
+      console.log(result);
+      this.cd.detectChanges();
+    }, error => error => console.error(error));
   }
 }

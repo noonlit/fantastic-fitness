@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Ffitness.Models;
+using Ffitness.Models.Stats;
 using Ffitness.ViewModels;
+using Ffitness.ViewModels.Stats;
 
 namespace Ffitness.Automapper
 {
@@ -16,7 +18,7 @@ namespace Ffitness.Automapper
             CreateMap<Activity, ActivityWithTrainersViewModel>();
             CreateMap<Trainer, TrainerViewModel>();
             CreateMap<TrainerViewModel, Trainer>();
-            CreateMap<BookingStats, BookingStatsViewModel>();
+            CreateMap<BookedScheduledActivity, BookedScheduledActivityViewModel>();
         }
     }
 }

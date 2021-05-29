@@ -4,7 +4,29 @@
   </div>
 
   <div class="col-sm-10">
-    <h1>Bookings statistics</h1>
-
+    <h1>Latest Booked Activities Stats</h1>
+    <br>
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="bookedScheduledActivitiesStats">
+      <thead>
+        <tr>
+          <th>Activity </th>
+          <th>Trainer</th>
+          <th>Price</th>
+          <th>Remaining Spots</th>
+          <th>Booked Spots</th>
+          <th>Interval</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of bookedScheduledActivitiesStats">
+          <td> {{activity.activityName}} </td>
+          <td> {{activity.trainerName}} </td>
+          <td> {{activity.price}} </td>
+          <td> {{activity.remainingSpots}} </td>
+          <td> {{activity.bookedSpots}} </td>
+          <td> {{activity.startTime |  date:'dd/MM HH:mm' }} - {{ activity.endTime |  date:'dd/MM HH:mm' }} </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
