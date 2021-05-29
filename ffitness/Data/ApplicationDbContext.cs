@@ -1,4 +1,5 @@
 ﻿using Ffitness.Models;
+using Ffitness.Models.Stats;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace Ffitness.Data
         public DbSet<UserRole> Roles { get; set; }
 
         public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<BookedScheduledActivity> BookedScheduledActivities { get; set; }
+
+        public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
+
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -45,6 +51,8 @@ namespace Ffitness.Data
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Name = "User" },
                          new UserRole { Name = "Admin" });
+
+            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
         }
     }
 }
