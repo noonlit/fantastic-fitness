@@ -1,0 +1,52 @@
+#activity_types {
+    margin: 20px 0px;
+}
+
+#activity_types button {
+  margin: 0px 5px;
+}
+
+.checked {
+  color: #68B0AB;
+}
+
+div.card {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+div.card:hover .card-title {
+  color: #B2675E;
+  transition: all ease 0.5s 0s;
+}
+
+img .card-img {
+    max-height: 300px;
+}
+
+.activity-icon {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+  .activity-icon img {
+    width: 3em;
+    height: 3em;
+    fill: aqua;
+  }
+
+.btn-danger {
+  font-size: 13px;
+  color: #B2675E;
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid #B2675E;
+  border-radius: 40px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+  .btn-danger:hover {
+    color: #FFF;
+    background: #B2675E;
+    border: 2px solid #B2675E;
+  }
