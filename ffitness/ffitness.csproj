@@ -67,6 +67,9 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\services\trainer\" />
+  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
