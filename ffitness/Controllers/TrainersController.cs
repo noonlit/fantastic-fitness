@@ -73,7 +73,6 @@ namespace Ffitness.Controllers
         public async Task<ActionResult<IEnumerable<TrainerViewModel>>> GetTrainers()
         {
             return await _context.Trainers
-                .Include(t => t.Activities)
                 .Select(t => _mapper.Map<TrainerViewModel>(t))
                 .ToListAsync();
         }
