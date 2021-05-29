@@ -7,6 +7,24 @@ a.navbar-brand {
 html {
   font-size: 14px;
 }
+
+nav {
+  background: #2a5f50;
+  letter-spacing: 1px;
+}
+
+.navbar-brand img {
+    margin-right: 5px;
+}
+
+.nav-link:hover {
+  transform: translateY(-0.25em);
+}
+
+app-login-menu a.nav-link:hover {
+  transform: translateY(-0.25em);
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
