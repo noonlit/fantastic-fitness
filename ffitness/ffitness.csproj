@@ -58,14 +58,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
+    <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\booking.model.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\bookings\bookings-stats.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\src\app\services\trainer\" />

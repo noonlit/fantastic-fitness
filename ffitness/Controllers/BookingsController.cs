@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Ffitness.Controllers
@@ -44,12 +42,12 @@ namespace Ffitness.Controllers
             return booking;
         }
 
-        [HttpGet("ScheduledActivity/{activityId}")]
-        public async Task<ActionResult<Booking>> GetBookingForCurrentUserAndActivity(int activityId)
+        [HttpGet("ScheduledActivity/{scheduledActivityId}")]
+        public async Task<ActionResult<Booking>> GetUserBooking(int scheduledActivityId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var booking = await _context.Bookings.Where(b => b.UserId == userId && b.ScheduledActivityId == activityId).FirstOrDefaultAsync();
+            var booking = await _context.Bookings.Where(b => b.UserId == userId && b.ScheduledActivityId == scheduledActivityId).FirstOrDefaultAsync();
 
             if (booking == null)
             {
@@ -58,38 +56,6 @@ namespace Ffitness.Controllers
 
             return booking;
         }
-
-        // PUT: api/Bookings/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooking(int id, Booking booking)
-        {
-            if (id != booking.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(booking).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookingExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
 
         [HttpPost("BookSpot")]
         public async Task<ActionResult<Booking>> BookSpot(ScheduledActivity activity)
@@ -101,6 +67,16 @@ namespace Ffitness.Controllers
             _context.Bookings.Add(booking);
             activity.Capacity--;
             _context.Entry(activity).State = EntityState.Modified;
+
+            var bookingLog = new Models.UserActions.Booking
+            {
+                ScheduledActivityId = activity.Id,
+                UserId = userId,
+                UserAction = Models.UserActions.Booking.Action.BookSpot,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 
@@ -124,21 +100,17 @@ namespace Ffitness.Controllers
                 .ToListAsync();
         }
 
-        // POST: api/Bookings
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
-        {
-            _context.Bookings.Add(booking);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
-        }
-
         // DELETE: api/Bookings/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
             var booking = await _context.Bookings.FindAsync(id);
             if (booking == null)
             {
@@ -149,14 +121,21 @@ namespace Ffitness.Controllers
             var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
             activity.Capacity++;
             _context.Entry(activity).State = EntityState.Modified;
+
+
+            var bookingLog = new Models.UserActions.Booking
+            {
+                ScheduledActivityId = activity.Id,
+                UserId = userId,
+                UserAction = Models.UserActions.Booking.Action.CancelBooking,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.UserActionsBooking.Add(bookingLog);
+
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool BookingExists(int id)
-        {
-            return _context.Bookings.Any(e => e.Id == id);
         }
     }
 }
