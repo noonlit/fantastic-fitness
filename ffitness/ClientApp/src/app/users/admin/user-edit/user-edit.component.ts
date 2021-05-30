@@ -12,6 +12,7 @@ import { User } from '../../shared/user.model';
 export class AdminUserEditComponent implements OnInit {
   @Input() user: User;
   message: string;
+  errorMessages: []
 
   constructor(private userService: UserComponentService,
     private route: ActivatedRoute,
@@ -26,7 +27,13 @@ export class AdminUserEditComponent implements OnInit {
 
   save(): void {
     this.userService.update(this.user)
-      .subscribe(() => this.message = "Success!");
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 
   goBack(): void {

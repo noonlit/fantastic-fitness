@@ -20,7 +20,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   message: string;
-  errorMessage: string;
+  errorMessages: [];
 
   ngOnInit() {
     this.getUsers();
@@ -29,8 +29,11 @@ export class AdminUsersComponent implements OnInit {
   getUsers() {
     this.service.getUsers()
       .subscribe(
-        users => this.users = users,
-        error => this.errorMessage = <any>error
+        (result) => {
+          this.errorMessages = [];
+          this.users = result;
+        },
+        error => this.errorMessages = error.error.errors
       );
   }
 
@@ -41,8 +44,11 @@ export class AdminUsersComponent implements OnInit {
   deleteUser(user: User) {
     this.service.delete(user)
       .subscribe(
-        () => this.users.splice(this.users.indexOf(user), 1),
-        error => this.errorMessage = <any>error
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+        },
+        error => this.errorMessages = error.error.errors
       );
   }
 

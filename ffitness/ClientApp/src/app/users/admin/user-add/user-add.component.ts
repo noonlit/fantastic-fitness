@@ -7,6 +7,7 @@ import { UserComponentService } from '../../shared/user.service';
 })
 export class AdminUserAddComponent implements OnInit {
   message: string;
+  errorMessages: [];
 
   constructor(private service: UserComponentService) { }
 
@@ -15,6 +16,12 @@ export class AdminUserAddComponent implements OnInit {
 
   saveUser(email, username, password) {
     this.service.save(email, username, password)
-      .subscribe(() => this.message = "Success!");
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 }
