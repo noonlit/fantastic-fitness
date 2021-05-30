@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <div *ngIf="user">
+      <h2>#{{user.email}}: Edit</h2>
+      <br>
+
+      <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+      <div>
+        <label>Email: </label>
+        <input class="form-control" [(ngModel)]="user.email" placeholder="email">
+      </div>
+      <br>
+      <button class="btn btn-light btn-outline-secondary" (click)="goBack()">Back</button>
+      <button class="btn btn-light" (click)="save()">Save</button>
+    </div>
+  </div>
+</div>
