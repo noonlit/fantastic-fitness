@@ -69,6 +69,11 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.service.ts" />
+    <None Remove="ClientApp\src\app\users\user.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
