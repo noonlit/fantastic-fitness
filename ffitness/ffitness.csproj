@@ -16,7 +16,9 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.1.0" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.6" />
@@ -35,6 +37,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,19 +46,44 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\add-teamleader\**" />
+    <Content Remove="ClientApp\src\app\services\**" />
+    <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\add-teamleader\**" />
+    <None Remove="ClientApp\src\app\services\**" />
+    <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="ClientApp\src\app\add-teamleader\**" />
+    <Compile Remove="ClientApp\src\app\services\**" />
+    <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
+    <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
+    <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
+    <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\booking.model.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\bookings\bookings-stats.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\ff-color-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

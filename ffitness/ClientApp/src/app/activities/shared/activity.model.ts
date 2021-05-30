@@ -2,8 +2,10 @@ export class Activity {
   id?: number;
   name?: string;
   type?: string;
+  activityPicture?: string;
   difficultyLevel?: number;
-  colour?: string;
+  primaryColour?: string;
+  secondaryColour?: string;
   trainers?: any;
 }
 

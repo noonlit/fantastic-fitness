@@ -1,24 +1,28 @@
 <h1 id="tableLabel">Services</h1>
 
-<p>This component lists the services.</p>
-
 <p *ngIf="!activities"><em>Loading...</em></p>
+<br>
+<!-- TODO: make this a filter?
+<div id="activity_types" class="text-center" *ngIf="activities">
+  <button *ngFor="let activity of activities" type="button" class="btn btn-danger">{{ activity.name }}</button>
+</div>
+  -->
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="activities">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Difficulty</th>
-      <th>Colour</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let activity of activities">
-      <td>{{ activity.name }}</td>
-      <td>{{ activity.type }}</td>
-      <td>{{ activity.difficultyLevel }}</td>
-      <td>{{ activity.colour }}</td>
-    </tr>
-  </tbody>
-</table>
+<section id="activity-list" *ngIf="activities">
+  <div class="container">
+    <div class="row gx-2">
+      <div *ngFor="let activity of activities" class="col-md-6 col-lg-4 mb-5">
+        <div class="card">
+          <img src="/Activities/Types/{{ activity.type }}.svg" class="card-img card-img-top" alt="{{ activity.name }}">
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+            <p class="card-text bg-light">{{ activity.description }}</p>
+            <p>
+              Difficulty: <span *ngFor="let i of [].constructor(activity.difficultyLevel)" class="fa fa-star checked"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

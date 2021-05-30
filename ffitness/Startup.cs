@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
@@ -11,10 +9,11 @@ using Ffitness.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System;
-using System.Reflection;
-using System.IO;
+using FluentValidation.AspNetCore;
+using Ffitness.ViewModels;
+using FluentValidation;
+using Ffitness.Validator;
 
 namespace Ffitness
 {
@@ -35,8 +34,9 @@ namespace Ffitness
 							Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddDatabaseDeveloperPageExceptionFilter();
-
+			
 			services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+					.AddRoles<IdentityRole>()
 					.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			services.AddIdentityServer()
@@ -44,21 +44,17 @@ namespace Ffitness
 
 			services.AddAuthentication()
 					.AddIdentityServerJwt();
-			services.AddControllersWithViews();
+			services.AddControllersWithViews().AddFluentValidation().AddNewtonsoftJson();
 			services.AddRazorPages();
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration =>
 			{
 				configuration.RootPath = "ClientApp/dist";
 			});
-
-			services.AddControllers()
-							.AddJsonOptions(options =>
-							{
-								options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-							});
+			
 		
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+			services.AddTransient<IValidator<ScheduledActivityViewModel>, ScheduledActivityValidator>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

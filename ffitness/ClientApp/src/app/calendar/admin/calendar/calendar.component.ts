@@ -56,6 +56,7 @@ export class AdminCalendarComponent implements OnInit {
   selectedDayViewDate: Date;
   weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   activeDayIsOpen: boolean = true;
+  errorMessages = [];
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -227,7 +228,7 @@ export class AdminCalendarComponent implements OnInit {
       start: new Date(scheduledActivity.startTime),
       end: new Date(scheduledActivity.endTime),
       actions: this.actions,
-      color: { primary: scheduledActivity.activity.colour, secondary: scheduledActivity.activity.colour },
+      color: { primary: scheduledActivity.activity.primaryColour, secondary: scheduledActivity.activity.secondaryColour },
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -241,12 +242,17 @@ export class AdminCalendarComponent implements OnInit {
 
 
   saveEvent(eventToSave: CalendarEvent) {
+    this.errorMessages = [];
+
     if (eventToSave.meta.id) {
       this.service.updateScheduledActivity(eventToSave.meta)
         .subscribe(result => {
           this.cd.detectChanges();
           this.modal.dismissAll();
-        }, error => console.error(error));
+        }, error => {
+          this.errorMessages = error.error.errors;
+          this.cd.detectChanges();
+        });
 
       return;
     }
@@ -258,7 +264,10 @@ export class AdminCalendarComponent implements OnInit {
         this.addEvent(event);
         this.cd.detectChanges();
         this.modal.dismissAll();
-      }, error => console.error(error));
+      }, error => {
+        this.errorMessages = error.error.errors;
+        this.cd.detectChanges();
+      });
   }
 
   setView(view: CalendarView) {
