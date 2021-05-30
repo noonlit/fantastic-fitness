@@ -1,4 +1,5 @@
 ﻿using Ffitness.Models;
+using Ffitness.Models.Stats;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@ namespace Ffitness.Data
 
         public DbSet<Booking> Bookings { get; set; }
 
+        public DbSet<BookedScheduledActivity> BookedScheduledActivities { get; set; }
+
+        public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
+
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -31,12 +37,22 @@ namespace Ffitness.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.ActivityId).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.TrainerId).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.StartTime).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.EndTime).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.Price).IsRequired();
+            modelBuilder.Entity<ScheduledActivity>().Property(s => s.Capacity).IsRequired();
+
             modelBuilder.Entity<Booking>()
                 .HasIndex(b => new { b.UserId, b.ScheduledActivityId })
                 .IsUnique();
+
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Name = "User" },
                          new UserRole { Name = "Admin" });
+
+            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
         }
     }
 }

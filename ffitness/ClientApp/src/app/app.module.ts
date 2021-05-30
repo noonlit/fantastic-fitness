@@ -15,8 +15,8 @@ import { AuthorizeGuard } from '../api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
 import { ActivitiesComponent } from './activities/activities.component';
 import { CalendarComponent } from './calendar/calendar.component';
-
 // https://github.com/mattlewis92/angular-calendar
+import { BookingsStatsComponent } from './bookings/admin/bookings-stats.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -26,7 +26,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminAddTrainerComponent } from './add-trainer/add-trainer.component';
+import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,7 @@ import { AdminAddTrainerComponent } from './add-trainer/add-trainer.component';
     CalendarComponent,
     AccountComponent,
     SidebarNavMenuComponent,
+    BookingsStatsComponent,
     AdminCalendarComponent,
     AdminAddTrainerComponent,
   ],
@@ -55,7 +56,8 @@ import { AdminAddTrainerComponent } from './add-trainer/add-trainer.component';
       { path: 'activities', component: ActivitiesComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'account', component: AccountComponent },
-      { path: 'create-calendar', component: AdminCalendarComponent },
+      { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
+      { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
       { path: 'add-trainer', component: AdminAddTrainerComponent },
     ]),
     BrowserAnimationsModule,

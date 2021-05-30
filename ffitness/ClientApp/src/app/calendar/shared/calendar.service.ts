@@ -26,6 +26,7 @@ export class CalendarComponentService {
   }
 
   saveScheduledActivity(activity: ScheduledActivity): Observable<ScheduledActivity> {
+    activity.timeZoneOffsetMinutes = new Date().getTimezoneOffset();
     return this.httpClient.post<ScheduledActivity>(this.getApiUrl(), activity);
   }
 

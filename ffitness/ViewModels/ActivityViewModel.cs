@@ -11,6 +11,7 @@ namespace Ffitness.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ActivityPicture { get; set; }
         public ActivityType Type { get; set; }
         public int DifficultyLevel { get; set; }
         public string PrimaryColour { get; set; }

@@ -21,6 +21,8 @@ namespace Ffitness.ViewModels
 
 		public DateTime EndTime { get; set; }
 
+		public int TimezoneOffsetMinutes { get; set; }
+
 		public int Capacity { get; set; }
 
 		public decimal Price { get; set; }

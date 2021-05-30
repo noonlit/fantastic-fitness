@@ -14,7 +14,7 @@
     margin: auto;
 }
 
-.home-instructors-title {
+.title {
   text-transform: uppercase;
   text-align: center;
 }
@@ -29,7 +29,7 @@
 .home-card--item__photo .test-img {
   width: 100%;
   height: 280px;
-  background-color: red;
+  background-color: #C0C0C0;
 }
 
 .home-card--item__photo {
