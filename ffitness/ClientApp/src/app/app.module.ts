@@ -27,6 +27,7 @@ import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
     BookingsStatsComponent,
     AdminCalendarComponent,
     AdminAddTrainerComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

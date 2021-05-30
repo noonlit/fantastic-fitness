@@ -23,7 +23,6 @@ namespace Ffitness.Controllers
         {
             _context = context;
             _mapper = mapper;
-
         }
 
         // GET: api/Subscriptions
