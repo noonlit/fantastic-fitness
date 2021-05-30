@@ -47,18 +47,23 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
+    <Content Remove="ClientApp\src\app\services\**" />
     <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
+    <None Remove="ClientApp\src\app\services\**" />
     <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
+    <Compile Remove="ClientApp\src\app\services\**" />
     <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
     <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
     <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
   </ItemGroup>
   <ItemGroup>
@@ -74,9 +79,6 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\services\trainer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
