@@ -26,6 +26,8 @@ namespace Ffitness.Data
 
         public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
 
+        public DbSet<Models.UserActions.Subscription> Subscriptions { get; set; }
+
 
         public ApplicationDbContext(
             DbContextOptions options,
