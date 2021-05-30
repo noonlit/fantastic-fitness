@@ -75,6 +75,8 @@
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
     <None Remove="ClientApp\src\app\login\login.model.ts" />
     <None Remove="ClientApp\src\app\login\login.service.ts" />
+    <None Remove="ClientApp\src\app\register\registration.model.ts" />
+    <None Remove="ClientApp\src\app\register\registration.service.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
     <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
@@ -91,6 +93,7 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\login\login.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\register\registration.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
@@ -99,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Update="ClientApp\src\app\auth\auth.role.guard.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\register\registration.model.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\register\registration.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

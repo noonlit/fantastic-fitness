@@ -30,6 +30,7 @@ import { AuthService } from './auth/auth.service';
 import { TokenInterceptor } from './auth/auth.token.interceptor';
 import { AuthGuardService } from './auth/auth.guard';
 import { AuthRoleGuardService } from './auth/auth.role.guard';
+import { RegistrationComponent } from './register/registration.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AuthRoleGuardService } from './auth/auth.role.guard';
     AdminUsersComponent,
     AdminUserEditComponent,
     AdminUserAddComponent,
-    NewLoginComponent
+    NewLoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,7 +57,8 @@ import { AuthRoleGuardService } from './auth/auth.role.guard';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'loginNew', component: NewLoginComponent },
+      { path: 'login', component: NewLoginComponent },
+      { path: 'register', component: RegistrationComponent },
       { path: 'activities', component: ActivitiesComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },

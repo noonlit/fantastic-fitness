@@ -5,8 +5,6 @@ using Ffitness.Models;
 using Ffitness.ViewModels.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
@@ -43,7 +41,8 @@ namespace Ffitness.Controllers
             {
                 Email = registerRequest.Email,
                 UserName = registerRequest.Email,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                EmailConfirmed = true // a hack, but we're not implementing email confirmation
             };
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
             if (result.Succeeded)
@@ -54,24 +53,6 @@ namespace Ffitness.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost]
-        [Route("confirm")]
-        public async Task<ActionResult> ConfirmUser(ConfirmUserRequest confirmUserRequest)
-        {
-            var toConfirm = _context.Users
-                .Where(u => u.Email == confirmUserRequest.Email && u.SecurityStamp == confirmUserRequest.ConfirmationToken)
-                .FirstOrDefault();
-            if (toConfirm != null)
-            {
-                toConfirm.EmailConfirmed = true;
-                _context.Entry(toConfirm).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-
-                return Ok();
-            }
-
-            return BadRequest();
-        }
 
         [HttpPost]
         [Route("login")]
