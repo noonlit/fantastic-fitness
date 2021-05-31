@@ -74,6 +74,8 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\list-trainers.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\update-trainer.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\src\app\services\trainer\" />

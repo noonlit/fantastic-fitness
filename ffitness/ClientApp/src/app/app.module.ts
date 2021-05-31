@@ -26,7 +26,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
+import { AdminAddTrainerComponent } from './trainers/add-trainer/add-trainer.component';
+import { AdminUpdateTrainerComponent } from './trainers/update-trainer/update-trainer.component';
+import { AdminListTrainersComponent } from './trainers/list-trainers/list-trainers.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
     BookingsStatsComponent,
     AdminCalendarComponent,
     AdminAddTrainerComponent,
+    AdminUpdateTrainerComponent,
+    AdminListTrainersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,6 +63,8 @@ import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
       { path: 'add-trainer', component: AdminAddTrainerComponent },
+      { path: 'update-trainer', component: AdminUpdateTrainerComponent },
+      { path: 'list-trainer', component: AdminListTrainersComponent }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

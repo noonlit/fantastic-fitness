@@ -12,7 +12,7 @@ export namespace Trainer {
     firstName: string;
     lastName: string;
     description: string;
-    activities: string;
+    activities?: string;
     profilePicture?: string;
   }
 
