@@ -49,8 +49,8 @@ namespace Ffitness.Data
                 .IsUnique();
 
             modelBuilder.Entity<UserRole>()
-                .HasData(new UserRole { Name = "User" },
-                         new UserRole { Name = "Admin" });
+                .HasData(new UserRole { Name = UserRole.ROLE_USER, NormalizedName = UserRole.ROLE_USER.ToUpper() },
+                         new UserRole { Name = UserRole.ROLE_ADMIN, NormalizedName = UserRole.ROLE_ADMIN.ToUpper() });
 
             modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
         }

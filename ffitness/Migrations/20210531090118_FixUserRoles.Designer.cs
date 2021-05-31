@@ -4,14 +4,16 @@ using Ffitness.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210531090118_FixUserRoles")]
+    partial class FixUserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -541,15 +543,15 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9c0ca904-d0c8-4742-b980-6f91dbad3d01",
-                            ConcurrencyStamp = "64f0bc8e-5a41-4569-8f57-a0c8c3453b9d",
+                            Id = "950ac61d-a9ac-4df3-920f-64219b93ef3c",
+                            ConcurrencyStamp = "1aaad4b4-fbaf-479d-be2b-270e2ae176ac",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "83cd215b-510f-4163-93cd-4a430f844ff7",
-                            ConcurrencyStamp = "d2f2827c-83a6-4b8c-ae63-bcc36a932a6d",
+                            Id = "9df2de5c-1cb4-4e9b-b962-85b64e7ccce2",
+                            ConcurrencyStamp = "ff5702fd-0305-4f22-a7a0-7677a6da47d8",
                             Name = "Admin",
                             NormalizedName = "USER"
                         });
