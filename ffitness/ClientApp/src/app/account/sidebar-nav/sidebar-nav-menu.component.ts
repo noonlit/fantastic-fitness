@@ -9,12 +9,15 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./sidebar-nav-menu.component.css']
 })
 export class SidebarNavMenuComponent implements OnInit {
-  public isAuthenticated: Observable<boolean>;
-  public userName: Observable<string>;
+  public isAdmin: Observable<boolean>;
 
-  constructor(private authorizeService: AuthService) { }
+  constructor(
+    private authorizeService: AuthService,
+  ) {
+
+  }
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizeService.isAuthenticated();
+    this.isAdmin = this.authorizeService.isAdmin();
   }
 }

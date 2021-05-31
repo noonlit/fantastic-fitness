@@ -10,6 +10,9 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Ffitness.ViewModels;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ffitness.Controllers
 {
@@ -18,15 +21,19 @@ namespace Ffitness.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IConfiguration _configuration;
+		private readonly ApplicationDbContext _context;
+		private readonly IConfiguration _configuration;
+		private readonly IMapper _mapper;
 
 		public AuthenticationController(UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
-            IConfiguration configuration)
-        {
+            IConfiguration configuration,
+            IMapper mapper
+            ) {
             _userManager = userManager;
             _context = context;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -54,6 +61,26 @@ namespace Ffitness.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet("current")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
+        public async Task<ActionResult<UserViewModel>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var viewModel = _mapper.Map<UserViewModel>(user);
+
+            viewModel.Roles = roles;
+
+            return viewModel;
         }
 
 

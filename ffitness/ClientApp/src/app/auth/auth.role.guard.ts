@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,20 +9,13 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 
 export class AuthRoleGuardService implements CanActivate {
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private auth: AuthService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+    state: RouterStateSnapshot): Observable<boolean> {
 
-    //check some condition  
-    if (true) {
-      alert('You are not allowed to view this page');
-      //redirect to login/home page etc
-      //return false to cancel the navigation
-      return false;
-    }
-    return true;
+    return this.auth.isAdmin();
   }
 
 }

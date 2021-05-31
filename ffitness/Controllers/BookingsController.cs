@@ -47,11 +47,12 @@ namespace Ffitness.Controllers
         }
 
         [HttpGet("ScheduledActivity/{scheduledActivityId}")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
         public async Task<ActionResult<Booking>> GetUserBooking(int scheduledActivityId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var booking = await _context.Bookings.Where(b => b.UserId == userId && b.ScheduledActivityId == scheduledActivityId).FirstOrDefaultAsync();
+            var booking = await _context.Bookings.Where(b => b.UserId == user.Id && b.ScheduledActivityId == scheduledActivityId).FirstOrDefaultAsync();
 
             if (booking == null)
             {
