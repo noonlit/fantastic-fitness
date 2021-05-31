@@ -17,9 +17,11 @@ export class RegistrationComponent {
   constructor(
     private registrationService: RegistrationComponentService,
     private authService: AuthService
-  ) {}
+  ) { }
   register() {
-    this.registrationData.birthdate = this.registrationData.birthdateData.year + '-' + this.registrationData.birthdateData.month + '-' + this.registrationData.birthdateData.day;
+    if (this.registrationData.birthdateData && this.registrationData.birthdateData.year && this.registrationData.birthdateData.month && this.registrationData.birthdateData.day) {
+      this.registrationData.birthdate = this.registrationData.birthdateData.year + '-' + this.registrationData.birthdateData.month + '-' + this.registrationData.birthdateData.day;
+    }
 
     this.registrationService.register(this.registrationData)
       .subscribe(

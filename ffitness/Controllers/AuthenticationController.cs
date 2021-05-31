@@ -46,7 +46,7 @@ namespace Ffitness.Controllers
                 UserName      = registerRequest.UserName,
                 FirstName     = registerRequest.FirstName,
                 LastName      = registerRequest.LastName,
-                BirthDate     = DateTime.Parse(registerRequest.BirthDate),
+                BirthDate     = registerRequest.BirthDate != null ? DateTime.Parse(registerRequest.BirthDate) : null,
                 Gender        = (ApplicationUser.GenderType) registerRequest.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true // a hack, but we're not implementing email confirmation
