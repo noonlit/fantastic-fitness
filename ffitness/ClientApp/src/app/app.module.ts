@@ -25,10 +25,14 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
-import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
+import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
+import { AdminUsersComponent } from './users/admin/users.component';
+import { AdminUserEditComponent } from './users/admin/user-edit/user-edit.component';
+import { AdminUserAddComponent } from './users/admin/user-add/user-add.component';
 import { AdminAddTrainerComponent } from './trainers/add-trainer/add-trainer.component';
 import { AdminUpdateTrainerComponent } from './trainers/update-trainer/update-trainer.component';
 import { AdminListTrainersComponent } from './trainers/list-trainers/list-trainers.component';
+
 
 @NgModule({
   declarations: [
@@ -44,8 +48,9 @@ import { AdminListTrainersComponent } from './trainers/list-trainers/list-traine
     BookingsStatsComponent,
     AdminCalendarComponent,
     AdminAddTrainerComponent,
-    AdminUpdateTrainerComponent,
-    AdminListTrainersComponent
+    AdminUsersComponent,
+    AdminUserEditComponent,
+    AdminUserAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,9 +67,10 @@ import { AdminListTrainersComponent } from './trainers/list-trainers/list-traine
       { path: 'account', component: AccountComponent },
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
-      { path: 'add-trainer', component: AdminAddTrainerComponent },
-      { path: 'update-trainer', component: AdminUpdateTrainerComponent },
-      { path: 'list-trainer', component: AdminListTrainersComponent }
+      { path: 'add-trainer', component: AdminAddTrainerComponent, canActivate: [AuthorizeGuard] },
+      { path: 'users', component: AdminUsersComponent, canActivate: [AuthorizeGuard] },
+      { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthorizeGuard] },
+      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthorizeGuard] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

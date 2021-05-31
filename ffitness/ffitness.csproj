@@ -47,23 +47,33 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
+    <Content Remove="ClientApp\src\app\services\**" />
     <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
+    <None Remove="ClientApp\src\app\services\**" />
     <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
+    <Compile Remove="ClientApp\src\app\services\**" />
     <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
     <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
     <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.service.ts" />
+    <None Remove="ClientApp\src\app\users\user.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
@@ -76,9 +86,6 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\list-trainers.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\update-trainer.component.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\services\trainer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
