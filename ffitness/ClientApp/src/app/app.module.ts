@@ -31,6 +31,7 @@ import { TokenInterceptor } from './auth/auth.token.interceptor';
 import { AuthGuardService } from './auth/auth.guard';
 import { AuthRoleGuardService } from './auth/auth.role.guard';
 import { RegistrationComponent } from './register/registration.component';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RegistrationComponent } from './register/registration.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },

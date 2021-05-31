@@ -18,17 +18,13 @@ namespace Ffitness.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+		public AuthenticationController(UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
             IConfiguration configuration)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _context = context;
             _configuration = configuration;
         }
@@ -39,14 +35,21 @@ namespace Ffitness.Controllers
         {
             var user = new ApplicationUser
             {
-                Email = registerRequest.Email,
-                UserName = registerRequest.Email,
+                Email         = registerRequest.Email,
+                UserName      = registerRequest.UserName,
+                FirstName     = registerRequest.FirstName,
+                LastName      = registerRequest.LastName,
+                BirthDate     = DateTime.Parse(registerRequest.BirthDate),
+                Gender        = (ApplicationUser.GenderType) registerRequest.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true // a hack, but we're not implementing email confirmation
             };
+
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
+
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, UserRole.ROLE_USER);
                 return Ok(new RegisterResponse { ConfirmationToken = user.SecurityStamp });
             }
 
@@ -64,6 +67,7 @@ namespace Ffitness.Controllers
                 var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
                 };
+
                 var signinKey = new SymmetricSecurityKey(
                   Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
 

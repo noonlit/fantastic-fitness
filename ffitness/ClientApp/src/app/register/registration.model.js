@@ -7,4 +7,4 @@ var Registration = /** @class */ (function () {
     return Registration;
 }());
 exports.Registration = Registration;
-//# sourceMappingURL=login.model.js.map
+//# sourceMappingURL=registration.model.js.map

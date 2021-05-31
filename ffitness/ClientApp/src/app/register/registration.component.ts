@@ -18,7 +18,9 @@ export class RegistrationComponent {
     private registrationService: RegistrationComponentService,
     private authService: AuthService
   ) {}
-  logIn() {
+  register() {
+    this.registrationData.birthdate = new Date(this.registrationData.birthdateData.year, this.registrationData.birthdateData.month, this.registrationData.birthdateData.day);
+
     this.registrationService.register(this.registrationData)
       .subscribe(
         () => {

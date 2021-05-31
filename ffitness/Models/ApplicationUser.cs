@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Ffitness.Models
 {
@@ -17,8 +14,7 @@ namespace Ffitness.Models
         [Display(Name = "Birth date")]
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
-        [Required]
-        public UserRole Role { get; set; }
+
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum GenderType
         {
