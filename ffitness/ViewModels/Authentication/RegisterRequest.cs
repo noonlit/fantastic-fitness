@@ -23,11 +23,9 @@ namespace Ffitness.ViewModels.Authentication
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required]
         [Display(Name = "BirthDate")]
         public string BirthDate { get; set; }
 
-        [Required]
         [Display(Name = "Gender")]
         public int Gender { get; set; }
 
