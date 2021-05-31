@@ -19,7 +19,7 @@ export class RegistrationComponent {
     private authService: AuthService
   ) {}
   register() {
-    this.registrationData.birthdate = new Date(this.registrationData.birthdateData.year, this.registrationData.birthdateData.month, this.registrationData.birthdateData.day);
+    this.registrationData.birthdate = this.registrationData.birthdateData.year + '-' + this.registrationData.birthdateData.month + '-' + this.registrationData.birthdateData.day;
 
     this.registrationService.register(this.registrationData)
       .subscribe(

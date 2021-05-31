@@ -65,7 +65,7 @@ namespace Ffitness.Controllers
 
         [HttpGet("current")]
         [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
-        public async Task<ActionResult<UserViewModel>> GetCurrentUser()
+        public async Task<ActionResult<AuthUserResponse>> GetCurrentUser()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
@@ -76,7 +76,7 @@ namespace Ffitness.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var viewModel = _mapper.Map<UserViewModel>(user);
+            var viewModel = _mapper.Map<AuthUserResponse>(user);
 
             viewModel.Roles = roles;
 

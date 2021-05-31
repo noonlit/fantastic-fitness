@@ -37,7 +37,9 @@ export class AuthService {
   }
 
   isAdmin(): Observable<boolean> {
-    let subject = new Subject<boolean>();
+    return of(true); // TODO when everyone has admins
+
+/*    let subject = new Subject<boolean>();
 
     let result = this.httpClient.get<User>(this.getApiUrl() + '/current');
 
@@ -48,6 +50,6 @@ export class AuthService {
       error => console.log(error)
     );
 
-    return subject;
+    return subject;*/
   }
 }

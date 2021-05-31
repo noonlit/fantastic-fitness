@@ -5,7 +5,7 @@ export class Registration {
   username: string;
   password: string;
   confirmPassword: string;
-  birthdate: Date;
+  birthdate: string;
   birthdateData: any;
   gender: number;
 }

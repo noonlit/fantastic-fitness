@@ -26,7 +26,35 @@
         Male
       </label>
     </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="gender" [(ngModel)]="registrationData.gender" value="3">
+      <label class="form-check-label">
+        Non-Binary
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="gender" [(ngModel)]="registrationData.gender" value="4">
+      <label class="form-check-label">
+        Transgender
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="gender" [(ngModel)]="registrationData.gender" value="5">
+      <label class="form-check-label">
+        Intersex
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="gender" [(ngModel)]="registrationData.gender" value="6">
+      <label class="form-check-label">
+        Other
+      </label>
+    </div>
     <br>
-    <button class="btn btn-light" (click)="register()">Register</button>
+    <button class="btn btn-light" (click)="register()">Submit</button>
   </form>
 </div>
