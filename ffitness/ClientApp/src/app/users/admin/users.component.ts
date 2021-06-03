@@ -47,9 +47,18 @@ export class AdminUsersComponent implements OnInit {
         () => {
           this.message = "Success!"
           this.errorMessages = [];
+          this.users = this.users.filter(u => u.id !== user.id);
         },
         error => this.errorMessages = error.error.errors
       );
+  }
+
+  userIsAdmin(user: User): boolean {
+    return user.roles.indexOf('AppAdmin') !== -1;
+  }
+
+  makeAdmin(user: User) {
+    // todo
   }
 
   addUser() {
