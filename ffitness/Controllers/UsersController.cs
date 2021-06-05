@@ -42,7 +42,18 @@ namespace Ffitness.Controllers
         public async Task<ActionResult<IEnumerable<ApplicationUserViewModel>>> GetUsers()
         {
             var result = await _context.Users.ToListAsync();
-            return _mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(result);
+
+            var mappedResult = new List<ApplicationUserViewModel>();
+
+            foreach (ApplicationUser user in result)
+			{
+                var roles = await _userManager.GetRolesAsync(user);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = roles.ToList();
+                mappedResult.Add(mappedUser);
+			}
+
+            return mappedResult;
         }
 
         // GET: api/Users/5
@@ -56,7 +67,10 @@ namespace Ffitness.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<ApplicationUserViewModel>(user);
+            var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            mappedUser.Roles = roles.ToList();
+            return mappedUser;
         }
 
         // PUT: api/Users/5
@@ -107,18 +121,29 @@ namespace Ffitness.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUserViewModel user)
+        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUserViewModel newUser)
         {
-            ApplicationUser userEntity = _mapper.Map<ApplicationUser>(user);
-            userEntity.SecurityStamp = Guid.NewGuid().ToString();
-            userEntity.EmailConfirmed = true; // a hack, but we're not implementing email confirmation
+            var user = new ApplicationUser
+            {
+                Email = newUser.Email,
+                UserName = newUser.UserName,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                BirthDate = newUser.BirthDate,
+                Gender = (ApplicationUser.GenderType) newUser.Gender,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                EmailConfirmed = true // a hack, but we're not implementing email confirmation
+            };
 
-            var result = await _userManager.CreateAsync(userEntity, user.PlainPassword);
+            var result = await _userManager.CreateAsync(user, newUser.PlainPassword);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRolesAsync(userEntity, user.Roles);
-                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+                await _userManager.AddToRolesAsync(user, newUser.Roles);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = newUser.Roles;
+
+                return CreatedAtAction("GetUser", new { id = user.Id }, mappedUser);
             }
 
             return BadRequest(result.Errors);

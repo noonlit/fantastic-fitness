@@ -35,8 +35,7 @@ export class UserComponentService {
       .delete<User>(url);
   }
 
-  save(email, username, password): Observable<User> {
-    const user = { email, username, password };
+  save(user: User): Observable<User> {
     return this.httpClient.post<User>(this.getApiUrl(), user);
   }
 

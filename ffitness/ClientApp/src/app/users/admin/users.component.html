@@ -27,6 +27,7 @@
         <tr>
           <th>Username</th>
           <th>Email</th>
+          <th>Is Admin</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -35,11 +36,19 @@
           <td> {{user.userName}} </td>
           <td> {{user.email}} </td>
           <td>
+            <span *ngIf="userIsAdmin(user); else elseBlock">true</span>
+            <ng-template #elseBlock>false</ng-template>
+          </td>
+          <td>
+
             <a class="btn btn-light" (click)="editUser(user)" aria-label="Edit">
               <i class="fa fa-pencil-alt" aria-hidden="true"></i>
             </a>
             <a class="btn btn-danger" (click)="deleteUser(user)" aria-label="Delete">
               <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="makeAdmin(user)" aria-label="Edit">
+              <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
             </a>
           </td>
         </tr>

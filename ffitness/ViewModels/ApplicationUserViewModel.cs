@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ffitness.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Ffitness.ViewModels
 	{
         public string Id { get; set; }
 
-        public IList<string> Roles { get; set; }
+        public IList<string> Roles { get; set; } = new List<string>();
 
         public enum GenderType
         {
