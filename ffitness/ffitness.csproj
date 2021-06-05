@@ -64,6 +64,8 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\shared\subscriptions.service.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\subscriptions.model.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
