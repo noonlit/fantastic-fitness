@@ -9,6 +9,7 @@ using Ffitness.Data;
 using Ffitness.Models;
 using AutoMapper;
 using Ffitness.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Ffitness.Controllers
 {
@@ -18,11 +19,13 @@ namespace Ffitness.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<ActivitiesController> _logger;
 
-        public ActivitiesController(ApplicationDbContext context, IMapper mapper)
+        public ActivitiesController(ApplicationDbContext context, IMapper mapper, ILogger<ActivitiesController> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/Activities
