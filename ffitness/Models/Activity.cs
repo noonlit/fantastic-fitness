@@ -18,24 +18,25 @@ namespace Ffitness.Models
     }
     public class Activity
     {
-        private string primaryHexCode;
-        private string secondaryHexCode;
-        private string activityPicture;
+        //private string primaryHexCode;
+        //private string secondaryHexCode;
+        //private string activityPicture;
 
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        //[Required]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        //[Required]
+        //[MaxLength(50)]
         public string Description { get; set; }
 
-        [Required]
+        //[Required]
         public ActivityType Type { get; set; }
 
-        [MinLength(5)]
+        //[MinLength(5)]
+        /*
         public string ActivityPicture {
             get { return this.activityPicture; }
             set {
@@ -44,12 +45,16 @@ namespace Ffitness.Models
                 else this.activityPicture = value;
             }
         }
+        */
+        public string ActivityPicture { get; set; }
 
-        [Required]
-        [Range(1, 5)]
+
+        //[Required]
+        //[Range(1, 5)]
         public int DifficultyLevel { get; set; }
 
-        [MaxLength(7), MinLength(4)]
+        //[MaxLength(7), MinLength(4)]
+        /*
         public string PrimaryColour { 
             get { return this.primaryHexCode; }
             set {
@@ -58,8 +63,12 @@ namespace Ffitness.Models
                 else this.primaryHexCode = value.ToUpper();
             }
         }
+        */
+        public string PrimaryColour { get; set; }
 
-        [MaxLength(7), MinLength(4)]
+
+        //[MaxLength(7), MinLength(4)]
+        /*
         public string SecondaryColour
         {
             get { return this.secondaryHexCode; }
@@ -70,6 +79,8 @@ namespace Ffitness.Models
                 else this.secondaryHexCode = value.ToUpper();
             }
         }
+        */
+        public string SecondaryColour { get; set; }
 
         public List<Trainer> Trainers { get; set; }
     }

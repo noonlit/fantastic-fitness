@@ -42,12 +42,13 @@ namespace Ffitness.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActivityPicture")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("default-activity-picture.jpg");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
@@ -57,12 +58,14 @@ namespace Ffitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<string>("SecondaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -215,6 +218,30 @@ namespace Ffitness.Migrations
                     b.HasIndex("TrainerId");
 
                     b.ToTable("ScheduledActivities");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.Stats.BookedScheduledActivity", b =>
+                {
+                    b.Property<string>("ActivityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BookedSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("RemainingSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TrainerName")
+                        .HasColumnType("nvarchar(max)");
                 });
 
             modelBuilder.Entity("Ffitness.Models.Trainer", b =>
@@ -522,15 +549,17 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "332c50c0-4b47-4543-be4b-3ced409be632",
-                            ConcurrencyStamp = "cc42d1ea-a7c3-4a1e-82ba-fe48afd6661d",
-                            Name = "User"
+                            Id = "2660f3be-89de-46dc-8a29-d8e29fcb99fe",
+                            ConcurrencyStamp = "2e4a853e-0883-4648-8b08-7bbde3f17874",
+                            Name = "AppUser",
+                            NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "c1dbeea6-57a4-448e-9370-96cfdafd6629",
-                            ConcurrencyStamp = "bd37eb96-d061-40a4-8252-755450041b9b",
-                            Name = "Admin"
+                            Id = "53dcf167-c88e-403d-9572-83a84a07b4ec",
+                            ConcurrencyStamp = "f6a023e7-2cab-4a12-993a-0be99352211f",
+                            Name = "AppAdmin",
+                            NormalizedName = "APPADMIN"
                         });
                 });
 

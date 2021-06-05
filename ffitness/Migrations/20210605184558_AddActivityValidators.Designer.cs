@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210529135958_ModifyPictureInActivityToHaveDefault")]
-    partial class ModifyPictureInActivityToHaveDefault
+    [Migration("20210605184558_AddActivityValidators")]
+    partial class AddActivityValidators
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,12 +44,13 @@ namespace Ffitness.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActivityPicture")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("default-activity-picture.jpg");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
@@ -59,12 +60,14 @@ namespace Ffitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<string>("SecondaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -99,6 +102,9 @@ namespace Ffitness.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -161,7 +167,6 @@ namespace Ffitness.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -169,7 +174,8 @@ namespace Ffitness.Migrations
                     b.HasIndex("ScheduledActivityId");
 
                     b.HasIndex("UserId", "ScheduledActivityId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Bookings");
                 });
@@ -211,6 +217,30 @@ namespace Ffitness.Migrations
                     b.ToTable("ScheduledActivities");
                 });
 
+            modelBuilder.Entity("Ffitness.Models.Stats.BookedScheduledActivity", b =>
+                {
+                    b.Property<string>("ActivityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BookedSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("RemainingSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TrainerName")
+                        .HasColumnType("nvarchar(max)");
+                });
+
             modelBuilder.Entity("Ffitness.Models.Trainer", b =>
                 {
                     b.Property<int>("Id")
@@ -233,6 +263,34 @@ namespace Ffitness.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Trainers");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.UserActions.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ScheduledActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserAction")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduledActivityId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserActionsBooking");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -347,6 +405,10 @@ namespace Ffitness.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -363,6 +425,8 @@ namespace Ffitness.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -473,6 +537,29 @@ namespace Ffitness.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Ffitness.Models.UserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2660f3be-89de-46dc-8a29-d8e29fcb99fe",
+                            ConcurrencyStamp = "2e4a853e-0883-4648-8b08-7bbde3f17874",
+                            Name = "AppUser",
+                            NormalizedName = "APPUSER"
+                        },
+                        new
+                        {
+                            Id = "53dcf167-c88e-403d-9572-83a84a07b4ec",
+                            ConcurrencyStamp = "f6a023e7-2cab-4a12-993a-0be99352211f",
+                            Name = "AppAdmin",
+                            NormalizedName = "APPADMIN"
+                        });
+                });
+
             modelBuilder.Entity("ActivityTrainer", b =>
                 {
                     b.HasOne("Ffitness.Models.Activity", null)
@@ -498,9 +585,7 @@ namespace Ffitness.Migrations
 
                     b.HasOne("Ffitness.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ScheduledActivity");
 
@@ -524,6 +609,23 @@ namespace Ffitness.Migrations
                     b.Navigation("Activity");
 
                     b.Navigation("Trainer");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.UserActions.Booking", b =>
+                {
+                    b.HasOne("Ffitness.Models.ScheduledActivity", "ScheduledActivity")
+                        .WithMany()
+                        .HasForeignKey("ScheduledActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ffitness.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ScheduledActivity");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
