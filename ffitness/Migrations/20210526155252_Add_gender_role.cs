@@ -1,4 +1,4 @@
-﻿/*using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ffitness.Migrations
 {
@@ -83,4 +83,3 @@ namespace Ffitness.Migrations
         }
     }
 }
-*/

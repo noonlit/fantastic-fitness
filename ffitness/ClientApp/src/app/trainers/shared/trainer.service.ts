@@ -1,35 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Activity } from '../../activities/shared/activity.model';
 import { Trainer } from './trainer';
 
 @Injectable({providedIn: 'root'})
-export class TrainerService {
+export class TrainerComponentService {
 
   constructor(private httpClient: HttpClient, @Inject('API_URL') private apiUrl: string) { }
 
   getTrainers(): Observable<Trainer.TrainerDefault[]> {
-    const url: string = this.apiUrl + 'trainers';
+    const url: string = this.getApiUrl();
     return this.httpClient.get<Trainer.TrainerDefault[]>(url);
   }
 
   getTrainer(id: number): Observable<Trainer.TrainerDefault> {
-    const url: string = this.apiUrl + 'trainers/' + id;
+    const url: string = this.getApiUrl() + '/' + id;
     return this.httpClient.get<Trainer.TrainerDefault>(url);
   }
 
-  addNewTrainer(trainer: Trainer.TrainerDetails): Observable<Trainer.TrainerConfirmation> {
-    const url: string = this.apiUrl + 'trainers';
+  getActivities(): Observable<Activity> {
+    const url: string = this.apiUrl + 'activities';
+    return this.httpClient.get<Activity>(url);
+  }
+
+  save(trainer: Trainer.TrainerDetails): Observable<Trainer.TrainerConfirmation> {
+    const url: string = this.getApiUrl();
     return this.httpClient.post<Trainer.TrainerConfirmation>(url, trainer);
   }
 
-  updateTrainer(id: number, trainer: Trainer.TrainerDetails): Observable<Trainer.TrainerConfirmation> {
-    const url: string = this.apiUrl + 'trainers/' + id;
+  update(id: number, trainer: Trainer.TrainerDefault): Observable<Trainer.TrainerConfirmation> {
+    const url: string = this.getApiUrl() + '/' + id;
     return this.httpClient.put<Trainer.TrainerConfirmation>(url, trainer);
   }
 
-  deleteTrainer(id: string): Observable<any> {
-    const url: string = this.apiUrl + 'trainers/' + id;
+  delete(id: string): Observable<any> {
+    const url: string = this.getApiUrl() +'/' + id;
     return this.httpClient.delete<any>(url);
+  }
+
+  private getApiUrl() {
+    return this.apiUrl + 'trainers';
   }
 }

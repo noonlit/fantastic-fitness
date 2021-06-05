@@ -4,6 +4,7 @@ export namespace Trainer {
     FirstName: string;
     LastName: string;
     Description: string;
+    Activities: string;
     ProfilePicture?: File;
   };
 
@@ -12,7 +13,7 @@ export namespace Trainer {
     firstName: string;
     lastName: string;
     description: string;
-    activities?: string;
+    activities: string;
     profilePicture?: string;
   }
 

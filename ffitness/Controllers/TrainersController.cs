@@ -28,58 +28,96 @@ namespace Ffitness.Controllers
             webHostEnvironment = hostEnvironment;
         }
 
-        // POST: https://localhost:5001/add-trainer deocamdata
+
+        // POST: 
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Trainer>> PostTrainer(TrainerViewModel model)
+        public async Task<ActionResult<Trainer>> PostTrainer(TrainerViewModel trainer)
         {
             if (ModelState.IsValid)
             {
                 //string uniqueFileName = UploadedFile(model);
-
-                Trainer trainer = new Trainer
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Description = model.Description,
-                    //ProfilePicture = uniqueFileName,
-                };
-                _context.Trainers.Add(trainer);
+                _context.Trainers.Add(_mapper.Map<Trainer>(trainer));
                 await _context.SaveChangesAsync();
-                return Ok();
+                return CreatedAtAction("GetTrainer", new { id = trainer.Id }, trainer);
             }
             return BadRequest(ModelState);
         }
 
-       /* private string UploadedFile(TrainerViewModel model)
+     /*   [HttpPost]
+        public async Task<ActionResult> AllocateActivities(NewFavouritesForUserViewModel newFavouriteRequest)
         {
-            string uniqueFileName = null;
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (model.ProfileImage != null)
+            Favourites favouritesForYear = _context.Favourites.Where(f => f.Year == newFavouriteRequest.Year && f.User.Id == user.Id).FirstOrDefault();
+
+            if (favouritesForYear != null)
             {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.ProfileImage.CopyTo(fileStream);
-                }
+                return BadRequest($"You already have a favourites list for year {newFavouriteRequest.Year}.");
             }
-            return uniqueFileName;
-        }*/
+
+            List<Movie> movies = new List<Movie>();
+            newFavouriteRequest.MovieIds.ForEach(mid =>
+            {
+                var movie = _context.Movies.Find(mid);
+                if (movie != null)
+                {
+                    movies.Add(movie);
+                }
+            });
+
+            if (movies.Count == 0)
+            {
+                return BadRequest("The movies you provided do not exist.");
+            }
+
+            var favourites = new Favourites
+            {
+                User = user,
+                Movies = movies,
+                Year = newFavouriteRequest.Year
+            };
+
+            _context.Favourites.Add(favourites);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+*/
+        /* private string UploadedFile(TrainerViewModel model)
+         {
+             string uniqueFileName = null;
+
+             if (model.ProfileImage != null)
+             {
+                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                 using (var fileStream = new FileStream(filePath, FileMode.Create))
+                 {
+                     model.ProfileImage.CopyTo(fileStream);
+                 }
+             }
+             return uniqueFileName;
+         }*/
 
         // GET: api/Trainers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TrainerViewModel>>> GetTrainers()
         {
+           /* return await _context.Trainers
+                .Select(t => _mapper.Map<TrainerViewModel>(t))
+                .ToListAsync();*/
+
             return await _context.Trainers
+                .Include(t => t.Activities)
+                .OrderBy(t => t.LastName)
                 .Select(t => _mapper.Map<TrainerViewModel>(t))
                 .ToListAsync();
         }
 
         // GET: api/Trainers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Trainer>> GetTrainer(int id)
+        public async Task<ActionResult<TrainerViewModel>> GetTrainer(int id)
         {
             var trainer = await _context.Trainers.FindAsync(id);
 
@@ -88,7 +126,7 @@ namespace Ffitness.Controllers
                 return NotFound();
             }
 
-            return trainer;
+            return _mapper.Map<TrainerViewModel>(trainer) ;
         }
 
         // PUT: api/Trainers/5

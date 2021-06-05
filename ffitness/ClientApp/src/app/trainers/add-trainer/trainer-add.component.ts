@@ -1,24 +1,27 @@
+import { error } from '@angular/compiler/src/util';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Trainer } from '../shared/trainer';
-import { TrainerService } from '../shared/trainer.service';
-
+import { TrainerComponentService } from '../shared/trainer.service';
 
 @Component({
-  selector: 'app-add-trainer',
-  templateUrl: './add-trainer.component.html',
-  styleUrls: ['./add-trainer.component.css']
+  selector: 'app-trainer-add',
+  templateUrl: './trainer-add.component.html',
+  styleUrls: ['./trainer-add.component.css']
 })
-export class AdminAddTrainerComponent implements OnInit, OnDestroy {
+export class AdminTrainerAddComponent implements OnInit, OnDestroy {
+
+  message: string;
+  errorMessages: [];
 
   private subscription: Subscription = new Subscription();
 
   newTrainer: Trainer.TrainerDetails;
   addTrainerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private trainerService: TrainerService) { }
+  constructor(private fb: FormBuilder, private trainerService: TrainerComponentService) { }
 
   ngOnInit(): void {
     this.addTrainerForm = this.fb.group({
@@ -46,11 +49,14 @@ export class AdminAddTrainerComponent implements OnInit, OnDestroy {
 
   onSubmitForm(): void {
     this.newTrainer = this.addTrainerForm.value;
-    console.log(this.newTrainer);
     this.subscription.add(
-      this.trainerService.addNewTrainer(this.newTrainer).subscribe(confirmation => {
-        console.log(confirmation);
-      })
+      this.trainerService.save(this.newTrainer)
+        .subscribe(confirmation => {
+          this.message = "Success!"
+          this.errorMessages = [];
+        },
+          error => this.errorMessages = error.error.errors     
+      )
     );
   }
 

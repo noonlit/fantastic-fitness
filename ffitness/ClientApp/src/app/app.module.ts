@@ -30,9 +30,9 @@ import { AuthGuardService } from './auth/auth.guard';
 import { AuthRoleGuardService } from './auth/auth.role.guard';
 import { RegistrationComponent } from './register/registration.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AdminAddTrainerComponent } from './trainers/add-trainer/add-trainer.component';
-import { AdminUpdateTrainerComponent } from './trainers/update-trainer/update-trainer.component';
-import { AdminListTrainersComponent } from './trainers/list-trainers/list-trainers.component';
+import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.component';
+import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
+import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 
 @NgModule({
@@ -46,9 +46,9 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
     SidebarNavMenuComponent,
     BookingsStatsComponent,
     AdminCalendarComponent,
-    AdminListTrainersComponent,
-    AdminAddTrainerComponent,
-    AdminUpdateTrainerComponent,
+    AdminTrainersListComponent,
+    AdminTrainerAddComponent,
+    AdminTrainerUpdateComponent,
     AdminUsersComponent,
     AdminUserEditComponent,
     AdminUserAddComponent,
@@ -70,9 +70,9 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
       { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'list-trainer', component: AdminListTrainersComponent, canActivate: [AuthorizeGuard] },
-      { path: 'add-trainer', component: AdminAddTrainerComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'update-trainer', component: AdminUpdateTrainerComponent, canActivate: [AuthorizeGuard] },
+      { path: 'trainers', component: AdminTrainersListComponent, canActivate: [AuthGuardService] },
+      { path: 'trainer/add', component: AdminTrainerAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
