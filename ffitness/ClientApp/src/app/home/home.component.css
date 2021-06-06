@@ -73,3 +73,39 @@
   -webkit-box-orient: vertical;
   overflow: hidden
 }
+
+.card-item {
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0px 0px 6px 1px rgb(190, 189, 189);
+}
+
+.test-img {
+  width: 100%;
+  height: 280px;
+  background-color: #C0C0C0;
+}
+
+.card-item-photo {
+  position: relative;
+}
+
+.card-item-content {
+  padding: 15px;
+}
+
+.card-item-description {
+  font-size: 15px;
+  opacity: 0.6;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+div.card-item:hover .card-item-title {
+  color: #B2675E;
+  transition: all ease 0.5s 0s;
+}

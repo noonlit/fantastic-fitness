@@ -41,6 +41,7 @@
 
 <div class="home-instructors-wrapper py-4">
   <h2 class="title">our instructors</h2>
+
   <div class="home-card-wrapper">
     <ng-container *ngIf="trainers">
       <div *ngFor="let trainer of trainers" class="home-card--item">
@@ -57,3 +58,23 @@
   </div>
 </div>
 
+<h2 class="title">our instructors</h2>
+<section *ngIf="trainers">
+  <div class="cards-wrapper py-4">
+    <div class="container">
+      <div class="row gx-2 justify-content-center">
+        <div *ngFor="let trainer of trainers" class="col-sm-6 col-md-4 col-xl-3 mb-5">
+          <div class="card-item ">
+            <div class="card-item-photo">
+              <div class="test-img"></div>
+            </div>
+            <div class="card-item-content bg-light">
+              <h2 id="trainer-name" class="card-item-title text-center">{{ trainer.firstName }} {{ trainer.lastName.split('')[0] + '.' }}</h2>
+              <p id="trainer-description" class="card-item-description">{{ trainer.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
