@@ -22,8 +22,8 @@ namespace Ffitness.Validator
             RuleFor(m => m.Type).Must(IsAValidActivityType);
             RuleFor(m => m.DifficultyLevel).InclusiveBetween(1, 5).WithMessage("The difficulty level must be between 1 and 5.");
             RuleFor(m => m.ActivityPicture).MinimumLength(4).When(m => !string.IsNullOrEmpty(m.ActivityPicture));
-            RuleFor(m => m.PrimaryColour).MinimumLength(4).MaximumLength(7).Must(IsAValidHexCode);
-            RuleFor(m => m.SecondaryColour).MinimumLength(4).MaximumLength(7).Must(IsAValidHexCode);
+            RuleFor(m => m.PrimaryColour).Must(IsAValidHexCode);
+            RuleFor(m => m.SecondaryColour).Must(IsAValidHexCode);
         }
 
         private bool IsAValidHexCode(string val)

@@ -54,15 +54,13 @@ namespace Ffitness.Data
 
             modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
 
-            modelBuilder.Entity<BookedScheduledActivity>().Property(bsa => bsa.Price).HasColumnType("decimal(18,4)");
-
             modelBuilder.Entity<Activity>().Property(a => a.Id).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.Name).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.Description).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.Type).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.DifficultyLevel).IsRequired();
-            modelBuilder.Entity<Activity>().Property(a => a.PrimaryColour).HasDefaultValue("#000");
-            modelBuilder.Entity<Activity>().Property(a => a.SecondaryColour).HasDefaultValue("#000");
+            modelBuilder.Entity<Activity>().Property(a => a.PrimaryColour).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.SecondaryColour).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.ActivityPicture).HasDefaultValue("default-activity-picture.jpg");
         }
     }

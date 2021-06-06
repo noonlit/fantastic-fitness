@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210605195701_AddRoleIdMigration")]
-    partial class AddRoleIdMigration
+    [Migration("20210606083720_ModifyActivityHexColourValidation")]
+    partial class ModifyActivityHexColourValidation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,14 +60,12 @@ namespace Ffitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryColour")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("#000");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecondaryColour")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("#000");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -133,9 +131,6 @@ namespace Ffitness.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -155,8 +150,6 @@ namespace Ffitness.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -234,7 +227,7 @@ namespace Ffitness.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RemainingSpots")
                         .HasColumnType("int");
@@ -551,15 +544,17 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "01845c08-4c19-4705-9b56-1ea0d3dc8f1f",
-                            ConcurrencyStamp = "2943acb2-e71c-4d1e-af5e-4bda344569ec",
-                            Name = "User"
+                            Id = "2168f4d3-b454-4c61-9cc1-ebef8165ac2f",
+                            ConcurrencyStamp = "86607cf8-5db3-4f9c-b29f-5c7126d6e8fb",
+                            Name = "AppUser",
+                            NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "ce02e949-038d-4eee-9653-983eb381ff23",
-                            ConcurrencyStamp = "b04f94eb-86ae-4a05-846a-09bd511a7977",
-                            Name = "Admin"
+                            Id = "f204dde1-ce8d-4253-a86f-90e16409e6c5",
+                            ConcurrencyStamp = "8de8ad8e-e7ac-46d0-a8ce-f8308913a733",
+                            Name = "AppAdmin",
+                            NormalizedName = "APPADMIN"
                         });
                 });
 
@@ -576,15 +571,6 @@ namespace Ffitness.Migrations
                         .HasForeignKey("TrainersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Ffitness.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Ffitness.Models.UserRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Ffitness.Models.Booking", b =>

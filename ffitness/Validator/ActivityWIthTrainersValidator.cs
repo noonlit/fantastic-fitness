@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Ffitness.Validator
 {
-    public class ActivityWIthTrainersValidator : AbstractValidator<ActivityWithTrainersViewModel>
+    public class ActivityWithTrainersValidator : AbstractValidator<ActivityWithTrainersViewModel>
     {
         private readonly ApplicationDbContext _context;
 
-        public ActivityWIthTrainersValidator(ApplicationDbContext context)
+        public ActivityWithTrainersValidator(ApplicationDbContext context)
         {
             _context = context;
 
