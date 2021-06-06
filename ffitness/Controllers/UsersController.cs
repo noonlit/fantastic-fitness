@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ffitness.Data;
 using Ffitness.Models;
+using Ffitness.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,15 @@ namespace Ffitness.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UsersController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
-            this._roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -36,14 +39,26 @@ namespace Ffitness.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<ApplicationUserViewModel>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var result = await _context.Users.ToListAsync();
+
+            var mappedResult = new List<ApplicationUserViewModel>();
+
+            foreach (ApplicationUser user in result)
+			{
+                var roles = await _userManager.GetRolesAsync(user);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = roles.ToList();
+                mappedResult.Add(mappedUser);
+			}
+
+            return mappedResult;
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApplicationUser>> GetUser(String id)
+        public async Task<ActionResult<ApplicationUserViewModel>> GetUser(String id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -52,20 +67,37 @@ namespace Ffitness.Controllers
                 return NotFound();
             }
 
-            return user;
+            var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            mappedUser.Roles = roles.ToList();
+            return mappedUser;
         }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(String id, ApplicationUser user)
+        public async Task<IActionResult> PutUser(String id, ApplicationUserViewModel user)
         {
             if (!user.Id.Equals(id))
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            // only change a few exposed properties
+            var userEntity = await _context.Users.FindAsync(id);
+            userEntity.FirstName = user.FirstName;
+            userEntity.LastName = user.LastName;
+            userEntity.BirthDate = user.BirthDate;
+            userEntity.Email = user.Email;
+            userEntity.Gender = (ApplicationUser.GenderType)user.Gender;
+
+            // attempt to change password if necessary
+            if (user.PlainPassword != null)
+            {
+                userEntity.PasswordHash = _userManager.PasswordHasher.HashPassword(userEntity, user.PlainPassword);
+            }
+
+            _context.Entry(userEntity).State = EntityState.Modified;
 
             try
             {
@@ -89,12 +121,32 @@ namespace Ffitness.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUser user)
+        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUserViewModel newUser)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var user = new ApplicationUser
+            {
+                Email = newUser.Email,
+                UserName = newUser.UserName,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                BirthDate = newUser.BirthDate,
+                Gender = (ApplicationUser.GenderType) newUser.Gender,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                EmailConfirmed = true // a hack, but we're not implementing email confirmation
+            };
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var result = await _userManager.CreateAsync(user, newUser.PlainPassword);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(user, newUser.Roles);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = newUser.Roles;
+
+                return CreatedAtAction("GetUser", new { id = user.Id }, mappedUser);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         // DELETE: api/Users/5

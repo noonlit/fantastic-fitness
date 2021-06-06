@@ -46,8 +46,7 @@
     <ng-container *ngIf="trainers">
       <div *ngFor="let trainer of trainers" class="home-card--item">
         <div class="home-card--item__photo">
-          <div class="test-img"></div>
-          <div class="home-card--item__pill"></div>
+          <img src="trainer.png"/>
         </div>
         <div class="home-card--item__details">
           <h4 class="home-card--item__details-name">{{ trainer.firstName }} {{ trainer.lastName.split('')[0] + '.' }}</h4>

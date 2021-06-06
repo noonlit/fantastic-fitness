@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,12 +11,19 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 })
 export class NavMenuComponent implements OnInit {
   public isAuthenticated: Observable<boolean>;
-  public userName: Observable<string>;
 
-  constructor(private authorizeService: AuthorizeService) { }
+  constructor(
+    private authorizeService: AuthService,
+  ) {
+
+  }
 
   ngOnInit() {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
-    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
+  }
+
+  logout() {
+    this.authorizeService.removeToken();
+    window.location.href = '/';
   }
 }

@@ -32,7 +32,7 @@ namespace Ffitness.Controllers
             var sql = "SELECT (SELECT CONCAT(Trainers.FirstName, ' ', Trainers.LastName) FROM Trainers WHERE Trainers.Id = ScheduledActivities.TrainerId) AS TrainerName, " +
                 "(SELECT Activities.Name FROM Activities WHERE Activities.Id = ScheduledActivities.ActivityId) AS ActivityName, " +
                 "CASE WHEN BookedSpots IS NULL THEN 0 ELSE BookedSpots END AS BookedSpots, " +
-                "CASE WHEN BookedSpots IS NOT NULL THEN ScheduledActivities.Capacity - BookedSpots ELSE ScheduledActivities.Capacity END AS RemainingSpots, " +
+                "CASE WHEN BookedSpots IS NOT NULL THEN ScheduledActivities.Capacity ELSE ScheduledActivities.Capacity END AS RemainingSpots, " +
                 " ScheduledActivities.Price, ScheduledActivities.StartTime, ScheduledActivities.EndTime " +
                 "FROM ScheduledActivities " +
                 "LEFT JOIN(SELECT Bookings.ScheduledActivityId, COUNT(*) AS BookedSpots " +

@@ -1,8 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
-import { AuthorizeService } from '../../../api-authorization/authorize.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar-nav-menu',
@@ -10,13 +9,15 @@ import { AuthorizeService } from '../../../api-authorization/authorize.service';
   styleUrls: ['./sidebar-nav-menu.component.css']
 })
 export class SidebarNavMenuComponent implements OnInit {
-  public isAuthenticated: Observable<boolean>;
-  public userName: Observable<string>;
+  public isAdmin: Observable<boolean>;
 
-  constructor(private authorizeService: AuthorizeService) { }
+  constructor(
+    private authorizeService: AuthService,
+  ) {
+
+  }
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizeService.isAuthenticated();
-    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name)); // TODO - need role - isAdmin
+    this.isAdmin = this.authorizeService.isAdmin();
   }
 }
