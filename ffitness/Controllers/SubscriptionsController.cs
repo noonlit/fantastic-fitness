@@ -31,6 +31,7 @@ namespace Ffitness.Controllers
         {
             return await _context.Subscriptions
                 .Select(a => _mapper.Map<SubscriptionViewModel>(a)).ToListAsync();
+
         }
 
         // GET: api/Subscriptions/5

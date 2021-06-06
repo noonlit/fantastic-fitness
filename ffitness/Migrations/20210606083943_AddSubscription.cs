@@ -6,9 +6,7 @@ namespace Ffitness.Migrations
     public partial class AddSubscription : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "BookedScheduledActivity");
+        {                       
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
@@ -26,6 +24,8 @@ namespace Ffitness.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SubscriptionStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SubscriptionEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     SubscriptionPrice = table.Column<double>(type: "float", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -44,12 +44,12 @@ namespace Ffitness.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
-                values: new object[] { "9dddca4d-ad2c-4952-949d-014a47626227", "1ca6158a-b951-411a-bfdd-1f6a37f5df48", "UserRole", "User", null });
+                values: new object[] { "4d7b68f6-048a-450b-8c10-4db45f535998", "f32e52cd-4403-480f-ba1e-c699e88f593c", "UserRole", "User", null });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
-                values: new object[] { "b582e653-d59e-4e2b-a41f-27711853ab61", "d6b9d8c9-3dd0-4da2-88cd-10b5476fcb91", "UserRole", "Admin", null });
+                values: new object[] { "d98bd0f0-56a3-478e-ad06-fdc52f9668d5", "b3cc4cb1-dc7f-4cf3-8289-0389a053e1f8", "UserRole", "Admin", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscriptions_UserId",
@@ -65,28 +65,16 @@ namespace Ffitness.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "9dddca4d-ad2c-4952-949d-014a47626227");
+                keyValue: "4d7b68f6-048a-450b-8c10-4db45f535998");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b582e653-d59e-4e2b-a41f-27711853ab61");
+                keyValue: "d98bd0f0-56a3-478e-ad06-fdc52f9668d5");
 
-            migrationBuilder.CreateTable(
-                name: "BookedScheduledActivity",
-                columns: table => new
-                {
-                    ActivityName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BookedSpots = table.Column<int>(type: "int", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RemainingSpots = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrainerName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                });
+            
+
+            
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
@@ -97,6 +85,8 @@ namespace Ffitness.Migrations
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
                 values: new object[] { "d03254fd-4531-417d-aa20-d16c849afd25", "4aecd49f-d927-4af4-be2f-8fa317d4a20c", "UserRole", "Admin", null });
+
+           
         }
     }
 }

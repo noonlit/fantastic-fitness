@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210530043656_AddSubscription")]
-    partial class AddSubscription
+    [Migration("20210606100503_UpdateSubscription")]
+    partial class UpdateSubscription
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -250,13 +250,23 @@ namespace Ffitness.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Duration")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("SubscriptionEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("SubscriptionPrice")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("SubscriptionStart")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -316,35 +326,6 @@ namespace Ffitness.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserActionsBooking");
-                });
-
-            modelBuilder.Entity("Ffitness.Models.UserActions.Subscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SubscriptionEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("SubscriptionPrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("SubscriptionStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserActionsSubscriptions");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -600,14 +581,14 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9dddca4d-ad2c-4952-949d-014a47626227",
-                            ConcurrencyStamp = "1ca6158a-b951-411a-bfdd-1f6a37f5df48",
+                            Id = "cc4e3e3f-35dc-40b3-ab2c-13ca37aaed39",
+                            ConcurrencyStamp = "0e2f74cf-207e-457d-8bf9-7d19b129db19",
                             Name = "User"
                         },
                         new
                         {
-                            Id = "b582e653-d59e-4e2b-a41f-27711853ab61",
-                            ConcurrencyStamp = "d6b9d8c9-3dd0-4da2-88cd-10b5476fcb91",
+                            Id = "c7fb8186-3bf7-4607-98ae-87b4fb84fd60",
+                            ConcurrencyStamp = "d8366c78-2cac-479c-944a-966e8a9b1cd0",
                             Name = "Admin"
                         });
                 });
@@ -676,7 +657,9 @@ namespace Ffitness.Migrations
                 {
                     b.HasOne("Ffitness.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -694,15 +677,6 @@ namespace Ffitness.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("ScheduledActivity");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Ffitness.Models.UserActions.Subscription", b =>
-                {
-                    b.HasOne("Ffitness.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

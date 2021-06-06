@@ -4,14 +4,16 @@ using Ffitness.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210606083943_AddSubscription")]
+    partial class AddSubscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +250,6 @@ namespace Ffitness.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
@@ -264,7 +263,6 @@ namespace Ffitness.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -579,14 +577,14 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cc4e3e3f-35dc-40b3-ab2c-13ca37aaed39",
-                            ConcurrencyStamp = "0e2f74cf-207e-457d-8bf9-7d19b129db19",
+                            Id = "4d7b68f6-048a-450b-8c10-4db45f535998",
+                            ConcurrencyStamp = "f32e52cd-4403-480f-ba1e-c699e88f593c",
                             Name = "User"
                         },
                         new
                         {
-                            Id = "c7fb8186-3bf7-4607-98ae-87b4fb84fd60",
-                            ConcurrencyStamp = "d8366c78-2cac-479c-944a-966e8a9b1cd0",
+                            Id = "d98bd0f0-56a3-478e-ad06-fdc52f9668d5",
+                            ConcurrencyStamp = "b3cc4cb1-dc7f-4cf3-8289-0389a053e1f8",
                             Name = "Admin"
                         });
                 });
@@ -655,9 +653,7 @@ namespace Ffitness.Migrations
                 {
                     b.HasOne("Ffitness.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
