@@ -52,7 +52,7 @@ namespace Ffitness.Data
                 .HasData(new UserRole { Name = UserRole.ROLE_USER, NormalizedName = UserRole.ROLE_USER.ToUpper() },
                          new UserRole { Name = UserRole.ROLE_ADMIN, NormalizedName = UserRole.ROLE_ADMIN.ToUpper() });
 
-            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
+            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView("View_BookingStats");
         }
     }
 }
