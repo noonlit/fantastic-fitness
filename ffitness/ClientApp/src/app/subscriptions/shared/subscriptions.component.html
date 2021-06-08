@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+  <h1 id="tableLabel">Subscriptions</h1>
+
+  <p>Subscriptions</p>
+
+  <p *ngIf="!subscriptions"><em>Loading...</em></p>
+
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="subscriptions">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Duration</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subscription of subscriptions">
+        <td>{{ subscription.id }}</td>
+        <td>{{ subscription.duration }}</td>
+        <td>{{ subscription.price }}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

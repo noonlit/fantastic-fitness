@@ -63,8 +63,12 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
-    <None Remove="ClientApp\src\app\subscriptions\shared\subscriptions.service.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\admin\admin-subscriptions.component.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\shared\subscriptions.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\subscriptions.model.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\date-picker\datepicker-popup.module.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\date-picker\datepicker-popup.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\user-subscriptions.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />

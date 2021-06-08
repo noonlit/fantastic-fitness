@@ -27,7 +27,10 @@ import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
-import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { AdminSubscriptionsComponent } from './subscriptions/admin/admin-subscriptions.component';
+import { UserSubscriptionsComponent } from './subscriptions/user/user-subscriptions.component';
+import { SharedSubscriptionsComponent } from './subscriptions/shared/subscriptions.component';
+import { NgbdDatepickerPopup } from './subscriptions/user/date-picker/datepicker-popup';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
     BookingsStatsComponent,
     AdminCalendarComponent,
     AdminAddTrainerComponent,
-    SubscriptionsComponent,
+    AdminSubscriptionsComponent,
+    UserSubscriptionsComponent,
+    SharedSubscriptionsComponent,
+    NgbdDatepickerPopup
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,6 +67,9 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
       { path: 'add-trainer', component: AdminAddTrainerComponent },
+      { path: 'update-subscriptions', component: AdminSubscriptionsComponent, canActivate: [AuthorizeGuard] },
+      { path: 'active-subscription', component: UserSubscriptionsComponent },
+      { path: 'subscriptions', component: SharedSubscriptionsComponent}
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

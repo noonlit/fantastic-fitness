@@ -1,0 +1,55 @@
+button.calendar, button.calendar:active {
+  width: 2.75rem;
+  background-image: url('https://icon-library.com/images/calendar-icon-vector-free/calendar-icon-vector-free-15.jpg') !important;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  background-position: center;
+}
+
+/* Sortable table demo */
+
+th[sortable] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+  th[sortable].desc:before, th[sortable].asc:before {
+    content: '';
+    display: block;
+    background: url('https://icon-library.com/images/calendar-icon-vector-free/calendar-icon-vector-free-15.jpg') no-repeat;
+    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    float: left;
+    margin-left: -22px;
+  }
+
+  th[sortable].desc:before {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+
+/* Filtering table demo */
+ngbd-table-filtering span.ngb-highlight {
+  background-color: yellow;
+}
+
+/* Complete table demo */
+ngbd-table-complete span.ngb-highlight {
+  background-color: yellow;
+}
+
+ngb-carousel .picsum-img-wrapper {
+  position: relative;
+  height: 0;
+  padding-top: 55%; /* Keep ratio for 900x500 images */
+}
+
+  ngb-carousel .picsum-img-wrapper > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }

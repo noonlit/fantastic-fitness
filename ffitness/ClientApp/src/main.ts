@@ -23,3 +23,18 @@ if (environment.production) {
 
 platformBrowserDynamic(providers).bootstrapModule(AppModule)
   .catch(err => console.log(err));
+
+import { NgbdDatepickerPopupModule } from './app/subscriptions/user/date-picker/datepicker-popup.module';
+
+platformBrowserDynamic()
+  .bootstrapModule(NgbdDatepickerPopupModule)
+  .then(ref => {
+    // Ensure Angular destroys itself on hot reloads.
+    if (window['ngRef']) {
+      window['ngRef'].destroy();
+    }
+    window['ngRef'] = ref;
+
+    // Otherwise, log the boot error
+  })
+  .catch(err => console.error(err));

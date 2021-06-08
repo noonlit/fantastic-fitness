@@ -22,4 +22,16 @@ if (environment_1.environment.production) {
 }
 platform_browser_dynamic_1.platformBrowserDynamic(providers).bootstrapModule(app_module_1.AppModule)
     .catch(function (err) { return console.log(err); });
+var datepicker_popup_module_1 = require("./app/subscriptions/user/date-picker/datepicker-popup.module");
+platform_browser_dynamic_1.platformBrowserDynamic()
+    .bootstrapModule(datepicker_popup_module_1.NgbdDatepickerPopupModule)
+    .then(function (ref) {
+    // Ensure Angular destroys itself on hot reloads.
+    if (window['ngRef']) {
+        window['ngRef'].destroy();
+    }
+    window['ngRef'] = ref;
+    // Otherwise, log the boot error
+})
+    .catch(function (err) { return console.error(err); });
 //# sourceMappingURL=main.js.map

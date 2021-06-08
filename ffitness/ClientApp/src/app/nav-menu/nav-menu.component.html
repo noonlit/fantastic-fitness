@@ -25,13 +25,16 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link" [routerLink]="['/']">Home</a>
           </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link" [routerLink]="['/activities']">Services</a>
-            </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link" [routerLink]="['/calendar']">Calendar</a>
-            </li>
-          </ul>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/activities']">Services</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/calendar']">Calendar</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/active-subscription']">Subscriptions</a>
+          </li>
+        </ul>
         <app-login-menu></app-login-menu>
       </div>
     </div>

@@ -15,5 +15,6 @@ namespace Ffitness.ViewModels
         public SubscriptionDuration Duration { get; set; }
         public double SubscriptionPrice { get; set; }
         public string UserId { get; set; }
+        public bool Active { get; set; }
     }
 }
