@@ -214,30 +214,6 @@ namespace Ffitness.Migrations
                     b.ToTable("ScheduledActivities");
                 });
 
-            modelBuilder.Entity("Ffitness.Models.Stats.BookedScheduledActivity", b =>
-                {
-                    b.Property<string>("ActivityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BookedSpots")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RemainingSpots")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TrainerName")
-                        .HasColumnType("nvarchar(max)");
-                });
-
             modelBuilder.Entity("Ffitness.Models.Trainer", b =>
                 {
                     b.Property<int>("Id")
