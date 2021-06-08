@@ -518,17 +518,18 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "061d000b-fe0e-4899-aef6-0fbda8a5369b",
-                            ConcurrencyStamp = "498d1d21-3d3b-417e-ab93-21ec7c72feaf",
+                            Id = "819cbdbe-b306-4e98-b225-295c9bbdfa7b",
+                            ConcurrencyStamp = "8fa19711-6dec-4e2c-8202-767e37faa308",
                             Name = "AppUser",
                             NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "a4cb09d9-96c1-465d-89b3-5bb4e55d5a4a",
-                            ConcurrencyStamp = "3ba46946-811b-40b3-b423-dbe6573fe943",
+                            Id = "90fe41e5-24ad-496f-871e-aa2863e32b92",
+                            ConcurrencyStamp = "bb8f956e-1a12-401a-b534-d39c2110af7a",
                             Name = "AppAdmin",
                             NormalizedName = "APPADMIN"
+                        });
                 });
 
             modelBuilder.Entity("ActivityTrainer", b =>
