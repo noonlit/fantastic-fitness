@@ -72,6 +72,8 @@ namespace Ffitness
 		
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddTransient<IValidator<ScheduledActivityViewModel>, ScheduledActivityValidator>();
+			services.AddTransient<IValidator<ActivityViewModel>, ActivityValidator>();
+			services.AddTransient<IValidator<ActivityWithTrainersViewModel>, ActivityWithTrainersValidator>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

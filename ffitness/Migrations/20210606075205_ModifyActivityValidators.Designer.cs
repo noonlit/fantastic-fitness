@@ -4,14 +4,16 @@ using Ffitness.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210606075205_ModifyActivityValidators")]
+    partial class ModifyActivityValidators
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,12 +60,14 @@ namespace Ffitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryColour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<string>("SecondaryColour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -518,15 +522,15 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "819cbdbe-b306-4e98-b225-295c9bbdfa7b",
-                            ConcurrencyStamp = "8fa19711-6dec-4e2c-8202-767e37faa308",
+                            Id = "80d082bf-3c52-415a-bb08-125e59f2e6a8",
+                            ConcurrencyStamp = "7fab2986-ef7f-4f0b-b117-3daa83b1afe2",
                             Name = "AppUser",
                             NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "90fe41e5-24ad-496f-871e-aa2863e32b92",
-                            ConcurrencyStamp = "bb8f956e-1a12-401a-b534-d39c2110af7a",
+                            Id = "0c768b15-dad5-48e7-96ee-117bb196ce81",
+                            ConcurrencyStamp = "b708d593-0ffb-4f31-b95d-59c33c1c5087",
                             Name = "AppAdmin",
                             NormalizedName = "APPADMIN"
                         });
