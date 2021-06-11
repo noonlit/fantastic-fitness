@@ -39,6 +39,18 @@ export class UserComponentService {
     return this.httpClient.post<User>(this.getApiUrl(), user);
   }
 
+  promote(user: User): Observable<User> {
+    const url = `${this.getApiUrl()}/promote/${user.id}`;
+    return this.httpClient
+      .put<User>(url, user);
+  }
+
+  demote(user: User): Observable<User> {
+    const url = `${this.getApiUrl()}/demote/${user.id}`;
+    return this.httpClient
+      .put<User>(url, user);
+  }
+
   public getUser(id: string): Observable<User> {
     return this.getUsers()
       .pipe(

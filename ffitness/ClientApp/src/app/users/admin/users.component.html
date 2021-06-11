@@ -44,11 +44,17 @@
             <a class="btn btn-light" (click)="editUser(user)" aria-label="Edit">
               <i class="fa fa-pencil-alt" aria-hidden="true"></i>
             </a>
+            &nbsp;
+            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="promote(user)" aria-label="Promote">
+              <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+            </a>
+
+            <a class="btn btn-danger" *ngIf="userIsAdmin(user)" (click)="demote(user)" aria-label="Demote">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </a>
+            &nbsp;
             <a class="btn btn-danger" (click)="deleteUser(user)" aria-label="Delete">
               <i class="fa fa-trash" aria-hidden="true"></i>
-            </a>
-            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="makeAdmin(user)" aria-label="Edit">
-              <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
             </a>
           </td>
         </tr>

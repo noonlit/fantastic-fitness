@@ -57,8 +57,46 @@ export class AdminUsersComponent implements OnInit {
     return user.roles.indexOf('AppAdmin') !== -1;
   }
 
-  makeAdmin(user: User) {
-    // todo
+  promote(user: User) {
+    this.service.promote(user)
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+
+          this.users.map((u) => {
+            if (u.id === user.id) {
+              u.roles.push("AppAdmin");
+              return u;
+            }
+            return u;
+          });
+
+          this.cd.detectChanges();
+        },
+        error => this.errorMessages = error.error.errors
+      );
+  }
+
+  demote(user: User) {
+    this.service.demote(user)
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+
+          this.users.map((u) => {
+            if (u.id === user.id) {
+              u.roles = ["AppUser"];
+              return u;
+            }
+            return u;
+          });
+
+          this.cd.detectChanges();
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 
   addUser() {
