@@ -2,18 +2,21 @@
 using Ffitness.Data;
 using Ffitness.Models;
 using Ffitness.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Ffitness.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -78,6 +81,13 @@ namespace Ffitness.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(String id, ApplicationUserViewModel user)
         {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
             if (!user.Id.Equals(id))
             {
                 return BadRequest();
@@ -123,6 +133,13 @@ namespace Ffitness.Controllers
         [HttpPost]
         public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUserViewModel newUser)
         {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
             var user = new ApplicationUser
             {
                 Email = newUser.Email,
@@ -149,10 +166,75 @@ namespace Ffitness.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPut("Promote/{id}")]
+        public async Task<IActionResult> PromoteUser(String id, ApplicationUserViewModel userViewModel)
+        {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (! await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+			{
+                return StatusCode(403);
+			}
+
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, UserRole.ROLE_ADMIN))
+            {
+
+                await _userManager.AddToRoleAsync(user, UserRole.ROLE_ADMIN);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("Demote/{id}")]
+        public async Task<IActionResult> DemoteUser(String id, ApplicationUserViewModel userViewModel)
+        {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
+            if (id == currentUser.Id)
+			{
+                return StatusCode(418); // refuse to brew coffee or demote themselves!
+			}
+
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (await _userManager.IsInRoleAsync(user, UserRole.ROLE_ADMIN))
+            {
+
+                await _userManager.RemoveFromRoleAsync(user, UserRole.ROLE_ADMIN);
+            }
+
+            return NoContent();
+        }
+
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(String id)
         {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
