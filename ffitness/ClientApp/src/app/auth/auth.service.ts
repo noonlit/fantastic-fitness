@@ -36,6 +36,10 @@ export class AuthService {
     return of(this.getToken() !== null);
   }
 
+  getCurrentUser(): Observable<User> {
+    return this.httpClient.get<User>(this.getApiUrl() + '/current');
+  }
+
   isAdmin(): Observable<boolean> {
     return of(true); // TODO when everyone has admins
 
