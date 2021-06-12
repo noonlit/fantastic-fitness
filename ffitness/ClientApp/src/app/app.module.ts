@@ -34,6 +34,7 @@ import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.com
 import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
 import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
+import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
     AdminUsersComponent,
     AdminUserEditComponent,
     AdminUserAddComponent,
+    AdminActivitiesComponent,
     NewLoginComponent,
     RegistrationComponent
   ],
@@ -75,7 +77,8 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
       { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({
