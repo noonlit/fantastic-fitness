@@ -18,6 +18,7 @@
     "@angular/compiler": "8.2.12",
     "@angular/core": "8.2.12",
     "@angular/forms": "8.2.12",
+    "@angular/material": "^12.0.3",
     "@angular/platform-browser": "8.2.12",
     "@angular/platform-browser-dynamic": "8.2.12",
     "@angular/platform-server": "8.2.12",

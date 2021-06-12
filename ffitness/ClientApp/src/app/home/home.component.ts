@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Trainer } from '../trainers/shared/trainer';
-import { TrainerService } from '../trainers/shared/trainer.service';
+import { TrainerComponentService } from '../trainers/shared/trainer.service';
 
 
 @Component({
@@ -13,9 +13,9 @@ export class HomeComponent implements OnInit {
 
   private subscription: Subscription = new Subscription();
 
-  trainers: Trainer.TrainerDefault[] = null;
+  trainers: Trainer.TrainerResponse[] = null;
 
-  constructor(private trainerService: TrainerService) {}
+  constructor(private trainerService: TrainerComponentService) {}
 
   ngOnInit(): void {
     this.getAvailableTrainers();
