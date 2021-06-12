@@ -99,7 +99,6 @@ namespace Ffitness.Controllers
         {
             var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             if (id != currentUser.Id && !await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             {
                 return StatusCode(403);
