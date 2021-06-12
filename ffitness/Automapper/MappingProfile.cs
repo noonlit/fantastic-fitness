@@ -10,14 +10,11 @@ namespace Ffitness.Automapper
     {
         public MappingProfile()
         {
-            CreateMap<ScheduledActivity, ScheduledActivityViewModel>();
-            CreateMap<ScheduledActivityViewModel, ScheduledActivity>();
+            CreateMap<ScheduledActivity, ScheduledActivityViewModel>().ReverseMap();
             CreateMap<Booking, BookingViewModel>();
-            CreateMap<Activity, ActivityViewModel>();
-            CreateMap<ActivityViewModel, Activity>();
-            CreateMap<Activity, ActivityWithTrainersViewModel>();
-            CreateMap<Trainer, TrainerViewModel>();
-            CreateMap<TrainerViewModel, Trainer>();
+            CreateMap<Activity, ActivityViewModel>().ReverseMap();
+            CreateMap<Activity, ActivityWithTrainersViewModel>().ReverseMap();
+            CreateMap<Trainer, TrainerViewModel>().ReverseMap();
             CreateMap<TrainerWithActivitiesViewModel, Trainer>().ReverseMap();
             CreateMap<BookedScheduledActivity, BookedScheduledActivityViewModel>();
             CreateMap<ApplicationUser, AuthUserResponse>();

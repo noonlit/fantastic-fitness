@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210531090118_FixUserRoles")]
-    partial class FixUserRoles
+    [Migration("20210606075205_ModifyActivityValidators")]
+    partial class ModifyActivityValidators
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,12 +44,13 @@ namespace Ffitness.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActivityPicture")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("default-activity-picture.jpg");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
@@ -59,12 +60,14 @@ namespace Ffitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<string>("SecondaryColour")
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("#000");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -519,17 +522,17 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "950ac61d-a9ac-4df3-920f-64219b93ef3c",
-                            ConcurrencyStamp = "1aaad4b4-fbaf-479d-be2b-270e2ae176ac",
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Id = "80d082bf-3c52-415a-bb08-125e59f2e6a8",
+                            ConcurrencyStamp = "7fab2986-ef7f-4f0b-b117-3daa83b1afe2",
+                            Name = "AppUser",
+                            NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "9df2de5c-1cb4-4e9b-b962-85b64e7ccce2",
-                            ConcurrencyStamp = "ff5702fd-0305-4f22-a7a0-7677a6da47d8",
-                            Name = "Admin",
-                            NormalizedName = "USER"
+                            Id = "0c768b15-dad5-48e7-96ee-117bb196ce81",
+                            ConcurrencyStamp = "b708d593-0ffb-4f31-b95d-59c33c1c5087",
+                            Name = "AppAdmin",
+                            NormalizedName = "APPADMIN"
                         });
                 });
 

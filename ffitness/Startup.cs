@@ -72,6 +72,8 @@ namespace Ffitness
 		
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddTransient<IValidator<ScheduledActivityViewModel>, ScheduledActivityValidator>();
+			services.AddTransient<IValidator<ActivityViewModel>, ActivityValidator>();
+			services.AddTransient<IValidator<ActivityWithTrainersViewModel>, ActivityWithTrainersValidator>();
 			services.AddTransient<IValidator<TrainerWithActivitiesViewModel>, TrainerValidator>();
 		}
 

@@ -9,6 +9,7 @@ using Ffitness.Data;
 using Ffitness.Models;
 using AutoMapper;
 using Ffitness.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Ffitness.Controllers
 {
@@ -18,25 +19,26 @@ namespace Ffitness.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<ActivitiesController> _logger;
 
-        public ActivitiesController(ApplicationDbContext context, IMapper mapper)
+        public ActivitiesController(ApplicationDbContext context, IMapper mapper, ILogger<ActivitiesController> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActivityWithTrainersViewModel>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
         {
-            return await _context.Activities
-                .Include(a => a.Trainers)
-                .Select(a => _mapper.Map<ActivityWithTrainersViewModel>(a)).ToListAsync();
+            var activities = await _context.Activities.Select(a => _mapper.Map<ActivityViewModel>(a)).ToListAsync();
+            return activities;
         }
 
         // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> GetActivity(int id)
+        public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
 
@@ -44,45 +46,45 @@ namespace Ffitness.Controllers
             {
                 return NotFound();
             }
-
-            return activity;
+            return _mapper.Map<ActivityViewModel>(activity);
         }
 
         //GET: api/Activities/FilterByDifficulty/1
         [HttpGet]
         [Route("filterByDifficulty/{maxDifficulty}")]
-        public async Task<ActionResult<IEnumerable<Activity>>> FilterByDifficulty (int maxDifficulty)
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> FilterByDifficulty(int maxDifficulty)
         {
-            return await _context.Activities.Where(a => a.DifficultyLevel <= maxDifficulty).OrderBy(a => a.DifficultyLevel).ToListAsync();
+            return await _context.Activities.Where(a => a.DifficultyLevel <= maxDifficulty)
+                                            .OrderBy(a => a.DifficultyLevel).Select(a => _mapper.Map<ActivityViewModel>(a)).ToListAsync();
         }
 
         //GET: api/Activities/FilterByType/yoga
         [HttpGet]
         [Route("filterByType/{activityType}")]
-        public async Task<ActionResult<IEnumerable<Activity>>> FilterByType(string activityType)
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> FilterByType(string activityType)
         {
-            return await _context.Activities.Where(a => a.Type.Equals(activityType)).ToListAsync(); 
+            return await _context.Activities.Where(a => a.Type.Equals(activityType)).Select(a => _mapper.Map<ActivityViewModel>(a)).ToListAsync();
         }
 
         //GET: api/Activities/SortByName
         [HttpGet]
         [Route("sortByName")]
-        public async Task<ActionResult<IEnumerable<Activity>>> SortByName()
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> SortByName()
         {
-            return await _context.Activities.OrderBy(a => a.Name).ToListAsync();
+            return await _context.Activities.OrderBy(a => a.Name).Select(a => _mapper.Map<ActivityViewModel>(a)).ToListAsync();
         }
 
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivity(int id, Activity activity)
+        public async Task<IActionResult> PutActivity(int id, ActivityViewModel activity)
         {
             if (id != activity.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(activity).State = EntityState.Modified;
+            _context.Entry(_mapper.Map<Activity>(activity)).State = EntityState.Modified;
 
             try
             {
@@ -106,8 +108,9 @@ namespace Ffitness.Controllers
         // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Activity>> PostActivity(Activity activity)
+        public async Task<ActionResult<Activity>> PostActivity(ActivityViewModel activityRequest)
         {
+            Activity activity = _mapper.Map<Activity>(activityRequest);
             _context.Activities.Add(activity);
             await _context.SaveChangesAsync();
 
@@ -132,7 +135,7 @@ namespace Ffitness.Controllers
 
         private bool ActivityExists(int id)
         {
-            return _context.Activities.Any(e => e.Id == id);
+            return _context.Activities.Any(a => a.Id == id);
         }
     }
 }
