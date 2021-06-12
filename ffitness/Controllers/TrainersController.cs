@@ -28,61 +28,46 @@ namespace Ffitness.Controllers
             webHostEnvironment = hostEnvironment;
         }
 
-
         // POST: 
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Trainer>> PostTrainer(TrainerViewModel trainer)
+        public async Task<ActionResult<Trainer>> PostTrainer(TrainerWithActivitiesViewModel trainer)
         {
             if (ModelState.IsValid)
             {
+                var trainerEntity = _mapper.Map<Trainer>(new Trainer());
+                trainerEntity.Id = trainer.Id;
+                trainerEntity.FirstName = trainer.FirstName;
+                trainerEntity.LastName = trainer.LastName;
+                trainerEntity.Description = trainer.Description;
+
+                if (trainer.Activities.Count != 0)
+                {
+                    List<Activity> activities = new List<Activity>();
+                    trainer.Activities.ForEach(activityId =>
+                    {
+                        var activity = _context.Activities.Find(activityId);
+                        if (activity != null)
+                        {
+                            activities.Add(activity);
+                        }
+                    });
+
+                    if (activities.Count == 0)
+                    {
+                        return BadRequest("The activities you provided are not available.");
+                    }
+                    trainerEntity.Activities = activities;
+                }
+
                 //string uniqueFileName = UploadedFile(model);
-                _context.Trainers.Add(_mapper.Map<Trainer>(trainer));
+                 _context.Trainers.Add(trainerEntity);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetTrainer", new { id = trainer.Id }, trainer);
             }
             return BadRequest(ModelState);
         }
 
-     /*   [HttpPost]
-        public async Task<ActionResult> AllocateActivities(NewFavouritesForUserViewModel newFavouriteRequest)
-        {
-            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            Favourites favouritesForYear = _context.Favourites.Where(f => f.Year == newFavouriteRequest.Year && f.User.Id == user.Id).FirstOrDefault();
-
-            if (favouritesForYear != null)
-            {
-                return BadRequest($"You already have a favourites list for year {newFavouriteRequest.Year}.");
-            }
-
-            List<Movie> movies = new List<Movie>();
-            newFavouriteRequest.MovieIds.ForEach(mid =>
-            {
-                var movie = _context.Movies.Find(mid);
-                if (movie != null)
-                {
-                    movies.Add(movie);
-                }
-            });
-
-            if (movies.Count == 0)
-            {
-                return BadRequest("The movies you provided do not exist.");
-            }
-
-            var favourites = new Favourites
-            {
-                User = user,
-                Movies = movies,
-                Year = newFavouriteRequest.Year
-            };
-
-            _context.Favourites.Add(favourites);
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
-*/
         /* private string UploadedFile(TrainerViewModel model)
          {
              string uniqueFileName = null;
@@ -104,13 +89,9 @@ namespace Ffitness.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TrainerViewModel>>> GetTrainers()
         {
-           /* return await _context.Trainers
-                .Select(t => _mapper.Map<TrainerViewModel>(t))
-                .ToListAsync();*/
-
             return await _context.Trainers
-                .Include(t => t.Activities)
                 .OrderBy(t => t.LastName)
+                .Include(t => t.Activities)
                 .Select(t => _mapper.Map<TrainerViewModel>(t))
                 .ToListAsync();
         }
@@ -119,7 +100,7 @@ namespace Ffitness.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TrainerViewModel>> GetTrainer(int id)
         {
-            var trainer = await _context.Trainers.FindAsync(id);
+            var trainer = await _context.Trainers.Include(t => t.Activities).FirstOrDefaultAsync(t => t.Id == id);
 
             if (trainer == null)
             {
@@ -132,33 +113,60 @@ namespace Ffitness.Controllers
         // PUT: api/Trainers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrainer(int id, Trainer trainer)
+        public async Task<IActionResult> PutTrainer(TrainerWithActivitiesViewModel trainerFromUi)
         {
-            if (id != trainer.Id)
-            {
-                return BadRequest();
+            var trainerToUpdate = _context.Trainers
+                .Include(t => t.Activities)
+                .FirstOrDefault(t => t.Id == trainerFromUi.Id);
+
+            if (trainerToUpdate == null) 
+            { 
+                return NotFound(); 
             }
 
-            _context.Entry(trainer).State = EntityState.Modified;
+            if (trainerFromUi.Activities.Count != 0)
+            {
+                var activitiesToRemove = trainerToUpdate.Activities.ToList();
+                activitiesToRemove.ForEach(activity =>
+                {
+                    if (!trainerFromUi.Activities.Contains(activity.Id))
+                    {
+                        trainerToUpdate.Activities.Remove(activity);
+                    }
+                });
+                trainerFromUi.Activities.ForEach(activityId =>
+                {
+                    var activityToAdd = _context.Activities.Find(activityId);
+                    if (activityToAdd != null && !trainerToUpdate.Activities.Exists(a => a.Id == activityToAdd.Id))
+                    {
+                        trainerToUpdate.Activities.Add(activityToAdd);
+                    }
+                });
+            } 
+            else
+            {
+                trainerToUpdate.Activities.Clear();
+            }
+            var newActivities = trainerToUpdate.Activities;
 
+            trainerToUpdate.Id = trainerFromUi.Id;
+            trainerToUpdate.FirstName = trainerFromUi.FirstName;
+            trainerToUpdate.LastName = trainerFromUi.LastName;
+            trainerToUpdate.Description = trainerFromUi.Description;
+            trainerToUpdate.Activities = newActivities;
+
+            _context.Entry(trainerToUpdate).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TrainerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                 throw;
             }
 
             return NoContent();
-        }
+    }
 
         // DELETE: api/Trainers/5
         [HttpDelete("{id}")]
@@ -182,3 +190,22 @@ namespace Ffitness.Controllers
         }
     }
 }
+/*
+                var activitiesToRemove = trainerToUpdate.Activities.ToList();
+                foreach (var activity in activitiesToRemove)
+                {
+                    if (!trainerFromUi.Activities.Contains(activity.Id))
+                    {
+                        trainerToUpdate.Activities.Remove(activity);
+                        //_context.Entry(activity).State = EntityState.Modified;
+                    }
+                }*/
+
+/*trainerToUpdate.Activities.ForEach(activity =>
+{
+    var activityToRemove = _context.Activities.Find(activity.Id);
+    if (!trainerFromUi.Activities.Contains(activityToRemove.Id))
+    {
+        trainerToUpdate.Activities.Remove(activityToRemove);
+    }
+});*/

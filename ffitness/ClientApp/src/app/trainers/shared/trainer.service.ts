@@ -9,14 +9,14 @@ export class TrainerComponentService {
 
   constructor(private httpClient: HttpClient, @Inject('API_URL') private apiUrl: string) { }
 
-  getTrainers(): Observable<Trainer.TrainerDefault[]> {
+  getTrainers(): Observable<Trainer.TrainerResponse[]> {
     const url: string = this.getApiUrl();
-    return this.httpClient.get<Trainer.TrainerDefault[]>(url);
+    return this.httpClient.get<Trainer.TrainerResponse[]>(url);
   }
 
-  getTrainer(id: number): Observable<Trainer.TrainerDefault> {
+  getTrainer(id: number): Observable<Trainer.TrainerResponse> {
     const url: string = this.getApiUrl() + '/' + id;
-    return this.httpClient.get<Trainer.TrainerDefault>(url);
+    return this.httpClient.get<Trainer.TrainerResponse>(url);
   }
 
   getActivities(): Observable<Activity> {
@@ -24,12 +24,12 @@ export class TrainerComponentService {
     return this.httpClient.get<Activity>(url);
   }
 
-  save(trainer: Trainer.TrainerDetails): Observable<Trainer.TrainerConfirmation> {
+  save(trainer: Trainer.TrainerRequest): Observable<Trainer.TrainerConfirmation> {
     const url: string = this.getApiUrl();
     return this.httpClient.post<Trainer.TrainerConfirmation>(url, trainer);
   }
 
-  update(id: number, trainer: Trainer.TrainerDefault): Observable<Trainer.TrainerConfirmation> {
+  update(id: number, trainer: Trainer.TrainerRequest): Observable<Trainer.TrainerConfirmation> {
     const url: string = this.getApiUrl() + '/' + id;
     return this.httpClient.put<Trainer.TrainerConfirmation>(url, trainer);
   }

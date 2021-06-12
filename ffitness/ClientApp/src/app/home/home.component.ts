@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   private subscription: Subscription = new Subscription();
 
-  trainers: Trainer.TrainerDefault[] = null;
+  trainers: Trainer.TrainerResponse[] = null;
 
   constructor(private trainerService: TrainerComponentService) {}
 

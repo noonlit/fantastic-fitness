@@ -15,7 +15,7 @@ export class AdminTrainersListComponent implements OnInit, OnDestroy {
   @ViewChild('trainersParent', {static: false}) domTrainersParent: ElementRef;
   @ViewChildren('trainers') domTrainers: QueryList<any>; 
   private subscription: Subscription = new Subscription();
-  public trainersList: Trainer.TrainerDefault[];
+  public trainersList: Trainer.TrainerResponse[];
 
   message: string;
   errorMessages: [];
@@ -35,7 +35,7 @@ export class AdminTrainersListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/trainer/add']);
   }
 
-  editTrainer(trainer: Trainer.TrainerDefault) {
+  editTrainer(trainer: Trainer.TrainerResponse) {
     this.router.navigate(['/trainer/edit', trainer.id]);
   }
 

@@ -234,6 +234,8 @@ namespace Ffitness.Migrations
 
                     b.Property<string>("TrainerName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("BookedScheduledActivity");
                 });
 
             modelBuilder.Entity("Ffitness.Models.Trainer", b =>
