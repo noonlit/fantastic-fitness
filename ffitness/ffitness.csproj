@@ -94,6 +94,8 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\login\login.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\register\registration.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\trainers-list.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\trainer-update.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">

@@ -20,8 +20,6 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
-import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
 import { AdminUsersComponent } from './users/admin/users.component';
 import { AdminUserEditComponent } from './users/admin/user-edit/user-edit.component';
 import { AdminUserAddComponent } from './users/admin/user-add/user-add.component';
@@ -32,6 +30,10 @@ import { AuthGuardService } from './auth/auth.guard';
 import { AuthRoleGuardService } from './auth/auth.role.guard';
 import { RegistrationComponent } from './register/registration.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.component';
+import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
+import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
+import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SidebarNavMenuComponent,
     BookingsStatsComponent,
     AdminCalendarComponent,
-    AdminAddTrainerComponent,
+    AdminTrainersListComponent,
+    AdminTrainerAddComponent,
+    AdminTrainerUpdateComponent,
     AdminUsersComponent,
     AdminUserEditComponent,
     AdminUserAddComponent,
@@ -66,7 +70,9 @@ import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
       { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'add-trainer', component: AdminAddTrainerComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainers', component: AdminTrainersListComponent, canActivate: [AuthGuardService] },
+      { path: 'trainer/add', component: AdminTrainerAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }

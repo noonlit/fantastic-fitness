@@ -4,5 +4,5 @@
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/users']" *ngIf="isAdmin | async">Manage users</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/create-calendar']" *ngIf="isAdmin | async">Create events</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/bookings-stats']" *ngIf="isAdmin | async">View bookings statistics</a>
-  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/add-trainer']" *ngIf="isAdmin | async">Add trainer</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/trainers']" *ngIf="isAdmin | async">Manage trainers</a>
 </nav>

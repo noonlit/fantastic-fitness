@@ -1,18 +1,21 @@
+import { Activity } from "../../activities/shared/activity.model";
+
 export namespace Trainer {
 
-  export interface TrainerDetails {
+  export interface TrainerRequest {
     FirstName: string;
     LastName: string;
     Description: string;
+    Activities: Number[];
     ProfilePicture?: File;
   };
 
-  export interface TrainerDefault {
+  export interface TrainerResponse {
     id: number;
     firstName: string;
     lastName: string;
     description: string;
-    activities: string;
+    activities: Activity[];
     profilePicture?: string;
   }
 
