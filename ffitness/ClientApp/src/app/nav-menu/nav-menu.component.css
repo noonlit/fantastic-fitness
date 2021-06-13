@@ -19,6 +19,12 @@ nav {
     bottom: 4px;
 }
 
+/*
+.first-letter-colour {
+  color: #cbd633;
+}
+*/
+
 .nav-link:hover {
   transform: translateY(-0.25em);
 }
