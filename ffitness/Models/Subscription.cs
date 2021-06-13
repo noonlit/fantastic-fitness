@@ -39,5 +39,6 @@ namespace Ffitness.Models
         public string UserId { get; set; }
         [Required]
         public bool Active { get; set; }
+        public List<Booking> Bookings { get; set; }
     }
 }
