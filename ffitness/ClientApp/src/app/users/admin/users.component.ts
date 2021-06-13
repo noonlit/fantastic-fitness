@@ -95,7 +95,7 @@ export class AdminUsersComponent implements OnInit {
 
           this.cd.detectChanges();
         },
-        error => this.errorMessages = error.error.errors
+        error => this.errorMessages = error.error
       );
   }
 

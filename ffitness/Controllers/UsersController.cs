@@ -101,7 +101,7 @@ namespace Ffitness.Controllers
 
             if (id != currentUser.Id && !await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             {
-                return StatusCode(403);
+                return Unauthorized();
             }
 
             if (!user.Id.Equals(id))
@@ -215,12 +215,13 @@ namespace Ffitness.Controllers
 
             if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             {
-                return StatusCode(403);
+                return Unauthorized();
             }
 
             if (id == currentUser.Id)
             {
-                return StatusCode(418); // refuse to brew coffee or demote themselves!
+                ModelState.AddModelError(nameof(userViewModel.Id), "You cannot demote yourself.");
+                return BadRequest(ModelState);
             }
 
             var user = await _context.Users.FindAsync(id);
