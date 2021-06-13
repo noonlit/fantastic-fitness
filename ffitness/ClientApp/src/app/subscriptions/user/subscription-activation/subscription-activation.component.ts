@@ -14,7 +14,7 @@ export class SubscriptionActivation implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   public dateNow = new Date();
-  public dDay = new Date('Dec 01 2021 00:00:00');
+  public dDay = new Date('Jul 13 2021 10:22:00');
 
   milliSecondsInASecond = 1000;
   hoursInADay = 24;
