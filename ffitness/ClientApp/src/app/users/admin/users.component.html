@@ -41,19 +41,19 @@
           </td>
           <td>
 
-            <a class="btn btn-light" (click)="editUser(user)" aria-label="Edit">
+            <a class="btn btn-light" (click)="editUser(user)" aria-label="Edit" title="Edit">
               <i class="fa fa-pencil-alt" aria-hidden="true"></i>
             </a>
             &nbsp;
-            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="promote(user)" aria-label="Promote">
+            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="promote(user)" aria-label="Promote" title="Promote">
               <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
             </a>
 
-            <a class="btn btn-danger" *ngIf="userIsAdmin(user)" (click)="demote(user)" aria-label="Demote">
+            <a class="btn btn-danger" *ngIf="userIsAdmin(user)" (click)="demote(user)" aria-label="Demote" title="Demote">
               <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
             </a>
             &nbsp;
-            <a class="btn btn-danger" (click)="deleteUser(user)" aria-label="Delete">
+            <a class="btn btn-danger" (click)="deleteUser(user)" aria-label="Delete" title="Delete">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
           </td>
