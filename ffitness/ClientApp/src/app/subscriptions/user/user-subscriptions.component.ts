@@ -1,7 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Subscription } from '../subscriptions.model';
 import { SubscriptionsService } from '../subscriptions.service';
-import { NgbdDatepickerPopup } from './date-picker/datepicker-popup';
 
 @Component({
   selector: 'app-user-subscriptions',

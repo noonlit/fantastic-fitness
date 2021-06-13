@@ -30,7 +30,10 @@ import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
 import { AdminSubscriptionsComponent } from './subscriptions/admin/admin-subscriptions.component';
 import { UserSubscriptionsComponent } from './subscriptions/user/user-subscriptions.component';
 import { SharedSubscriptionsComponent } from './subscriptions/shared/subscriptions.component';
-import { NgbdDatepickerPopup } from './subscriptions/user/date-picker/datepicker-popup';
+import { NgbdDatepickerPopup } from './subscriptions/user/datepicker/datepicker-popup';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SubscriptionPick } from './subscriptions/user/pick-subscription/pick-subscription.module';
+import { SubscriptionActivation } from './subscriptions/user/subscription-activation/subscription-activation.component';
 
 @NgModule({
   declarations: [
@@ -49,14 +52,16 @@ import { NgbdDatepickerPopup } from './subscriptions/user/date-picker/datepicker
     AdminSubscriptionsComponent,
     UserSubscriptionsComponent,
     SharedSubscriptionsComponent,
-    NgbdDatepickerPopup
+    NgbdDatepickerPopup,
+    SubscriptionPick,
+    SubscriptionActivation
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiAuthorizationModule,
+    ApiAuthorizationModule,    
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -69,7 +74,7 @@ import { NgbdDatepickerPopup } from './subscriptions/user/date-picker/datepicker
       { path: 'add-trainer', component: AdminAddTrainerComponent },
       { path: 'update-subscriptions', component: AdminSubscriptionsComponent, canActivate: [AuthorizeGuard] },
       { path: 'active-subscription', component: UserSubscriptionsComponent },
-      { path: 'subscriptions', component: SharedSubscriptionsComponent}
+      { path: 'subscriptions', component: SharedSubscriptionsComponent }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({
@@ -78,11 +83,13 @@ import { NgbdDatepickerPopup } from './subscriptions/user/date-picker/datepicker
     }),
     NgbModalModule,
     FlatpickrModule.forRoot(),
-    LayoutModule
+    LayoutModule,
+    BrowserModule, NgbModule,//datepicker
   ],
+  exports: [NgbdDatepickerPopup],//datepicker
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, NgbdDatepickerPopup]
 })
 export class AppModule { }

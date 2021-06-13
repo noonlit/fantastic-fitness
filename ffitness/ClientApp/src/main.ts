@@ -24,7 +24,7 @@ if (environment.production) {
 platformBrowserDynamic(providers).bootstrapModule(AppModule)
   .catch(err => console.log(err));
 
-import { NgbdDatepickerPopupModule } from './app/subscriptions/user/date-picker/datepicker-popup.module';
+import { NgbdDatepickerPopupModule } from './app/subscriptions/user/datepicker/datepicker-popup.module';
 
 platformBrowserDynamic()
   .bootstrapModule(NgbdDatepickerPopupModule)

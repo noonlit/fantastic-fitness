@@ -66,8 +66,10 @@
     <None Remove="ClientApp\src\app\subscriptions\admin\admin-subscriptions.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\shared\subscriptions.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\subscriptions.model.ts" />
-    <None Remove="ClientApp\src\app\subscriptions\user\date-picker\datepicker-popup.module.ts" />
-    <None Remove="ClientApp\src\app\subscriptions\user\date-picker\datepicker-popup.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\datepicker\datepicker-popup.module.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\datepicker\datepicker-popup.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\pick-subscription\pick-subscription.module.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\user\subscription-activation\subscription-activation.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\user\user-subscriptions.component.ts" />
   </ItemGroup>
   <ItemGroup>
