@@ -14,8 +14,16 @@ nav {
 }
 
 .navbar-brand img {
-    margin-right: 5px;
+    position: relative;
+    margin-right: 10px;
+    bottom: 4px;
 }
+
+/*
+.first-letter-colour {
+  color: #cbd633;
+}
+*/
 
 .nav-link:hover {
   transform: translateY(-0.25em);

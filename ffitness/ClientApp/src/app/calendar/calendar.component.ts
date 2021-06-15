@@ -16,10 +16,10 @@ import { FlatpickrDefaultsInterface } from 'angularx-flatpickr/flatpickr-default
 import { CalendarComponentService } from './shared/calendar.service';
 import { ScheduledActivity } from './shared/calendar.model';
 import { BookingComponentService } from './shared/booking.service';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Booking } from '../bookings/shared/booking.model';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-scheduled-activities',
@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit {
     private modal: NgbModal,
     private service: CalendarComponentService,
     private bookingService: BookingComponentService,
-    private authorizeService: AuthorizeService) {
+    private authorizeService: AuthService) {
   }
 
   ngOnInit() {

@@ -8,21 +8,24 @@
 </div>
   -->
 
-<section id="activity-list" *ngIf="activities">
-  <div class="container">
-    <div class="row gx-2">
-      <div *ngFor="let activity of activities" class="col-md-6 col-lg-4 mb-5">
-        <div class="card">
+<!-- TODO: if image cannot be displayed... -->
+
+<div class="card-section-wrapper py-4">
+
+  <div class="card-wrapper">
+    <ng-container *ngIf="activities">
+      <div *ngFor="let activity of activities" class="card-item">
+        <div class="card-item-photo">
           <img src="/Activities/Types/{{ activity.type }}.svg" class="card-img card-img-top" alt="{{ activity.name }}">
-          <div class="card-body">
-            <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
-            <p class="card-text bg-light">{{ activity.description }}</p>
-            <p>
-              Difficulty: <span *ngFor="let i of [].constructor(activity.difficultyLevel)" class="fa fa-star checked"></span>
-            </p>
+        </div>
+        <div class="card-item-details">
+          <h4 class="card-item-details-name">{{ activity.name }}</h4>
+          <div class="card-item-details-description">
+            <p>{{ activity.description }}</p>
+            <p> Difficulty: <span *ngFor="let i of [].constructor(activity.difficultyLevel)" class="fa fa-star checked"></span></p>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
-</section>
+</div>

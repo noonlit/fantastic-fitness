@@ -46,23 +46,41 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
+    <Content Remove="ClientApp\src\app\services\**" />
     <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
+    <None Remove="ClientApp\src\app\services\**" />
     <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
+    <Compile Remove="ClientApp\src\app\services\**" />
     <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
     <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
     <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\activities\shared\activity.service.ts" />
+    <None Remove="ClientApp\src\app\auth\auth.guard.ts" />
+    <None Remove="ClientApp\src\app\auth\auth.model.ts" />
+    <None Remove="ClientApp\src\app\auth\auth.role.guard.ts" />
+    <None Remove="ClientApp\src\app\auth\auth.service.ts" />
     <None Remove="ClientApp\src\app\bookings\shared\booking-stats.service.ts" />
+    <None Remove="ClientApp\src\app\login\login.model.ts" />
+    <None Remove="ClientApp\src\app\login\login.service.ts" />
+    <None Remove="ClientApp\src\app\register\registration.model.ts" />
+    <None Remove="ClientApp\src\app\register\registration.service.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
+    <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
+    <None Remove="ClientApp\src\app\users\shared\user.service.ts" />
+    <None Remove="ClientApp\src\app\users\user.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\admin\admin-subscriptions.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\shared\subscriptions.component.ts" />
     <None Remove="ClientApp\src\app\subscriptions\subscriptions.model.ts" />
@@ -75,20 +93,35 @@
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.spec.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\bookings-stats.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\booking.service.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\services\trainer\" />
+    <TypeScriptCompile Remove="ClientApp\src\app\login\login.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\register\registration.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\trainers-list.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\trainer-update.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\src\app\auth\auth.role.guard.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\register\registration.model.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\register\registration.service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

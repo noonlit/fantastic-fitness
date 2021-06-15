@@ -8,11 +8,6 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
-import { AuthorizeGuard } from '../api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
 import { ActivitiesComponent } from './activities/activities.component';
 import { CalendarComponent } from './calendar/calendar.component';
 // https://github.com/mattlewis92/angular-calendar
@@ -25,7 +20,21 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
+import { AdminUsersComponent } from './users/admin/users.component';
+import { AdminUserEditComponent } from './users/admin/user-edit/user-edit.component';
+import { AdminUserAddComponent } from './users/admin/user-add/user-add.component';
+import { NewLoginComponent } from './login/login.component';
+import { AuthService } from './auth/auth.service';
+import { TokenInterceptor } from './auth/auth.token.interceptor';
+import { AuthGuardService } from './auth/auth.guard';
+import { AuthRoleGuardService } from './auth/auth.role.guard';
+import { RegistrationComponent } from './register/registration.component';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.component';
+import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
+import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
+import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
 import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
 import { AdminSubscriptionsComponent } from './subscriptions/admin/admin-subscriptions.component';
 import { UserSubscriptionsComponent } from './subscriptions/user/user-subscriptions.component';
@@ -40,14 +49,21 @@ import { SubscriptionActivation } from './subscriptions/user/subscription-activa
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     ActivitiesComponent,
     CalendarComponent,
     AccountComponent,
     SidebarNavMenuComponent,
     BookingsStatsComponent,
     AdminCalendarComponent,
+    AdminTrainersListComponent,
+    AdminTrainerAddComponent,
+    AdminTrainerUpdateComponent,
+    AdminUsersComponent,
+    AdminUserEditComponent,
+    AdminUserAddComponent,
+    AdminActivitiesComponent,
+    NewLoginComponent,
+    RegistrationComponent
     AdminAddTrainerComponent,
     AdminSubscriptionsComponent,
     UserSubscriptionsComponent,
@@ -60,14 +76,25 @@ import { SubscriptionActivation } from './subscriptions/user/subscription-activa
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgbModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,    
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'login', component: NewLoginComponent },
+      { path: 'register', component: RegistrationComponent },
       { path: 'activities', component: ActivitiesComponent },
       { path: 'calendar', component: CalendarComponent },
+      { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },
+      { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainers', component: AdminTrainersListComponent, canActivate: [AuthGuardService] },
+      { path: 'trainer/add', component: AdminTrainerAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
+      { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
       { path: 'account', component: AccountComponent },
       { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
       { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
@@ -88,7 +115,12 @@ import { SubscriptionActivation } from './subscriptions/user/subscription-activa
   ],
   exports: [NgbdDatepickerPopup],//datepicker
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent, NgbdDatepickerPopup]
 })

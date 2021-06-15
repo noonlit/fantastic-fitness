@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']"><img src="ff-color-logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">Fantastic Fitness</a>
+      <a class="navbar-brand" [routerLink]="['/']"><img src="ff-color-logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top"><span class="first-letter-colour">F</span>antastic <span class="first-letter-colour">F</span>itness</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -25,6 +25,25 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link" [routerLink]="['/']">Home</a>
           </li>
+          <li class="nav-item" *ngIf="isAuthenticated | async" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/account']">Account</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/activities']">Services</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/calendar']">Calendar</a>
+          </li>
+          <li class="nav-item" *ngIf="!(isAuthenticated | async)" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/login']">Login</a>
+          </li>
+          <li class="nav-item" *ngIf="!(isAuthenticated | async)" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/register']">Register</a>
+          </li>
+          <li class="nav-item" *ngIf="isAuthenticated | async">
+            <a class="nav-link" (click)="logout()">Logout</a>
+          </li>
+        </ul>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link" [routerLink]="['/activities']">Services</a>
           </li>

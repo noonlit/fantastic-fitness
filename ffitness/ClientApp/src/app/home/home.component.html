@@ -39,21 +39,20 @@
   </p>
 </div>
 
-<div class="home-instructors-wrapper py-4">
+<div class="card-section-wrapper py-4">
   <h2 class="title">our instructors</h2>
-  <div class="home-card-wrapper">
+
+  <div class="card-wrapper">
     <ng-container *ngIf="trainers">
-      <div *ngFor="let trainer of trainers" class="home-card--item">
-        <div class="home-card--item__photo">
-          <div class="test-img"></div>
-          <div class="home-card--item__pill"></div>
+      <div *ngFor="let trainer of trainers" class="card-item">
+        <div class="card-item-photo">
+          <img src="trainer.png" />
         </div>
-        <div class="home-card--item__details">
-          <h4 class="home-card--item__details-name">{{ trainer.firstName }} {{ trainer.lastName.split('')[0] + '.' }}</h4>
-          <p class="home-card--item__details-description">{{ trainer.description }}</p>
+        <div class="card-item-details">
+          <h4 class="card-item-details-name">{{ trainer.firstName }} {{ trainer.lastName.split('')[0] + '.' }}</h4>
+          <p class="card-item-details-description">{{ trainer.description }}</p>
         </div>
       </div>
     </ng-container>
   </div>
 </div>
-

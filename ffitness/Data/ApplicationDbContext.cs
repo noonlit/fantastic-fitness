@@ -53,7 +53,16 @@ namespace Ffitness.Data
                 .HasData(new UserRole { Name = "User" },
                          new UserRole { Name = "Admin" });
 
-            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Activity>().Property(a => a.Id).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Name).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Description).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Type).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.DifficultyLevel).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.PrimaryColour).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.SecondaryColour).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.ActivityPicture).HasDefaultValue("default-activity-picture.jpg");
+            
+            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView("View_BookingStats");
         }
     }
 }

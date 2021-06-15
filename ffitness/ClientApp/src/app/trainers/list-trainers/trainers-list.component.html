@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h1>Trainers</h1>
+    <br>
+    <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <a class="btn btn-light" (click)="addTrainer()">
+      Create trainer
+    </a>
+    <br>
+    <br>
+    <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="trainersList">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Description</th>
+          <th>Activities</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody #trainersParent>
+        <tr *ngFor="let trainer of trainersList" #trainers id="{{trainer.id}}">
+          <td> {{trainer.firstName}} </td>
+          <td> {{trainer.lastName}} </td>
+          <td> {{trainer.description}} </td>
+          <td>  
+            <ul>
+              <li *ngFor="let activity of trainer.activities">{{activity.name}}</li>
+            </ul>
+          </td>
+          <td>
+            <a class="btn btn-light" (click)="editTrainer(trainer)" aria-label="Edit" title="Edit">
+              <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-danger" (click)="deleteTrainer(trainer.id)" aria-label="Delete" title="Delete">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

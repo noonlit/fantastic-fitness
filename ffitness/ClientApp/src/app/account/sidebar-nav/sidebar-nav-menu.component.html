@@ -1,7 +1,9 @@
 
 <nav class="nav flex-sm-column">
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/account']">Account details</a>
-  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/create-calendar']">Create events</a>
-  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/bookings-stats']">View bookings statistics</a>
-  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/add-trainer']">Add trainer</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/users']" *ngIf="isAdmin | async">Manage users</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/create-calendar']" *ngIf="isAdmin | async">Create events</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/bookings-stats']" *ngIf="isAdmin | async">View bookings statistics</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/trainers']" *ngIf="isAdmin | async">Manage trainers</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/manage-activities']" *ngIf="isAdmin | async">Manage activities</a>
 </nav>

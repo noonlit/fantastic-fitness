@@ -18,3 +18,139 @@ code {
 body {
   font-family: "Montserrat", sans-serif;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Card styles */
+
+.home-instructors-wrapper {
+  width: 80%;
+  margin: auto;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+.home-card-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-card--item__photo .test-img {
+  width: 100%;
+  height: 280px;
+  background-color: #C0C0C0;
+}
+
+.home-card--item__photo {
+  position: relative;
+}
+
+  .home-card--item__photo img {
+    max-width: 300px;
+  }
+
+.home-card--item__details {
+  padding: 15px;
+}
+
+.home-card--item {
+  overflow: hidden;
+  height: auto;
+  border-radius: 5px;
+  margin: 30px 10px;
+  box-shadow: 0px 0px 6px 1px rgb(190, 189, 189);
+}
+
+  .home-card--item .home-card--item__details {
+    text-align: center;
+  }
+
+.home-card--item__details-description {
+  font-size: 15px;
+  opacity: 0.6;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden
+}
+
+.home-card--item__details-name:hover {
+  color: #B2675E;
+  transition: all ease 0.5s 0s;
+}
+
+/* Card styles renamed*/
+
+.card-section-wrapper {
+  width: 80%;
+  margin: auto;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-item-photo .test-img {
+  width: 100%;
+  height: 280px;
+  background-color: #C0C0C0;
+}
+
+.card-item-photo {
+  position: relative;
+}
+
+.card-item-photo img {
+  max-width: 300px;
+}
+
+.card-item-details {
+  padding: 15px;
+}
+
+.card-item {
+  overflow: hidden;
+  height: auto;
+  border-radius: 5px;
+  margin: 30px 10px;
+  box-shadow: 0px 0px 6px 1px rgb(190, 189, 189);
+}
+
+.card-item .card-item-details {
+  text-align: center;
+}
+
+.card-item-details-description {
+  font-size: 15px;
+  opacity: 0.6;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden
+}
+
+.card-item:hover .card-item-details-name {
+  color: #cbd633;
+  transition: all ease 0.5s 0s;
+}
+
+div.card-item:hover {
+  box-shadow: #cbd633 0px 2px 8px 0px;
+}
