@@ -12,9 +12,13 @@ namespace Ffitness.Models.Stats
 
 		public string TrainerName { get; set; }
 
-		public DateTime StartTime { get; set; }
+		private DateTime startDate;
 
-		public DateTime EndTime { get; set; }
+		public DateTime StartTime { get => startDate; set => startDate = DateTime.SpecifyKind(value, DateTimeKind.Utc); }
+
+		private DateTime endDate;
+
+		public DateTime EndTime { get => endDate; set => endDate = DateTime.SpecifyKind(value, DateTimeKind.Utc); }
 
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal Price { get; set; }

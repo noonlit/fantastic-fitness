@@ -16,6 +16,7 @@ using FluentValidation;
 using Ffitness.Validator;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Ffitness.Services;
 
 namespace Ffitness
 {
@@ -75,6 +76,7 @@ namespace Ffitness
 			services.AddTransient<IValidator<ActivityViewModel>, ActivityValidator>();
 			services.AddTransient<IValidator<ActivityWithTrainersViewModel>, ActivityWithTrainersValidator>();
 			services.AddTransient<IValidator<TrainerWithActivitiesViewModel>, TrainerValidator>();
+			services.AddTransient<StatisticsQueryService, StatisticsQueryService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

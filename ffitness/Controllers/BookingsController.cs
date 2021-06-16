@@ -76,16 +76,6 @@ namespace Ffitness.Controllers
             activity.Capacity--;
             _context.Entry(activity).State = EntityState.Modified;
 
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = userId,
-                UserAction = Models.UserActions.Booking.Action.BookSpot,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
-
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
@@ -129,17 +119,6 @@ namespace Ffitness.Controllers
             var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
             activity.Capacity++;
             _context.Entry(activity).State = EntityState.Modified;
-
-
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = user.Id,
-                UserAction = Models.UserActions.Booking.Action.CancelBooking,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 

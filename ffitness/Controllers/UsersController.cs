@@ -56,6 +56,8 @@ namespace Ffitness.Controllers
                 mappedResult.Add(mappedUser);
             }
 
+            mappedResult = mappedResult.OrderBy(u => !u.Roles.Contains(UserRole.ROLE_ADMIN)).ToList();
+
             return mappedResult;
         }
 
