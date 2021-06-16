@@ -35,6 +35,7 @@ import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-u
 import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AdminActivitiesComponent } from './activities/adm/activities/activities
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: NewLoginComponent },
@@ -95,7 +97,8 @@ import { AdminActivitiesComponent } from './activities/adm/activities/activities
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

@@ -23,9 +23,8 @@ namespace Ffitness.Data
         public DbSet<Booking> Bookings { get; set; }
 
         public DbSet<BookedScheduledActivity> BookedScheduledActivities { get; set; }
-
-        public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
-
+        public DbSet<PopularActivity> PopularActivities { get; set; }
+        public DbSet<PopularTrainer> PopularTrainers { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -62,6 +61,8 @@ namespace Ffitness.Data
             modelBuilder.Entity<Activity>().Property(a => a.ActivityPicture).HasDefaultValue("default-activity-picture.jpg");
             
             modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView("View_BookingStats");
+            modelBuilder.Entity<PopularActivity>().HasNoKey().ToView("View_PopularActivity");
+            modelBuilder.Entity<PopularTrainer>().HasNoKey().ToView("View_PopularTrainer");
         }
     }
 }
