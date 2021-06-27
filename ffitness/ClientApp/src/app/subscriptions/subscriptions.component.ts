@@ -55,7 +55,17 @@ export class SubscriptionsComponent implements OnInit {
           this.errorMessages = [];
           console.log(result);
         },
-        error => this.errorMessages = error.error.errors
+        error => {
+          console.log(error);
+          console.log(this);
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors;
+            return;
+          }
+
+          this.errorMessages = [];
+          this.errorMessages['General'] = [error.error];
+        }
       );
   }
 }

@@ -86,6 +86,17 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
+            var existingSubscriptions = await _context.UserSubscriptions.
+                Where(s => s.UserId == user.Id)
+                .Include(s => s.Subscription).ToListAsync();
+
+            var overlappingSubscription = existingSubscriptions.Any(s => s.EndTime > userSubscription.StartTime);
+
+            if (overlappingSubscription)
+			{
+                return BadRequest($"This subscription would overlap your current one. Please check your subscriptions status in your account dashboard.");
+            }
+
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
             subscriptionEntity.User = user;
             subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
