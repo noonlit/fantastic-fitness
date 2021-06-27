@@ -36,6 +36,8 @@ import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-li
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
 import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
     AdminUserAddComponent,
     AdminActivitiesComponent,
     NewLoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SubscriptionsComponent,
+    UserSubscriptionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -80,7 +84,9 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'subscriptions', component: SubscriptionsComponent },
+      { path: 'user-subscriptions', component: UserSubscriptionsComponent }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

@@ -68,8 +68,6 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var userId = user.Id;
-
             var booking = new Booking { ScheduledActivityId = activity.Id, UserId = user.Id };
 
             _context.Bookings.Add(booking);
