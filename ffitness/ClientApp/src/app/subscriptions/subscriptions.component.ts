@@ -16,7 +16,8 @@ export class SubscriptionsComponent implements OnInit {
 
   public subscriptions: Subscription[];
   isAuthenticated: Observable<boolean>;
-  public newSubscriptionStartDate;
+  message: string;
+  errorMessages: [];
 
   constructor(
     private service: SubscriptionComponentService,
@@ -29,19 +30,32 @@ export class SubscriptionsComponent implements OnInit {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
 
     this.service.getSubscriptions()
-      .subscribe(result => {
-        this.subscriptions = result;
-      }, error => console.error(error));
+      .subscribe(
+        result => {
+          this.subscriptions = result;
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 
-  public startSubscription(subscriptionId: number, startTime) {
+  public startSubscription(subscriptionId: number, startTime: string) {
     var newSubscription = new UserSubscription();
-    newSubscription.startTime = new Date(startTime);
+    newSubscription.startTime = startTime;
     newSubscription.subscriptionId = subscriptionId;
 
+    console.log(newSubscription);
+
     this.userSubscriptionService.createUserSubscription(newSubscription)
-      .subscribe(result => {
-        console.log(result);
-      });
+      .subscribe(
+        result => {
+          this.message = "Success! Your subscription ends on " +
+            new Date(result.endTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) +
+            ".";
+
+          this.errorMessages = [];
+          console.log(result);
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 }

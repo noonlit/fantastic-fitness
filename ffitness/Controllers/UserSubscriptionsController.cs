@@ -86,13 +86,14 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            userSubscription.UserId = user.Id;
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
+            subscriptionEntity.User = user;
+            subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
             _context.UserSubscriptions.Add(subscriptionEntity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserSubscription", new { id = userSubscription.Id }, userSubscription);
+            return CreatedAtAction("GetUserSubscription", new { id = userSubscription.Id }, _mapper.Map<UserSubscriptionViewModel>(subscriptionEntity));
         }
 
         // PUT: api/UserSubscriptions/5

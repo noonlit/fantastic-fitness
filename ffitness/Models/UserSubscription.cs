@@ -14,5 +14,8 @@ namespace Ffitness.Models
 		public Subscription Subscription { get; set; }
 		public int SubscriptionId { get; set; }
 		public DateTime StartTime { get; set; }
-	}
+
+		[NotMapped]
+		public DateTime EndTime { get { return StartTime.AddDays((double)Subscription.Duration); } }
+}
 }
