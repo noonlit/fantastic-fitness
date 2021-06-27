@@ -35,7 +35,10 @@ namespace Ffitness.Controllers
         public async Task<ActionResult<IEnumerable<UserSubscriptionViewModel>>> GetUserSubscriptions()
         {
             var result = await _context.UserSubscriptions
+               .Include(s => s.User)
                .Include(s => s.Subscription)
+               .OrderBy(s => s.UserId)
+               .ThenBy(s => s.StartTime)
                .ToListAsync();
 
             return _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
@@ -115,45 +118,25 @@ namespace Ffitness.Controllers
             return CreatedAtAction("GetUserSubscription", new { id = userSubscription.Id }, _mapper.Map<UserSubscriptionViewModel>(subscriptionEntity));
         }
 
-        // PUT: api/UserSubscriptions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserSubscription(int id, UserSubscriptionViewModel userSubscription)
-        {
-            if (id != userSubscription.Id)
-            {
-                return BadRequest();
-            }
-
-            var subscriptionEntity = _mapper.Map<UserSubscriptionViewModel>(userSubscription);
-
-            _context.Entry(subscriptionEntity).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserSubscriptionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/UserSubscriptions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<UserSubscriptionViewModel>> PostUserSubscription(UserSubscriptionViewModel userSubscription)
         {
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
+
+            var existingSubscriptions = await _context.UserSubscriptions
+                .Where(s => s.UserId == subscriptionEntity.UserId)
+                .Include(s => s.Subscription)
+                .ToListAsync();
+
+            var overlappingSubscription = existingSubscriptions.Any(s => s.EndTime > userSubscription.StartTime);
+
+            if (overlappingSubscription)
+            {
+                return BadRequest($"This subscription would overlap a current one.");
+            }
+
             _context.UserSubscriptions.Add(subscriptionEntity);
             await _context.SaveChangesAsync();
 

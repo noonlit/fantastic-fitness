@@ -1,10 +1,11 @@
 
 <nav class="nav flex-sm-column">
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/account']">Manage account details</a>
-  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/user-subscriptions']">Manage your subscriptions</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/user-subscriptions']">View your subscriptions</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/bookings-stats']" *ngIf="isAdmin | async">View statistics</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/users']" *ngIf="isAdmin | async">Manage users</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/create-calendar']" *ngIf="isAdmin | async">Create events</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/trainers']" *ngIf="isAdmin | async">Manage trainers</a>
   <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/manage-activities']" *ngIf="isAdmin | async">Manage activities</a>
+  <a class="nav-link" [routerLinkActive]="['link-active']" [routerLink]="['/manage-subscriptions']" *ngIf="isAdmin | async">Manage subscriptions</a>
 </nav>

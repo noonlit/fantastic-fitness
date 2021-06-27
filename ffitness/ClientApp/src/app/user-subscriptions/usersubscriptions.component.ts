@@ -27,24 +27,25 @@ export class UserSubscriptionsComponent implements OnInit {
     this.service.getCurrentUserSubscriptions()
       .subscribe(
         result => {
-          console.log(result);
           for (let item of result) {
-            const daysToStart = this.calcDaysLeft(Date.now(), Date.parse(item.startTime));
-            const daysToEnd = this.calcDaysLeft(Date.now(), Date.parse(item.endTime));
-            const isActive = daysToStart <= 0 && daysToEnd > 0;
+            const daysToStart = this.service.calcDaysBetween(Date.now(), Date.parse(item.startTime));
+            const daysToEnd = this.service.calcDaysBetween(Date.now(), Date.parse(item.endTime));
+            item.isActive = daysToStart <= 0 && daysToEnd > 0;
+            item.isPast = daysToEnd <= 0;
+            item.isFuture = daysToStart > 0;
 
-            if (isActive) {
+            if (item.isActive) {
               this.currentSubscription = item;
               item.daysLeft = daysToEnd;
               continue;
             }
 
-            if (daysToEnd <= 0) {
+            if (item.isPast) {
               this.pastSubscriptions = [... this.pastSubscriptions, item];
               continue;
             }
 
-            if (daysToStart > 0) {
+            if (item.isFuture) {
               this.futureSubscriptions = [... this.futureSubscriptions, item];
               continue;
             }
