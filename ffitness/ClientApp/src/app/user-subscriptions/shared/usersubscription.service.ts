@@ -19,11 +19,11 @@ export class UserSubscriptionComponentService {
     return this.apiUrl + 'usersubscriptions';
   }
 
-  getUserSubscriptions(): Observable<UserSubscription[]> {
-    return this.httpClient.get<UserSubscription[]>(this.getApiUrl());
+  getCurrentUserSubscriptions(): Observable<UserSubscription[]> {
+    return this.httpClient.get<UserSubscription[]>(this.getApiUrl() + '/user');
   }
 
   createUserSubscription(subscription: UserSubscription): Observable<UserSubscription> {
-    return this.httpClient.post<UserSubscription>(this.getApiUrl() + '/User/' + subscription.subscriptionId, subscription);
+    return this.httpClient.post<UserSubscription>(this.getApiUrl() + '/user/' + subscription.subscriptionId, subscription);
   }
 }

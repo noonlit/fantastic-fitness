@@ -85,7 +85,8 @@ import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptio
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'subscriptions', component: SubscriptionsComponent }
+      { path: 'subscriptions', component: SubscriptionsComponent },
+      { path: 'user-subscriptions', component: UserSubscriptionsComponent }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

@@ -34,7 +34,11 @@ namespace Ffitness.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserSubscriptionViewModel>>> GetUserSubscriptions()
         {
-            return await _context.UserSubscriptions.Select(s => _mapper.Map<UserSubscriptionViewModel>(s)).ToListAsync();
+            var result = await _context.UserSubscriptions
+               .Include(s => s.Subscription)
+               .ToListAsync();
+
+            return _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
         }
 
         // GET: api/UserSubscriptions/5
@@ -53,13 +57,15 @@ namespace Ffitness.Controllers
 
         [HttpGet("User")]
         [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
-        public async Task<ActionResult<IEnumerable<UserSubscriptionViewModel>>> GetCurrentUserSubscriptions()
+        public async Task<ActionResult<List<UserSubscriptionViewModel>>> GetCurrentUserSubscriptions()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return await _context.UserSubscriptions
+            var result = await _context.UserSubscriptions
                 .Where(s => s.UserId == user.Id)
-                .Select(s => _mapper.Map<UserSubscriptionViewModel>(s))
+                .Include(s => s.Subscription)
                 .ToListAsync();
+
+            return _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
         }
 
         [HttpGet("User/{subscriptionId}")]
@@ -70,6 +76,7 @@ namespace Ffitness.Controllers
 
             var result = await _context.UserSubscriptions
                 .Where(s => s.UserId == user.Id && s.SubscriptionId == subscriptionId)
+                .Include(s => s.Subscription)
                 .FirstOrDefaultAsync();
 
             if (result == null)
@@ -86,9 +93,10 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var existingSubscriptions = await _context.UserSubscriptions.
-                Where(s => s.UserId == user.Id)
-                .Include(s => s.Subscription).ToListAsync();
+            var existingSubscriptions = await _context.UserSubscriptions
+                .Where(s => s.UserId == user.Id)
+                .Include(s => s.Subscription)
+                .ToListAsync();
 
             var overlappingSubscription = existingSubscriptions.Any(s => s.EndTime > userSubscription.StartTime);
 
