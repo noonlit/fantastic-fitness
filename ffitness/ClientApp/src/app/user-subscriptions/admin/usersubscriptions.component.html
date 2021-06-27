@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h1 id="tableLabel">Subscriptions</h1>
+    <hr>
+    <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <a class="btn btn-light" (click)="addSubscription()">
+      Create subscription
+    </a>
+    <br>
+    <br>
+    <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="subscriptions">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Days Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subscription of subscriptions">
+          <td> {{ subscription.user.firstName }} {{ subscription.user.lastName }} ({{ subscription.user.email }}) </td>
+          <td> {{ subscription.startTime | date:'longDate' }} </td>
+          <td> {{ subscription.endTime | date:'longDate' }} </td>
+          <td> {{ subscription.subscription.duration }} </td>
+          <td>
+            <a *ngIf="subscription.isFuture" class="btn btn-danger" (click)="deleteSubscription(subscription)" aria-label="Delete" title="Delete">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
