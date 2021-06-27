@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Subscription = void 0;
-var Subscription = /** @class */ (function () {
-    function Subscription() {
+exports.UserSubscription = void 0;
+var UserSubscription = /** @class */ (function () {
+    function UserSubscription() {
     }
-    return Subscription;
+    return UserSubscription;
 }());
-exports.Subscription = Subscription;
+exports.UserSubscription = UserSubscription;
 //# sourceMappingURL=usersubscription.model.js.map

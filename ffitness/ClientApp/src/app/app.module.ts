@@ -37,6 +37,7 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
 import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
     AdminActivitiesComponent,
     NewLoginComponent,
     RegistrationComponent,
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    UserSubscriptionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

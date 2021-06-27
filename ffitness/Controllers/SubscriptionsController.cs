@@ -85,7 +85,7 @@ namespace Ffitness.Controllers
         // POST: api/Subscriptions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Subscription>> PostSubscription(SubscriptionViewModel subscription)
+        public async Task<ActionResult<SubscriptionViewModel>> PostSubscription(SubscriptionViewModel subscription)
         {
             var subscriptionEntity = _mapper.Map<Subscription>(subscription);
             _context.Subscriptions.Add(subscriptionEntity);

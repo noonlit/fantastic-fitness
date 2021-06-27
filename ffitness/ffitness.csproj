@@ -48,22 +48,27 @@
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
     <Content Remove="ClientApp\src\app\services\**" />
+    <Content Remove="ClientApp\src\app\user-subscriptions\NewFolder\**" />
     <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
     <None Remove="ClientApp\src\app\services\**" />
+    <None Remove="ClientApp\src\app\user-subscriptions\NewFolder\**" />
     <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
     <Compile Remove="ClientApp\src\app\services\**" />
+    <Compile Remove="ClientApp\src\app\user-subscriptions\NewFolder\**" />
     <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
     <EmbeddedResource Remove="ClientApp\src\app\services\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\user-subscriptions\NewFolder\**" />
     <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
+    <TypeScriptCompile Remove="ClientApp\src\app\user-subscriptions\NewFolder\**" />
     <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +85,7 @@
     <None Remove="ClientApp\src\app\subscriptions\shared\subscription.model.ts" />
     <None Remove="ClientApp\src\app\subscriptions\shared\subscription.service.ts" />
     <None Remove="ClientApp\src\app\subscriptions\shared\usersubscription.model.ts" />
+    <None Remove="ClientApp\src\app\user-subscriptions\shared\usersubscription.service.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
     <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
@@ -103,6 +109,7 @@
     <TypeScriptCompile Remove="ClientApp\src\app\subscriptions\subscriptions.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\trainers-list.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\trainer-update.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\user-subscriptions\usersubscriptions.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
@@ -122,7 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\src\app\subscriptions\admin\" />
-    <Folder Include="ClientApp\src\app\user-subscriptions\NewFolder\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
