@@ -34,6 +34,11 @@ namespace Ffitness
                     {
                         SeedUsers.Seed(context, services.GetRequiredService<UserManager<ApplicationUser>>(), 20);
                     }
+
+                    if (context.Subscriptions.Count() == 0)
+                    {
+                        SeedSubscriptions.Seed(context);
+                    }
                 }
                 catch (Exception ex)
                 {
