@@ -30,37 +30,33 @@
       <tbody>
         <tr *ngFor="let activity of activities">
           <td>{{ activity.name }}</td>
-<!--          <td>{{ activity.type }}</td>-->
+          <!--          <td>{{ activity.type }}</td>-->
           <td>{{ activity.difficultyLevel }}</td>
           <td>{{ activity.description }}</td>
-<!--          <td>{{ activity.activityPicture }}</td>-->
+          <!--          <td>{{ activity.activityPicture }}</td>-->
           <td>
             <div class="container">
               <div class="row">
                 <div class="col">{{ activity.primaryColour }}</div>
-                <div class="col">
-                  <div class="colored-square" style="background-color:black;"></div>
-                </div>
+                <div class="col"><div class="colored-square" style="background-color:black;"></div></div>
               </div>
             </div>
           </td>
           <td>
             <div class="container">
               <div class="row">
-                <div class="col">{{ activity.secondaryColour  }}</div>
-                <div class="col">
-                  <div class="colored-square" style="background-color:black;"></div>
-                </div>
+                <div class="col">{{ activity.secondaryColour }}</div>
+                <div class="col"><div class="colored-square" style="background-color:black;"></div></div>
               </div>
             </div>
           </td>
           <td>
-            <a class="btn btn-light" aria-label="Edit" title="Edit">
-              <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-            </a>
-            <a class="btn btn-danger" aria-label="Delete" title="Delete">
-              <i class="fa fa-trash" aria-hidden="true"></i>
-            </a>
+          <a class="btn btn-light" aria-label="Edit" title="Edit">
+            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+          </a>
+          <a class="btn btn-danger" aria-label="Delete" title="Delete">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a>
           </td>
         </tr>
       </tbody>
