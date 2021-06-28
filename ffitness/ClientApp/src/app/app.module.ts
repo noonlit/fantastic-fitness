@@ -94,7 +94,7 @@ import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/us
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'subscriptions', component: SubscriptionsComponent },
       { path: 'user-subscriptions', component: UserSubscriptionsComponent },
