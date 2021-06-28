@@ -26,6 +26,10 @@ namespace Ffitness.Data
         public DbSet<PopularActivity> PopularActivities { get; set; }
         public DbSet<PopularTrainer> PopularTrainers { get; set; }
 
+        public DbSet<Subscription> Subscriptions { get; set; }
+
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -59,10 +63,17 @@ namespace Ffitness.Data
             modelBuilder.Entity<Activity>().Property(a => a.PrimaryColour).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.SecondaryColour).IsRequired();
             modelBuilder.Entity<Activity>().Property(a => a.ActivityPicture).HasDefaultValue("default-activity-picture.jpg");
-            
+
             modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView("View_BookingStats");
             modelBuilder.Entity<PopularActivity>().HasNoKey().ToView("View_PopularActivity");
             modelBuilder.Entity<PopularTrainer>().HasNoKey().ToView("View_PopularTrainer");
+
+            modelBuilder.Entity<Subscription>().Property(s => s.Id).IsRequired();
+            modelBuilder.Entity<Subscription>().Property(s => s.Duration).IsRequired();
+            modelBuilder.Entity<Subscription>().Property(s => s.Price).IsRequired();
+
+            modelBuilder.Entity<UserSubscription>().Property(s => s.Id).IsRequired();
+            modelBuilder.Entity<UserSubscription>().Property(s => s.StartTime).IsRequired();
         }
     }
 }

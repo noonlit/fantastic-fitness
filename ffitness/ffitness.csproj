@@ -77,6 +77,11 @@
     <None Remove="ClientApp\src\app\login\login.service.ts" />
     <None Remove="ClientApp\src\app\register\registration.model.ts" />
     <None Remove="ClientApp\src\app\register\registration.service.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\shared\subscription.model.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\shared\subscription.service.ts" />
+    <None Remove="ClientApp\src\app\subscriptions\shared\usersubscription.model.ts" />
+    <None Remove="ClientApp\src\app\user-subscriptions\admin\user-subscription-add\usersubscription-add.component.ts" />
+    <None Remove="ClientApp\src\app\user-subscriptions\shared\usersubscription.service.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-add\user-add.component.ts" />
     <None Remove="ClientApp\src\app\users\admin\user-edit\user-edit.component.ts" />
     <None Remove="ClientApp\src\app\users\shared\user.model.ts" />
@@ -97,8 +102,11 @@
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\login\login.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\register\registration.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\subscriptions\subscriptions.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\list-trainers\trainers-list.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\trainers\update-trainer\trainer-update.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\user-subscriptions\admin\usersubscriptions.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\user-subscriptions\usersubscriptions.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ff-color-logo.png">
@@ -115,6 +123,12 @@
     <TypeScriptCompile Update="ClientApp\src\app\register\registration.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\user-subscriptions\admin\user-subscription-add\usersubscription-add.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\subscriptions\admin\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

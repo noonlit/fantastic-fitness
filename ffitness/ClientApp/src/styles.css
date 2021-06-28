@@ -116,9 +116,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   position: relative;
 }
 
-.card-item-photo img {
-  max-width: 300px;
-}
+  .card-item-photo img {
+    max-width: 300px;
+  }
 
 .card-item-details {
   padding: 15px;

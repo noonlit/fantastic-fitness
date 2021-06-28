@@ -4,14 +4,16 @@ using Ffitness.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ffitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210627090714_AddSubscription")]
+    partial class AddSubscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,9 +275,6 @@ namespace Ffitness.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
@@ -590,15 +589,15 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1c1ec476-13e5-45b2-ad01-489c1d5173c4",
-                            ConcurrencyStamp = "e190d3dc-9a2d-4494-b769-1d8e4d32af3c",
+                            Id = "cf058ca1-ec46-4522-9ba3-93aa3e2bd243",
+                            ConcurrencyStamp = "4c811fd2-e280-41df-9acf-70220313acbd",
                             Name = "AppUser",
                             NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "7338eb5a-bd88-47c2-abfd-49cd673ef5e1",
-                            ConcurrencyStamp = "5341bff4-3c1f-4f62-b205-2f0fe00ffe40",
+                            Id = "ed405d11-a6b1-4404-a753-2df444d0d087",
+                            ConcurrencyStamp = "18be19d2-3ad1-43d3-8152-6e88b8aab659",
                             Name = "AppAdmin",
                             NormalizedName = "APPADMIN"
                         });

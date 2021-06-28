@@ -21,6 +21,8 @@ namespace Ffitness.Automapper
             CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
             CreateMap<PopularActivity, PopularActivityViewModel>();
             CreateMap<PopularTrainer, PopularTrainerViewModel>();
+            CreateMap<Subscription, SubscriptionViewModel>().ReverseMap();
+            CreateMap<UserSubscription, UserSubscriptionViewModel>().ReverseMap();
         }
     }
 }

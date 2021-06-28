@@ -38,6 +38,10 @@ import { AdminActivitiesComponent } from './activities/admin/activities/activiti
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
 import { AdminActivityEditComponent } from './activities/admin/activities/activity-edit/activity-edit.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
+import { AdminUserSubscriptionsComponent } from './user-subscriptions/admin/usersubscriptions.component';
+import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/user-subscription-add/usersubscription-add.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +64,11 @@ import { AdminActivityEditComponent } from './activities/admin/activities/activi
     AdminActivityAddComponent,
     AdminActivityEditComponent,
     NewLoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SubscriptionsComponent,
+    UserSubscriptionsComponent,
+    AdminUserSubscriptionsComponent,
+    AdminUserSubscriptionAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -87,6 +95,11 @@ import { AdminActivityEditComponent } from './activities/admin/activities/activi
       { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'subscriptions', component: SubscriptionsComponent },
+      { path: 'user-subscriptions', component: UserSubscriptionsComponent },
+      { path: 'manage-subscriptions', component: AdminUserSubscriptionsComponent, canActivate: [AuthGuardService, AuthRoleGuardService]},
+      { path: 'manage-subscriptions/add', component: AdminUserSubscriptionAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({

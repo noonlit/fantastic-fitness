@@ -21,7 +21,7 @@ export class BookingsStatsComponent implements OnInit {
 
   public colours = [
     {
-      backgroundColor: 'rgba(104,176,171,0.2)'
+      backgroundColor: 'rgba(42, 95, 80,0.7)'
     }
   ]
 

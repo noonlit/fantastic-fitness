@@ -76,6 +76,7 @@ namespace Ffitness
 			services.AddTransient<IValidator<ActivityViewModel>, ActivityValidator>();
 			services.AddTransient<IValidator<ActivityWithTrainersViewModel>, ActivityWithTrainersValidator>();
 			services.AddTransient<IValidator<TrainerWithActivitiesViewModel>, TrainerValidator>();
+			services.AddTransient<IValidator<UserSubscriptionViewModel>, UserSubscriptionValidator>();
 			services.AddTransient<StatisticsQueryService, StatisticsQueryService>();
 		}
 
