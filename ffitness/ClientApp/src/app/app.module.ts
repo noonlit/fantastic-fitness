@@ -37,6 +37,7 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
 import { AdminActivitiesComponent } from './activities/admin/activities/activities.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
+import { AdminActivityEditComponent } from './activities/admin/activities/activity-edit/activity-edit.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { AdminActivityAddComponent } from './activities/admin/activities/activit
     AdminUserAddComponent,
     AdminActivitiesComponent,
     AdminActivityAddComponent,
+    AdminActivityEditComponent,
     NewLoginComponent,
     RegistrationComponent
   ],
@@ -83,7 +85,8 @@ import { AdminActivityAddComponent } from './activities/admin/activities/activit
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({
