@@ -34,9 +34,9 @@ import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.com
 import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
 import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
+import { AdminActivitiesComponent } from './activities/admin/activities/activities.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
-import { AdminActivityAddComponent } from './activities/adm/activities/activity-add/activity-add.component';
+import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
 
 @NgModule({
   declarations: [

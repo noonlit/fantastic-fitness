@@ -13,8 +13,6 @@ export class AdminActivitiesComponent implements OnInit {
 
   public activities: Activity[];
 
- // constructor(private service: ActivityComponentService, private cd: ChangeDetectorRef, private router: Router) {  }
-
   constructor(private service: ActivityComponentService, private router: Router) { }
 
   message: string;
@@ -39,11 +37,9 @@ export class AdminActivitiesComponent implements OnInit {
     this.router.navigate(['/activity/add']);
   }
 
-  /*
   editActivity(activity: Activity) {
     this.router.navigate(['/activity/edit', activity.id]);
   }
-  */
 
   deleteActivity(activity: Activity) {
     this.service.delete(activity)

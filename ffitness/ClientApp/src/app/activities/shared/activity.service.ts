@@ -49,5 +49,4 @@ export class ActivityComponentService {
     return this.httpClient
       .delete<Activity>(url);
   }
-
 }

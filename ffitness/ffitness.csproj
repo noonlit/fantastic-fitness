@@ -46,27 +46,22 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\app\activities\adm\activities\NewFolder\**" />
     <Content Remove="ClientApp\src\app\add-teamleader\**" />
     <Content Remove="ClientApp\src\app\services\**" />
     <Content Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\app\activities\adm\activities\NewFolder\**" />
     <None Remove="ClientApp\src\app\add-teamleader\**" />
     <None Remove="ClientApp\src\app\services\**" />
     <None Remove="wwwroot\Activities\Activity-Logo\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="ClientApp\src\app\activities\adm\activities\NewFolder\**" />
     <Compile Remove="ClientApp\src\app\add-teamleader\**" />
     <Compile Remove="ClientApp\src\app\services\**" />
     <Compile Remove="wwwroot\Activities\Activity-Logo\**" />
-    <EmbeddedResource Remove="ClientApp\src\app\activities\adm\activities\NewFolder\**" />
     <EmbeddedResource Remove="ClientApp\src\app\add-teamleader\**" />
     <EmbeddedResource Remove="ClientApp\src\app\services\**" />
     <EmbeddedResource Remove="wwwroot\Activities\Activity-Logo\**" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\NewFolder\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\add-teamleader\**" />
     <TypeScriptCompile Remove="ClientApp\src\app\services\**" />
     <TypeScriptCompile Remove="wwwroot\Activities\Activity-Logo\**" />
@@ -91,9 +86,8 @@
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.spec.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities\activities.component.spec.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities\activities.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\bookings-stats.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
@@ -120,6 +114,9 @@
     <TypeScriptCompile Update="ClientApp\src\app\register\registration.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\activities\admin\activities\activity-edit\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
