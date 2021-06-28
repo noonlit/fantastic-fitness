@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { Activity } from "../../../shared/activity.model";
+import { Activity, ACTIVITY_TYPES } from "../../../shared/activity.model";
 import { ActivityComponentService } from "../../../shared/activity.service";
 
 @Component({
@@ -10,12 +10,12 @@ import { ActivityComponentService } from "../../../shared/activity.service";
 })
 export class AdminActivityEditComponent implements OnInit {
   @Input() activity: Activity;
+  ACTIVITY_TYPES = ACTIVITY_TYPES;
   message: string;
-  errorMessages: []
+  errorMessages: [];
 
   constructor(private activityService: ActivityComponentService,
-    private route: ActivatedRoute,
-    private location: Location) {
+    private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -37,9 +37,8 @@ export class AdminActivityEditComponent implements OnInit {
       );
   }
 
-  /*
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/manage-activities']);
   }
-  */
+
 }
