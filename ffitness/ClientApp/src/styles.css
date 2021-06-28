@@ -147,10 +147,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .card-item:hover .card-item-details-name {
-  color: #cbd633;
+  color: #2a5f50;
   transition: all ease 0.5s 0s;
 }
 
 div.card-item:hover {
-  box-shadow: #cbd633 0px 2px 8px 0px;
+  box-shadow: #2a5f50 0px 2px 8px 0px;
 }

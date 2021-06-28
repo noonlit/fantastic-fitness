@@ -34,8 +34,26 @@
           <td>{{ activity.difficultyLevel }}</td>
           <td>{{ activity.description }}</td>
 <!--          <td>{{ activity.activityPicture }}</td>-->
-          <td>{{ activity.primaryColour }}</td>
-          <td>{{ activity.secondaryColour }}</td>
+          <td>
+            <div class="container">
+              <div class="row">
+                <div class="col">{{ activity.primaryColour }}</div>
+                <div class="col">
+                  <div class="colored-square" style="background-color:black;"></div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="container">
+              <div class="row">
+                <div class="col">{{ activity.secondaryColour  }}</div>
+                <div class="col">
+                  <div class="colored-square" style="background-color:black;"></div>
+                </div>
+              </div>
+            </div>
+          </td>
           <td>
             <a class="btn btn-light" aria-label="Edit" title="Edit">
               <i class="fa fa-pencil-alt" aria-hidden="true"></i>
