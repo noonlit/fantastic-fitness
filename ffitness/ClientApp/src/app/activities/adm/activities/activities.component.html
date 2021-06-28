@@ -51,10 +51,10 @@
             </div>
           </td>
           <td>
-          <a class="btn btn-light" aria-label="Edit" title="Edit">
+          <a class="btn btn-light" (click)="editActivity(activity)" aria-label="Edit" title="Edit">
             <i class="fa fa-pencil-alt" aria-hidden="true"></i>
           </a>
-          <a class="btn btn-danger" aria-label="Delete" title="Delete">
+          <a class="btn btn-danger" (click)="deleteActivity(activity.id)" aria-label="Delete" title="Delete">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>
           </td>

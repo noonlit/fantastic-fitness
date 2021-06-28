@@ -9,3 +9,14 @@ export class Activity {
   trainers?: any;
 }
 
+export enum ActivityType {
+  Cardio,
+  Aerobic,
+  Strength,
+  Yoga,
+  Flexibility,
+  Endurance,
+  HIIT
+}
+
+export const ACTIVITY_TYPES = ['Cardio', 'Aerobic', 'Strength', 'Yoga', 'Flexibility', 'Endurance', 'HIIT'];

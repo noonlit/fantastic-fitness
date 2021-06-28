@@ -35,11 +35,11 @@ export class AdminActivitiesComponent implements OnInit {
       );
   }
 
-  /*
   addActivity() {
     this.router.navigate(['/activity/add']);
   }
 
+  /*
   editActivity(activity: Activity) {
     this.router.navigate(['/activity/edit', activity.id]);
   }
