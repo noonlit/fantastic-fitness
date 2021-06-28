@@ -34,8 +34,10 @@ import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.com
 import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
 import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminActivitiesComponent } from './activities/adm/activities/activities.component';
+import { AdminActivitiesComponent } from './activities/admin/activities/activities.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
+import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
+import { AdminActivityEditComponent } from './activities/admin/activities/activity-edit/activity-edit.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
 import { AdminUserSubscriptionsComponent } from './user-subscriptions/admin/usersubscriptions.component';
@@ -59,6 +61,8 @@ import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/us
     AdminUserEditComponent,
     AdminUserAddComponent,
     AdminActivitiesComponent,
+    AdminActivityAddComponent,
+    AdminActivityEditComponent,
     NewLoginComponent,
     RegistrationComponent,
     SubscriptionsComponent,
@@ -88,6 +92,9 @@ import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/us
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
       { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'subscriptions', component: SubscriptionsComponent },
       { path: 'user-subscriptions', component: UserSubscriptionsComponent },

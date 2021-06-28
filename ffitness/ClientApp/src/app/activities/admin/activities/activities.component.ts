@@ -13,8 +13,6 @@ export class AdminActivitiesComponent implements OnInit {
 
   public activities: Activity[];
 
- // constructor(private service: ActivityComponentService, private cd: ChangeDetectorRef, private router: Router) {  }
-
   constructor(private service: ActivityComponentService, private router: Router) { }
 
   message: string;
@@ -35,7 +33,6 @@ export class AdminActivitiesComponent implements OnInit {
       );
   }
 
-  /*
   addActivity() {
     this.router.navigate(['/activity/add']);
   }
@@ -43,7 +40,6 @@ export class AdminActivitiesComponent implements OnInit {
   editActivity(activity: Activity) {
     this.router.navigate(['/activity/edit', activity.id]);
   }
-  */
 
   deleteActivity(activity: Activity) {
     this.service.delete(activity)
@@ -55,5 +51,13 @@ export class AdminActivitiesComponent implements OnInit {
         },
         error => this.errorMessages = error.error.errors
       );
+  }
+
+  getPrimaryColourHex(activity: Activity) {
+    return "#"+activity.primaryColour;
+  }
+
+  getSecondaryColourHex(activity: Activity) {
+    return "#" + activity.secondaryColour;
   }
 }

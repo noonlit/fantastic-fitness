@@ -23,15 +23,8 @@ export class ActivityComponentService {
     return this.httpClient.get<Activity[]>(this.getApiUrl());
   }
 
-  getCurrentActivity(): Observable<Activity> {
-    return this.httpClient.get<Activity>(this.getApiUrl() + '/current');
-  }
-
-  getActivity(id: number): Observable<Activity> {
-    return this.getActivities()
-      .pipe(
-        map(activities => activities.find(activity => activity.id === id))
-      );
+  public getActivity(id: number): Observable<Activity> {
+    return this.httpClient.get<Activity>(this.getApiUrl() + '/' + id);
   }
 
   save(activity: Activity): Observable<Activity> {
@@ -49,5 +42,4 @@ export class ActivityComponentService {
     return this.httpClient
       .delete<Activity>(url);
   }
-
 }

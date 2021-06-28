@@ -91,9 +91,9 @@
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\account\sidebar-nav\sidebar-nav-menu.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities.component.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.spec.ts" />
-    <TypeScriptCompile Remove="ClientApp\src\app\activities\adm\activities\activities.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities\activities.component.spec.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities\activities.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\activities\admin\activities\activity-edit\activity-edit.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\bookings-stats.component.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\bookings\shared\calendar.model.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\calendar\admin\calendar\calendar.component.spec.ts" />
