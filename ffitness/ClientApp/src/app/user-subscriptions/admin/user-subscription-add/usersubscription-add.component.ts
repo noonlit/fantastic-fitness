@@ -30,6 +30,12 @@ export class AdminUserSubscriptionAddComponent implements OnInit {
   }
 
   saveSubscription(startTime: string, subscriptionId: number, userId: string) {
+    if (!startTime || !subscriptionId || !userId) {
+      this.errorMessages = [];
+      this.errorMessages['General'] = ["Cannot save data. All fields are required."];
+      return;
+    }
+
     this.subscription.startTime = startTime;
     this.subscription.subscriptionId = subscriptionId;
     this.subscription.userId = userId;

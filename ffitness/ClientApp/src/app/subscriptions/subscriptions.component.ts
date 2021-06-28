@@ -39,11 +39,15 @@ export class SubscriptionsComponent implements OnInit {
   }
 
   public startSubscription(subscriptionId: number, startTime: string) {
+    if (!startTime) {
+      this.errorMessages = [];
+      this.errorMessages['General'] = ["Please select a start time."];
+      return;
+    }
+
     var newSubscription = new UserSubscription();
     newSubscription.startTime = startTime;
     newSubscription.subscriptionId = subscriptionId;
-
-    console.log(newSubscription);
 
     this.userSubscriptionService.createUserSubscription(newSubscription)
       .subscribe(

@@ -22,7 +22,6 @@
     <div class="form-wrapper">
       <form>
         Subscription: <select class="form-control" #subscription required>
-          <option value="">--</option>
           <option *ngFor="let subscriptionOption of subscriptions"
                   value="{{ subscriptionOption.id }}">
             {{ subscriptionOption.duration }} days
@@ -30,7 +29,6 @@
         </select>
         <br>
         User: <select class="form-control" #user required>
-          <option value="">--</option>
           <option *ngFor="let userOption of users"
                   value="{{ userOption.id }}">
             {{ userOption.email }}
