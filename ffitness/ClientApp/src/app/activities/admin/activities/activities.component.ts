@@ -52,4 +52,12 @@ export class AdminActivitiesComponent implements OnInit {
         error => this.errorMessages = error.error.errors
       );
   }
+
+  getPrimaryColourHex(activity: Activity) {
+    return "#"+activity.primaryColour;
+  }
+
+  getSecondaryColourHex(activity: Activity) {
+    return "#" + activity.secondaryColour;
+  }
 }

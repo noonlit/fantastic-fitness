@@ -38,7 +38,7 @@
             <div class="container">
               <div class="row">
                 <div class="col">{{ activity.primaryColour }}</div>
-                <div class="col"><div class="colored-square" style="background-color:black;"></div></div>
+                <div class="col"><div class="colored-square" [style.background-color]="getPrimaryColourHex(activity)"></div></div>
               </div>
             </div>
           </td>
@@ -46,7 +46,7 @@
             <div class="container">
               <div class="row">
                 <div class="col">{{ activity.secondaryColour }}</div>
-                <div class="col"><div class="colored-square" style="background-color:black;"></div></div>
+                <div class="col"><div class="colored-square" [style.background-color]="getSecondaryColourHex(activity)"></div></div>
               </div>
             </div>
           </td>
