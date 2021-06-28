@@ -54,10 +54,14 @@ export class AdminActivitiesComponent implements OnInit {
   }
 
   getPrimaryColourHex(activity: Activity) {
-    return "#"+activity.primaryColour;
+    const colour = activity.primaryColour;
+
+    return colour.startsWith('#') ? colour : '#' + colour;
   }
 
   getSecondaryColourHex(activity: Activity) {
-    return "#" + activity.secondaryColour;
+    const colour = activity.secondaryColour;
+
+    return colour.startsWith('#') ? colour : '#' + colour;
   }
 }
