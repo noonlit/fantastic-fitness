@@ -51,7 +51,11 @@ export class UserComponentService {
       .put<User>(url, user);
   }
 
-  public getUser(id: string): Observable<User> {
+  getCurrentUser(): Observable<User> {
+    return this.httpClient.get<User>(this.getApiUrl() + '/current');
+  }
+
+  getUser(id: string): Observable<User> {
     return this.getUsers()
       .pipe(
         map(users => users.find(user => user.id === id))

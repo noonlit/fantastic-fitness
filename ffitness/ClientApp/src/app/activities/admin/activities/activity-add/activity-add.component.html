@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h2>Add activity</h2>
+    <br>
+    <div *ngIf="message">
+      <div class="alert alert-success">{{ message }}</div>
+    </div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="form-wrapper">
+      <form>
+
+        <label>Name: <input class="form-control" [(ngModel)]="activity.name" name="name"></label>
+
+        <span class="ms-2">
+          <label>
+            Difficulty level: <input class="form-control" type="number" min="1" max="5" value="1"
+                                     [(ngModel)]="activity.difficultyLevel" name="difficultyLevel">
+          </label>
+        </span><br /><br />
+
+        <label>Description: <textarea class="form-control" [(ngModel)]="activity.description" name="description" cols="50"></textarea></label>
+        <small id="description-notes" class="form-text text-muted">The description must be between 10 and 150 characters long.</small><br />
+
+        Activity type:
+        <div class="form-check" *ngFor="let option of ACTIVITY_TYPES; let i = index">
+          <input class="form-check-input" type="radio" name="activity-types" id="{{option}}" value="{{i}}" [(ngModel)]="activity.type">
+          <label class="form-check-label" for="{{option}}">
+            {{option}}
+          </label>
+        </div><br />
+
+        <label>
+          Primary colour:
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hash" viewBox="0 0 16 16">
+                  <path d="M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z" />
+                </svg>
+              </span>
+            </div>
+            <input class="form-control" [(ngModel)]="activity.primaryColour" name="primaryColour" placeholder="Enter a hexcode">
+          </div>
+        </label>
+
+        <span class="ms-2">
+          <label>
+            Secondary colour:
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hash" viewBox="0 0 16 16">
+                    <path d="M8.39 12.648a1.32 1.32 0 0 0-.015.18c0 .305.21.508.5.508.266 0 .492-.172.555-.477l.554-2.703h1.204c.421 0 .617-.234.617-.547 0-.312-.188-.53-.617-.53h-.985l.516-2.524h1.265c.43 0 .618-.227.618-.547 0-.313-.188-.524-.618-.524h-1.046l.476-2.304a1.06 1.06 0 0 0 .016-.164.51.51 0 0 0-.516-.516.54.54 0 0 0-.539.43l-.523 2.554H7.617l.477-2.304c.008-.04.015-.118.015-.164a.512.512 0 0 0-.523-.516.539.539 0 0 0-.531.43L6.53 5.484H5.414c-.43 0-.617.22-.617.532 0 .312.187.539.617.539h.906l-.515 2.523H4.609c-.421 0-.609.219-.609.531 0 .313.188.547.61.547h.976l-.516 2.492c-.008.04-.015.125-.015.18 0 .305.21.508.5.508.265 0 .492-.172.554-.477l.555-2.703h2.242l-.515 2.492zm-1-6.109h2.266l-.515 2.563H6.859l.532-2.563z" />
+                  </svg>
+                </span>
+              </div>
+              <input class="form-control" [(ngModel)]="activity.secondaryColour" name="secondaryColour" placeholder="Enter a hexcode">
+            </div>
+          </label>
+        </span>
+
+        <span class="ms-2">
+          <label>
+            Colour helper
+            <input type="color" class="form-control form-control-color" value="#2A5F50">
+          </label>
+        </span><br>
+
+        <button class="btn btn-light" (click)="saveActivity()">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

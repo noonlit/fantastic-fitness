@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Ffitness.Models;
 using Ffitness.ViewModels.Stats;
 using Ffitness.Models.Stats;
+using Ffitness.Services;
 
 namespace Ffitness.Controllers
 {
@@ -19,36 +20,37 @@ namespace Ffitness.Controllers
     {
         private readonly ApplicationDbContext _context;
 		private readonly IMapper _mapper;
+		private readonly StatisticsQueryService _queryService;
 
-		public BookingStatsController(ApplicationDbContext context, IMapper mapper)
+		public BookingStatsController(ApplicationDbContext context, IMapper mapper, StatisticsQueryService queryService)
         {
             _context = context;
             _mapper = mapper;
+            _queryService = queryService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookedScheduledActivityViewModel>>> GetStats()
+        public async Task<ActionResult<IEnumerable<BookedScheduledActivityViewModel>>> GetBookedScheduledActivitiesStats()
         {
-            var sql = "SELECT (SELECT CONCAT(Trainers.FirstName, ' ', Trainers.LastName) FROM Trainers WHERE Trainers.Id = ScheduledActivities.TrainerId) AS TrainerName, " +
-                "(SELECT Activities.Name FROM Activities WHERE Activities.Id = ScheduledActivities.ActivityId) AS ActivityName, " +
-                "CASE WHEN BookedSpots IS NULL THEN 0 ELSE BookedSpots END AS BookedSpots, " +
-                "CASE WHEN BookedSpots IS NOT NULL THEN ScheduledActivities.Capacity ELSE ScheduledActivities.Capacity END AS RemainingSpots, " +
-                " ScheduledActivities.Price, ScheduledActivities.StartTime, ScheduledActivities.EndTime " +
-                "FROM ScheduledActivities " +
-                "LEFT JOIN(SELECT Bookings.ScheduledActivityId, COUNT(*) AS BookedSpots " +
-                "FROM Bookings GROUP BY Bookings.ScheduledActivityId) AS BookingsTable " +
-                "ON BookingsTable.ScheduledActivityId = ScheduledActivities.Id " +
-                "WHERE ScheduledActivities.StartTime >= '" + DateTime.UtcNow.AddDays(-7) + "'";
-                
-
-
-            var result = await _context.BookedScheduledActivities
-                .FromSqlRaw(sql)
-                .ToListAsync();
-
+            var result = await _queryService.getBookedScheduledActivitiesStatsAsync(7);
 
             return _mapper.Map<List<BookedScheduledActivity>, List<BookedScheduledActivityViewModel>>(result);
         }
 
+        [HttpGet("PopularActivities")]
+        public async Task<ActionResult<IEnumerable<PopularActivityViewModel>>> GetPopularActivitiesStats()
+        {
+            var result = await _queryService.getPopularActivitiesStatsAsync();
+
+            return _mapper.Map<List<PopularActivity>, List<PopularActivityViewModel>>(result);
+        }
+
+        [HttpGet("PopularTrainers")]
+        public async Task<ActionResult<IEnumerable<PopularTrainerViewModel>>> GetPopularTrainersStats()
+        {
+            var result = await _queryService.getPopularTrainersStatsAsync();
+
+            return _mapper.Map<List<PopularTrainer>, List<PopularTrainerViewModel>>(result);
+        }
     }
 }

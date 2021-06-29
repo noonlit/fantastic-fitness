@@ -68,23 +68,11 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var userId = user.Id;
-
             var booking = new Booking { ScheduledActivityId = activity.Id, UserId = user.Id };
 
             _context.Bookings.Add(booking);
             activity.Capacity--;
             _context.Entry(activity).State = EntityState.Modified;
-
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = userId,
-                UserAction = Models.UserActions.Booking.Action.BookSpot,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 
@@ -129,17 +117,6 @@ namespace Ffitness.Controllers
             var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
             activity.Capacity++;
             _context.Entry(activity).State = EntityState.Modified;
-
-
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = user.Id,
-                UserAction = Models.UserActions.Booking.Action.CancelBooking,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 

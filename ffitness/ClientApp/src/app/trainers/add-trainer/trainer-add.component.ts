@@ -36,6 +36,10 @@ export class AdminTrainerAddComponent implements OnInit, OnDestroy {
         this.activities = result;
       }, error => console.error(error));
 
+    this.initForm();
+  }
+
+  initForm() {
     this.addTrainerForm = this.fb.group({
       FirstName: [null, Validators.required],
       LastName: [null, Validators.required],
@@ -84,6 +88,7 @@ export class AdminTrainerAddComponent implements OnInit, OnDestroy {
         .subscribe(confirmation => {
           this.message = "Success!"
           this.errorMessages = [];
+          this.initForm();
         },
           error => this.errorMessages = error.error.errors     
       )

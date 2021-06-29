@@ -30,10 +30,11 @@ namespace Ffitness.Controllers
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityWithTrainersViewModel>>> GetActivities()
         {
-            var activities = await _context.Activities.Select(a => _mapper.Map<ActivityViewModel>(a)).ToListAsync();
-            return activities;
+            return await _context.Activities
+                            .Include(a => a.Trainers)
+                            .Select(a => _mapper.Map<ActivityWithTrainersViewModel>(a)).ToListAsync();
         }
 
         // GET: api/Activities/5

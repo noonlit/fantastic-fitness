@@ -49,14 +49,32 @@ namespace Ffitness.Controllers
             var mappedResult = new List<ApplicationUserViewModel>();
 
             foreach (ApplicationUser user in result)
-			{
+            {
                 var roles = await _userManager.GetRolesAsync(user);
                 var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
                 mappedUser.Roles = roles.ToList();
                 mappedResult.Add(mappedUser);
-			}
+            }
+
+            mappedResult = mappedResult.OrderBy(u => !u.Roles.Contains(UserRole.ROLE_ADMIN)).ToList();
 
             return mappedResult;
+        }
+
+        [HttpGet("current")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
+        public async Task<ActionResult<ApplicationUserViewModel>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = _mapper.Map<ApplicationUserViewModel>(user);
+
+            return viewModel;
         }
 
         // GET: api/Users/5
@@ -83,9 +101,9 @@ namespace Ffitness.Controllers
         {
             var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            if (id != currentUser.Id && !await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             {
-                return StatusCode(403);
+                return Unauthorized();
             }
 
             if (!user.Id.Equals(id))
@@ -147,7 +165,7 @@ namespace Ffitness.Controllers
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 BirthDate = newUser.BirthDate,
-                Gender = (ApplicationUser.GenderType) newUser.Gender,
+                Gender = (ApplicationUser.GenderType)newUser.Gender,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true // a hack, but we're not implementing email confirmation
             };
@@ -171,10 +189,10 @@ namespace Ffitness.Controllers
         {
             var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (! await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
-			{
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
                 return StatusCode(403);
-			}
+            }
 
             var user = await _context.Users.FindAsync(id);
 
@@ -199,13 +217,14 @@ namespace Ffitness.Controllers
 
             if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
             {
-                return StatusCode(403);
+                return Unauthorized();
             }
 
             if (id == currentUser.Id)
-			{
-                return StatusCode(418); // refuse to brew coffee or demote themselves!
-			}
+            {
+                ModelState.AddModelError(nameof(userViewModel.Id), "You cannot demote yourself.");
+                return BadRequest(ModelState);
+            }
 
             var user = await _context.Users.FindAsync(id);
 

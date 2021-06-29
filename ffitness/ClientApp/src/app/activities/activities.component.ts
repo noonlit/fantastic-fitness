@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Activity } from './shared/activity.model';
-import { ActivityComponentService } from './shared/activity.service';
+import { ActivityComponentService } from '.././activities/shared/activity.service';
 
 
 @Component({

@@ -19,6 +19,10 @@ namespace Ffitness.Automapper
             CreateMap<BookedScheduledActivity, BookedScheduledActivityViewModel>();
             CreateMap<ApplicationUser, AuthUserResponse>();
             CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
+            CreateMap<PopularActivity, PopularActivityViewModel>();
+            CreateMap<PopularTrainer, PopularTrainerViewModel>();
+            CreateMap<Subscription, SubscriptionViewModel>().ReverseMap();
+            CreateMap<UserSubscription, UserSubscriptionViewModel>().ReverseMap();
         }
     }
 }

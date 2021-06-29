@@ -1,0 +1,19 @@
+/*
+.relative-position {
+    position: relative;
+}
+.absolute-position {
+  position: absolute;
+  left: 40%;
+}
+*/
+
+.colored-square {
+  right: 10px;
+  display: inline-block;
+  margin-left: 10px;
+  height: 1em;
+  width: 30px;
+  /*  background-color: black; */
+  border-radius: .25rem;
+}

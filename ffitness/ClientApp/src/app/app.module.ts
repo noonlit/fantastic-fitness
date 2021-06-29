@@ -34,6 +34,14 @@ import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.com
 import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
 import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
+import { AdminActivitiesComponent } from './activities/admin/activities/activities.component';
+import { ChartsModule, ThemeService } from 'ng2-charts';
+import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
+import { AdminActivityEditComponent } from './activities/admin/activities/activity-edit/activity-edit.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
+import { AdminUserSubscriptionsComponent } from './user-subscriptions/admin/usersubscriptions.component';
+import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/user-subscription-add/usersubscription-add.component';
 
 @NgModule({
   declarations: [
@@ -52,8 +60,15 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
     AdminUsersComponent,
     AdminUserEditComponent,
     AdminUserAddComponent,
+    AdminActivitiesComponent,
+    AdminActivityAddComponent,
+    AdminActivityEditComponent,
     NewLoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SubscriptionsComponent,
+    UserSubscriptionsComponent,
+    AdminUserSubscriptionsComponent,
+    AdminUserSubscriptionAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,6 +76,7 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: NewLoginComponent },
@@ -75,7 +91,15 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
       { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
       { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
       { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
-      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
+      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'subscriptions', component: SubscriptionsComponent },
+      { path: 'user-subscriptions', component: UserSubscriptionsComponent },
+      { path: 'manage-subscriptions', component: AdminUserSubscriptionsComponent, canActivate: [AuthGuardService, AuthRoleGuardService]},
+      { path: 'manage-subscriptions/add', component: AdminUserSubscriptionAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({
@@ -92,7 +116,8 @@ import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.compo
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

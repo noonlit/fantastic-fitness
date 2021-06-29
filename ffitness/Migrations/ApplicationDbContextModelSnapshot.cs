@@ -213,6 +213,81 @@ namespace Ffitness.Migrations
                     b.ToTable("ScheduledActivities");
                 });
 
+            modelBuilder.Entity("Ffitness.Models.Stats.BookedScheduledActivity", b =>
+                {
+                    b.Property<string>("ActivityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BookedSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RemainingSpots")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TrainerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView("View_BookingStats");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.Stats.PopularActivity", b =>
+                {
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ActivityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OccupancyPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.ToView("View_PopularActivity");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.Stats.PopularTrainer", b =>
+                {
+                    b.Property<decimal>("OccupancyPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrainerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView("View_PopularTrainer");
+                });
+
+            modelBuilder.Entity("Ffitness.Models.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("Ffitness.Models.Trainer", b =>
                 {
                     b.Property<int>("Id")
@@ -237,20 +312,17 @@ namespace Ffitness.Migrations
                     b.ToTable("Trainers");
                 });
 
-            modelBuilder.Entity("Ffitness.Models.UserActions.Booking", b =>
+            modelBuilder.Entity("Ffitness.Models.UserSubscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ScheduledActivityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserAction")
+                    b.Property<int>("SubscriptionId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -258,11 +330,11 @@ namespace Ffitness.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduledActivityId");
+                    b.HasIndex("SubscriptionId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserActionsBooking");
+                    b.ToTable("UserSubscriptions");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -518,15 +590,15 @@ namespace Ffitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "819cbdbe-b306-4e98-b225-295c9bbdfa7b",
-                            ConcurrencyStamp = "8fa19711-6dec-4e2c-8202-767e37faa308",
+                            Id = "1c1ec476-13e5-45b2-ad01-489c1d5173c4",
+                            ConcurrencyStamp = "e190d3dc-9a2d-4494-b769-1d8e4d32af3c",
                             Name = "AppUser",
                             NormalizedName = "APPUSER"
                         },
                         new
                         {
-                            Id = "90fe41e5-24ad-496f-871e-aa2863e32b92",
-                            ConcurrencyStamp = "bb8f956e-1a12-401a-b534-d39c2110af7a",
+                            Id = "7338eb5a-bd88-47c2-abfd-49cd673ef5e1",
+                            ConcurrencyStamp = "5341bff4-3c1f-4f62-b205-2f0fe00ffe40",
                             Name = "AppAdmin",
                             NormalizedName = "APPADMIN"
                         });
@@ -583,11 +655,11 @@ namespace Ffitness.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("Ffitness.Models.UserActions.Booking", b =>
+            modelBuilder.Entity("Ffitness.Models.UserSubscription", b =>
                 {
-                    b.HasOne("Ffitness.Models.ScheduledActivity", "ScheduledActivity")
+                    b.HasOne("Ffitness.Models.Subscription", "Subscription")
                         .WithMany()
-                        .HasForeignKey("ScheduledActivityId")
+                        .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -595,7 +667,7 @@ namespace Ffitness.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("ScheduledActivity");
+                    b.Navigation("Subscription");
 
                     b.Navigation("User");
                 });
