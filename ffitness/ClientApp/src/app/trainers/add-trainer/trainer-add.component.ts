@@ -2,6 +2,7 @@ import { error } from '@angular/compiler/src/util';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Activity } from '../../activities/shared/activity.model';
 import { ActivityComponentService } from '../../activities/shared/activity.service';
@@ -27,7 +28,8 @@ export class AdminTrainerAddComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private trainerService: TrainerComponentService,
-    private serviceActivity: ActivityComponentService
+    private serviceActivity: ActivityComponentService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -89,6 +91,7 @@ export class AdminTrainerAddComponent implements OnInit, OnDestroy {
           this.message = "Success!"
           this.errorMessages = [];
           this.initForm();
+          this.router.navigate(['/trainers']);
         },
           error => this.errorMessages = error.error.errors     
       )
