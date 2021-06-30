@@ -74,6 +74,10 @@ namespace Ffitness.Data
 
             modelBuilder.Entity<UserSubscription>().Property(s => s.Id).IsRequired();
             modelBuilder.Entity<UserSubscription>().Property(s => s.StartTime).IsRequired();
+
+            modelBuilder.Entity<Trainer>().Property(t => t.FirstName).IsRequired();
+            modelBuilder.Entity<Trainer>().Property(t => t.LastName).IsRequired();
+            modelBuilder.Entity<Trainer>().Property(t => t.Description).IsRequired();
         }
     }
 }
