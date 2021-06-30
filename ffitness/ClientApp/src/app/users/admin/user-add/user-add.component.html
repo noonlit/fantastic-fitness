@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h2>Add user</h2>
+    <br>
+    <div *ngIf="message">
+      <div class="alert alert-success">{{ message }}</div>
+    </div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-wrapper">
+      <form>
+        <label>First name: <input class="form-control" [(ngModel)]="user.firstName" name="firstName"></label><br>
+        <label>Last name: <input class="form-control" [(ngModel)]="user.lastName" name="lastName"></label><br>
+        <label>Email: <input class="form-control" [(ngModel)]="user.email" name="email"></label><br>
+        <label>Username: <input class="form-control" [(ngModel)]="user.userName" name="userName"></label><br>
+        <label>Password: <input type="password" class="form-control" [(ngModel)]="user.plainPassword" name="password"></label><br>
+
+        <label>
+          Birthday: <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp" [(ngModel)]="user.birthdateData" ngbDatepicker #d="ngbDatepicker">
+          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Choose</button>
+        </label>
+        <br>
+        Gender:
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [checked]="user.gender == 1" [value]="1">
+          <label class="form-check-label">
+            Female
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [value]="2">
+          <label class="form-check-label">
+            Male
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [value]="3">
+          <label class="form-check-label">
+            Non-Binary
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [value]="4">
+          <label class="form-check-label">
+            Transgender
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [value]="5">
+          <label class="form-check-label">
+            Intersex
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gender" [(ngModel)]="user.gender" [value]="6">
+          <label class="form-check-label">
+            Other
+          </label>
+        </div>
+        <br>
+
+        <button class="btn btn-light" (click)="saveUser()">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

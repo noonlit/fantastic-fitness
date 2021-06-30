@@ -1,29 +1,35 @@
 ﻿using AutoMapper;
 using Ffitness.Data;
 using Ffitness.Models;
+using Ffitness.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Ffitness.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
+        public UsersController(ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
-            this._roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -36,14 +42,44 @@ namespace Ffitness.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<ApplicationUserViewModel>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var result = await _context.Users.ToListAsync();
+
+            var mappedResult = new List<ApplicationUserViewModel>();
+
+            foreach (ApplicationUser user in result)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = roles.ToList();
+                mappedResult.Add(mappedUser);
+            }
+
+            mappedResult = mappedResult.OrderBy(u => !u.Roles.Contains(UserRole.ROLE_ADMIN)).ToList();
+
+            return mappedResult;
+        }
+
+        [HttpGet("current")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
+        public async Task<ActionResult<ApplicationUserViewModel>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = _mapper.Map<ApplicationUserViewModel>(user);
+
+            return viewModel;
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApplicationUser>> GetUser(String id)
+        public async Task<ActionResult<ApplicationUserViewModel>> GetUser(String id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -52,20 +88,44 @@ namespace Ffitness.Controllers
                 return NotFound();
             }
 
-            return user;
+            var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            mappedUser.Roles = roles.ToList();
+            return mappedUser;
         }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(String id, ApplicationUser user)
+        public async Task<IActionResult> PutUser(String id, ApplicationUserViewModel user)
         {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (id != currentUser.Id && !await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return Unauthorized();
+            }
+
             if (!user.Id.Equals(id))
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            // only change a few exposed properties
+            var userEntity = await _context.Users.FindAsync(id);
+            userEntity.FirstName = user.FirstName;
+            userEntity.LastName = user.LastName;
+            userEntity.BirthDate = user.BirthDate;
+            userEntity.Email = user.Email;
+            userEntity.Gender = (ApplicationUser.GenderType)user.Gender;
+
+            // attempt to change password if necessary
+            if (user.PlainPassword != null)
+            {
+                userEntity.PasswordHash = _userManager.PasswordHasher.HashPassword(userEntity, user.PlainPassword);
+            }
+
+            _context.Entry(userEntity).State = EntityState.Modified;
 
             try
             {
@@ -89,18 +149,111 @@ namespace Ffitness.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUser user)
+        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUserViewModel newUser)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
+            var user = new ApplicationUser
+            {
+                Email = newUser.Email,
+                UserName = newUser.UserName,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                BirthDate = newUser.BirthDate,
+                Gender = (ApplicationUser.GenderType)newUser.Gender,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                EmailConfirmed = true // a hack, but we're not implementing email confirmation
+            };
+
+            var result = await _userManager.CreateAsync(user, newUser.PlainPassword);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(user, newUser.Roles);
+                var mappedUser = _mapper.Map<ApplicationUserViewModel>(user);
+                mappedUser.Roles = newUser.Roles;
+
+                return CreatedAtAction("GetUser", new { id = user.Id }, mappedUser);
+            }
+
+            return BadRequest(result.Errors);
         }
+
+        [HttpPut("Promote/{id}")]
+        public async Task<IActionResult> PromoteUser(String id, ApplicationUserViewModel userViewModel)
+        {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (!await _userManager.IsInRoleAsync(user, UserRole.ROLE_ADMIN))
+            {
+
+                await _userManager.AddToRoleAsync(user, UserRole.ROLE_ADMIN);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("Demote/{id}")]
+        public async Task<IActionResult> DemoteUser(String id, ApplicationUserViewModel userViewModel)
+        {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return Unauthorized();
+            }
+
+            if (id == currentUser.Id)
+            {
+                ModelState.AddModelError(nameof(userViewModel.Id), "You cannot demote yourself.");
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (await _userManager.IsInRoleAsync(user, UserRole.ROLE_ADMIN))
+            {
+
+                await _userManager.RemoveFromRoleAsync(user, UserRole.ROLE_ADMIN);
+            }
+
+            return NoContent();
+        }
+
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(String id)
         {
+            var currentUser = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, UserRole.ROLE_ADMIN))
+            {
+                return StatusCode(403);
+            }
+
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {

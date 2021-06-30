@@ -1,0 +1,52 @@
+<h1 id="tableLabel">Subscriptions</h1>
+
+<p *ngIf="!subscriptions"><em>Loading...</em></p>
+<br>
+
+<div *ngIf="message" class="alert alert-success">{{ message }}</div>
+<div *ngFor="let errorMessage of errorMessages | keyvalue">
+  <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ textMessage }}
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
+<div class="card-section-wrapper py-4">
+
+  <div class="card-wrapper">
+    <ng-container *ngIf="subscriptions">
+      <div *ngFor="let subscription of subscriptions; let i = index" class="card-item">
+        <div class="card-item-photo">
+          <img src="Subscriptions/{{ subscription.duration}}.svg" class="card-img card-img-top" alt="Subscription">
+        </div>
+        <div class="card-item-details">
+          <h4 class="card-item-details-name">Duration: {{ subscription.duration }} days</h4>
+          <div class="card-item-details-description">
+            <p>{{ subscription.description }}</p>
+
+
+            <div *ngIf="!(isAuthenticated | async)">
+              <p>To start a subscription, you must be logged in.</p>
+            </div>
+
+            <form *ngIf="isAuthenticated | async">
+              <label>
+                Start on: <input class="form-control" placeholder="yyyy-mm-dd"
+                                 #i ngbDatepicker #d="ngbDatepicker">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Choose</button>
+              </label>
+              <br>
+
+              <button class="btn btn-primary" (click)="startSubscription(subscription.id, i.value)">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

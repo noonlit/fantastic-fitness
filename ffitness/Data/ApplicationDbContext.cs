@@ -23,9 +23,12 @@ namespace Ffitness.Data
         public DbSet<Booking> Bookings { get; set; }
 
         public DbSet<BookedScheduledActivity> BookedScheduledActivities { get; set; }
+        public DbSet<PopularActivity> PopularActivities { get; set; }
+        public DbSet<PopularTrainer> PopularTrainers { get; set; }
 
-        public DbSet<Models.UserActions.Booking> UserActionsBooking { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -49,10 +52,28 @@ namespace Ffitness.Data
                 .IsUnique();
 
             modelBuilder.Entity<UserRole>()
-                .HasData(new UserRole { Name = "User" },
-                         new UserRole { Name = "Admin" });
+                .HasData(new UserRole { Name = UserRole.ROLE_USER, NormalizedName = UserRole.ROLE_USER.ToUpper() },
+                         new UserRole { Name = UserRole.ROLE_ADMIN, NormalizedName = UserRole.ROLE_ADMIN.ToUpper() });
 
-            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView(null);
+            modelBuilder.Entity<Activity>().Property(a => a.Id).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Name).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Description).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.Type).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.DifficultyLevel).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.PrimaryColour).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.SecondaryColour).IsRequired();
+            modelBuilder.Entity<Activity>().Property(a => a.ActivityPicture).HasDefaultValue("default-activity-picture.jpg");
+
+            modelBuilder.Entity<BookedScheduledActivity>().HasNoKey().ToView("View_BookingStats");
+            modelBuilder.Entity<PopularActivity>().HasNoKey().ToView("View_PopularActivity");
+            modelBuilder.Entity<PopularTrainer>().HasNoKey().ToView("View_PopularTrainer");
+
+            modelBuilder.Entity<Subscription>().Property(s => s.Id).IsRequired();
+            modelBuilder.Entity<Subscription>().Property(s => s.Duration).IsRequired();
+            modelBuilder.Entity<Subscription>().Property(s => s.Price).IsRequired();
+
+            modelBuilder.Entity<UserSubscription>().Property(s => s.Id).IsRequired();
+            modelBuilder.Entity<UserSubscription>().Property(s => s.StartTime).IsRequired();
         }
     }
 }

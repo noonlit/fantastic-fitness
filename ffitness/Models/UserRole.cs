@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Ffitness.Models
 {
     public class UserRole : IdentityRole
     {
+        public const string ROLE_ADMIN = "AppAdmin";
+        public const string ROLE_USER = "AppUser";
+
         [Required]
-        public override string Name { get; set; }
-    }
+        public override string Name { get; set; } = ROLE_USER;
+	}
 }

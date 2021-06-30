@@ -1,8 +1,8 @@
-import { OnInit } from '@angular/core';
+import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../users/shared/user.model';
+import { UserComponentService } from '../users/shared/user.service';
 
 @Component({
   selector: 'app-account',
@@ -10,14 +10,35 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-  public isAuthenticated: Observable<boolean>;
-  public userName: Observable<string>;
-  public email: Observable<string>;
+  @Input() user: User;
+  message: string;
+  errorMessages: []
 
-  constructor(private authorizeService: AuthorizeService) { }
+  constructor(private userService: UserComponentService) { }
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizeService.isAuthenticated();
-    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name)); // TODO - need role - isAdmin
+    this.userService.getCurrentUser()
+      .subscribe(user => {
+        user.birthdateData = {};
+        var birthdayAsDate = new Date(user.birthDate);
+        user.birthdateData.year = birthdayAsDate.getFullYear();
+        user.birthdateData.month = birthdayAsDate.getMonth() + 1;
+        user.birthdateData.day = birthdayAsDate.getDate();
+
+        this.user = user
+      });
+  }
+
+  save(): void {
+    this.user.birthDate = this.user.birthdateData.year + '-' + this.user.birthdateData.month + '-' + this.user.birthdateData.day;
+
+    this.userService.update(this.user)
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+        },
+        error => this.errorMessages = error.error.errors
+      );
   }
 }

@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h1>Users</h1>
+    <hr>
+    <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <a class="btn btn-light" (click)="addUser()">
+      Create user
+    </a>
+    <br>
+    <br>
+    <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="users">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Is Admin</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td> {{user.userName}} </td>
+          <td> {{user.email}} </td>
+          <td>
+            <span *ngIf="userIsAdmin(user); else elseBlock">true</span>
+            <ng-template #elseBlock>false</ng-template>
+          </td>
+          <td>
+
+            <a class="btn btn-light" (click)="editUser(user)" aria-label="Edit" title="Edit">
+              <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+            </a>
+            &nbsp;
+            <a class="btn btn-warning" *ngIf="!(userIsAdmin(user))" (click)="promote(user)" aria-label="Promote" title="Promote">
+              <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+            </a>
+
+            <a class="btn btn-danger" *ngIf="userIsAdmin(user)" (click)="demote(user)" aria-label="Demote" title="Demote">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </a>
+            &nbsp;
+            <a class="btn btn-danger" (click)="deleteUser(user)" aria-label="Delete" title="Delete">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

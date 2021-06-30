@@ -1,0 +1,7 @@
+.sizing {
+  width: calc(100% - 16px);
+}
+
+.margin {
+    margin-left: 20px;
+}

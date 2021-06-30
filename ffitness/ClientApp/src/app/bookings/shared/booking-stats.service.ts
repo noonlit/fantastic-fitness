@@ -21,4 +21,12 @@ export class BookingStatsComponentService {
   getBookedScheduledActivitiesStats(): Observable<any> {
     return this.httpClient.get<any>(this.getApiUrl());
   }
+
+  getPopularActivitiesStats(): Observable<any> {
+    return this.httpClient.get<any>(this.getApiUrl() + "/PopularActivities");
+  }
+
+  getPopularTrainersStats(): Observable<any> {
+    return this.httpClient.get<any>(this.getApiUrl() + "/PopularTrainers");
+  }
 }

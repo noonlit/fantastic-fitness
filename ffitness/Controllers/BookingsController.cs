@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Ffitness.Data;
 using Ffitness.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ffitness.Controllers
 {
@@ -15,10 +17,12 @@ namespace Ffitness.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public BookingsController(ApplicationDbContext context)
+		public BookingsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Bookings
@@ -43,11 +47,12 @@ namespace Ffitness.Controllers
         }
 
         [HttpGet("ScheduledActivity/{scheduledActivityId}")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
         public async Task<ActionResult<Booking>> GetUserBooking(int scheduledActivityId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var booking = await _context.Bookings.Where(b => b.UserId == userId && b.ScheduledActivityId == scheduledActivityId).FirstOrDefaultAsync();
+            var booking = await _context.Bookings.Where(b => b.UserId == user.Id && b.ScheduledActivityId == scheduledActivityId).FirstOrDefaultAsync();
 
             if (booking == null)
             {
@@ -58,25 +63,16 @@ namespace Ffitness.Controllers
         }
 
         [HttpPost("BookSpot")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
         public async Task<ActionResult<Booking>> BookSpot(ScheduledActivity activity)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var booking = new Booking { ScheduledActivityId = activity.Id, UserId = userId };
+            var booking = new Booking { ScheduledActivityId = activity.Id, UserId = user.Id };
 
             _context.Bookings.Add(booking);
             activity.Capacity--;
             _context.Entry(activity).State = EntityState.Modified;
-
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = userId,
-                UserAction = Models.UserActions.Booking.Action.BookSpot,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 
@@ -84,29 +80,29 @@ namespace Ffitness.Controllers
         }
 
         [HttpGet("/Bookings/Current")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
         public async Task<ActionResult<IEnumerable<Booking>>> GetBookingsForCurrentUser()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (userId == null)
+            if (user == null)
             {
                 return new List<Booking>();
             }
 
-            var bookingIds = _context.Bookings.Select(b => b.UserId);
-
             return await _context.Bookings
-                .Where(b => b.UserId == userId)
+                .Where(b => b.UserId == user.Id)
                 .ToListAsync();
         }
 
         // DELETE: api/Bookings/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Identity.Application,Bearer")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (userId == null)
+            if (user == null)
             {
                 return NotFound();
             }
@@ -121,17 +117,6 @@ namespace Ffitness.Controllers
             var activity = _context.ScheduledActivities.Find(booking.ScheduledActivityId);
             activity.Capacity++;
             _context.Entry(activity).State = EntityState.Modified;
-
-
-            var bookingLog = new Models.UserActions.Booking
-            {
-                ScheduledActivityId = activity.Id,
-                UserId = userId,
-                UserAction = Models.UserActions.Booking.Action.CancelBooking,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.UserActionsBooking.Add(bookingLog);
 
             await _context.SaveChangesAsync();
 

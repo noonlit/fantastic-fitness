@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-sm-2">
+    <app-sidebar-nav-menu></app-sidebar-nav-menu>
+  </div>
+
+  <div class="col-sm-10">
+    <h2>Add Trainer</h2>
+    <br>
+    <div *ngIf="message">
+      <div class="alert alert-success">{{ message }}</div>
+    </div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
+    <form [formGroup]="addTrainerForm" (ngSubmit)="onSubmitForm()" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label for="FirstName" class="control-label">First name</label>
+
+        <input id="FirstName" type="text" class="form-control" placeholder="John" formControlName="FirstName">
+      </div>
+
+      <div class="form-group">
+        <label for="LastName" class="control-label">Last Name</label>
+
+        <input id="LastName" type="text" class="form-control" placeholder="Doe" formControlName="LastName">
+      </div>
+
+      <div class="form-group">
+        <label for="Description" class="control-label">Description</label>
+
+        <textarea id="Description" type="text" class="form-control" placeholder="The best trainer in the world!" formControlName="Description"></textarea>
+      </div>
+
+      <div class="form-group" *ngFor="let activity of activities">
+        <input class="form-check-input" type="checkbox" (change)="onChangeCheckboxState($event, activity.id)"> 
+        <label class="form-check-label">{{ activity.name }}</label>
+      </div>
+
+
+      <button type="submit" class="btn btn-light">Submit</button>
+    </form>
+  </div>
+</div>
+
+      <!--
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="ProfileImage" class="control-label">Photo</label>
+
+        <br />                  [disabled]="!addTrainerForm.valid"
+
+        <input for="ProfileImage" type="file" id="photo" class="btn btn-secondary" (change)="onFileChange($event)" />
+      </div>
+    </div>
+  </div>-->

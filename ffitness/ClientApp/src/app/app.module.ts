@@ -8,11 +8,6 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
-import { AuthorizeGuard } from '../api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
 import { ActivitiesComponent } from './activities/activities.component';
 import { CalendarComponent } from './calendar/calendar.component';
 // https://github.com/mattlewis92/angular-calendar
@@ -25,40 +20,86 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AccountComponent } from './account/account.component';
 import { SidebarNavMenuComponent } from './account/sidebar-nav/sidebar-nav-menu.component';
+import { AdminUsersComponent } from './users/admin/users.component';
+import { AdminUserEditComponent } from './users/admin/user-edit/user-edit.component';
+import { AdminUserAddComponent } from './users/admin/user-add/user-add.component';
+import { NewLoginComponent } from './login/login.component';
+import { AuthService } from './auth/auth.service';
+import { TokenInterceptor } from './auth/auth.token.interceptor';
+import { AuthGuardService } from './auth/auth.guard';
+import { AuthRoleGuardService } from './auth/auth.role.guard';
+import { RegistrationComponent } from './register/registration.component';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminTrainerAddComponent } from './trainers/add-trainer/trainer-add.component';
+import { AdminTrainerUpdateComponent } from './trainers/update-trainer/trainer-update.component';
+import { AdminTrainersListComponent } from './trainers/list-trainers/trainers-list.component';
 import { AdminCalendarComponent } from './calendar/admin/calendar/calendar.component';
-import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
+import { AdminActivitiesComponent } from './activities/admin/activities/activities.component';
+import { ChartsModule, ThemeService } from 'ng2-charts';
+import { AdminActivityAddComponent } from './activities/admin/activities/activity-add/activity-add.component';
+import { AdminActivityEditComponent } from './activities/admin/activities/activity-edit/activity-edit.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { UserSubscriptionsComponent } from './user-subscriptions/usersubscriptions.component';
+import { AdminUserSubscriptionsComponent } from './user-subscriptions/admin/usersubscriptions.component';
+import { AdminUserSubscriptionAddComponent } from './user-subscriptions/admin/user-subscription-add/usersubscription-add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     ActivitiesComponent,
     CalendarComponent,
     AccountComponent,
     SidebarNavMenuComponent,
     BookingsStatsComponent,
     AdminCalendarComponent,
-    AdminAddTrainerComponent,
+    AdminTrainersListComponent,
+    AdminTrainerAddComponent,
+    AdminTrainerUpdateComponent,
+    AdminUsersComponent,
+    AdminUserEditComponent,
+    AdminUserAddComponent,
+    AdminActivitiesComponent,
+    AdminActivityAddComponent,
+    AdminActivityEditComponent,
+    NewLoginComponent,
+    RegistrationComponent,
+    SubscriptionsComponent,
+    UserSubscriptionsComponent,
+    AdminUserSubscriptionsComponent,
+    AdminUserSubscriptionAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgbModule,
     ReactiveFormsModule,
-    ApiAuthorizationModule,
+    ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'login', component: NewLoginComponent },
+      { path: 'register', component: RegistrationComponent },
       { path: 'activities', component: ActivitiesComponent },
       { path: 'calendar', component: CalendarComponent },
-      { path: 'account', component: AccountComponent },
-      { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthorizeGuard] },
-      { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthorizeGuard] },
-      { path: 'add-trainer', component: AdminAddTrainerComponent },
+      { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },
+      { path: 'create-calendar', component: AdminCalendarComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'bookings-stats', component: BookingsStatsComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainers', component: AdminTrainersListComponent, canActivate: [AuthGuardService] },
+      { path: 'trainer/add', component: AdminTrainerAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'trainer/edit/:id', component: AdminTrainerUpdateComponent, canActivate: [AuthGuardService] },
+      { path: 'users', component: AdminUsersComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'user/edit/:id', component: AdminUserEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'user/add', component: AdminUserAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/add', component: AdminActivityAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'activity/edit/:id', component: AdminActivityEditComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'manage-activities', component: AdminActivitiesComponent, canActivate: [AuthGuardService, AuthRoleGuardService] },
+      { path: 'subscriptions', component: SubscriptionsComponent },
+      { path: 'user-subscriptions', component: UserSubscriptionsComponent },
+      { path: 'manage-subscriptions', component: AdminUserSubscriptionsComponent, canActivate: [AuthGuardService, AuthRoleGuardService]},
+      { path: 'manage-subscriptions/add', component: AdminUserSubscriptionAddComponent, canActivate: [AuthGuardService, AuthRoleGuardService] }
     ]),
     BrowserAnimationsModule,
     CalendarModule.forRoot({
@@ -70,7 +111,13 @@ import { AdminAddTrainerComponent } from './trainers/add-trainer.component';
     LayoutModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

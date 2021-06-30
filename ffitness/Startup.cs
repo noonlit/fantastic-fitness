@@ -14,6 +14,9 @@ using FluentValidation.AspNetCore;
 using Ffitness.ViewModels;
 using FluentValidation;
 using Ffitness.Validator;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Ffitness.Services;
 
 namespace Ffitness
 {
@@ -37,13 +40,28 @@ namespace Ffitness
 			
 			services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
 					.AddRoles<IdentityRole>()
-					.AddEntityFrameworkStores<ApplicationDbContext>();
+					.AddEntityFrameworkStores<ApplicationDbContext>()
+					.AddDefaultTokenProviders();
 
 			services.AddIdentityServer()
 					.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
 			services.AddAuthentication()
-					.AddIdentityServerJwt();
+				.AddIdentityServerJwt()
+				.AddJwtBearer(options =>
+				{
+					options.SaveToken = true;
+					options.RequireHttpsMetadata = true;
+					options.TokenValidationParameters = new TokenValidationParameters()
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidAudience = Configuration["Jwt:Site"],
+						ValidIssuer = Configuration["Jwt:Site"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SigningKey"]))
+					};
+				});
+
 			services.AddControllersWithViews().AddFluentValidation().AddNewtonsoftJson();
 			services.AddRazorPages();
 			// In production, the Angular files will be served from this directory
@@ -55,6 +73,11 @@ namespace Ffitness
 		
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddTransient<IValidator<ScheduledActivityViewModel>, ScheduledActivityValidator>();
+			services.AddTransient<IValidator<ActivityViewModel>, ActivityValidator>();
+			services.AddTransient<IValidator<ActivityWithTrainersViewModel>, ActivityWithTrainersValidator>();
+			services.AddTransient<IValidator<TrainerWithActivitiesViewModel>, TrainerValidator>();
+			services.AddTransient<IValidator<UserSubscriptionViewModel>, UserSubscriptionValidator>();
+			services.AddTransient<StatisticsQueryService, StatisticsQueryService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
