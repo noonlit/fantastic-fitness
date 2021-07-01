@@ -404,3 +404,4 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 ffitness/appsettings.json
+ffitness/appsettings.Development.json

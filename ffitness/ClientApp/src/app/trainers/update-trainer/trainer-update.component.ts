@@ -1,7 +1,7 @@
 import { OnInit, OnDestroy, Input } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -31,7 +31,8 @@ export class AdminTrainerUpdateComponent implements OnInit, OnDestroy {
     private trainerService: TrainerComponentService,
     private route: ActivatedRoute,
     private location: Location,
-    private serviceActivity: ActivityComponentService
+    private serviceActivity: ActivityComponentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -133,6 +134,7 @@ export class AdminTrainerUpdateComponent implements OnInit, OnDestroy {
         .subscribe(confirmation => {
           this.message = "Success!"
           this.errorMessages = [];
+          this.router.navigate(['/trainers']);
         },
           error => this.errorMessages = error.error.errors
         )
