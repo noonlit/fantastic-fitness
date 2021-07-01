@@ -68,23 +68,6 @@ namespace Ffitness.Controllers
             return BadRequest(ModelState);
         }
 
-        /* private string UploadedFile(TrainerViewModel model)
-         {
-             string uniqueFileName = null;
-
-             if (model.ProfileImage != null)
-             {
-                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                 using (var fileStream = new FileStream(filePath, FileMode.Create))
-                 {
-                     model.ProfileImage.CopyTo(fileStream);
-                 }
-             }
-             return uniqueFileName;
-         }*/
-
         // GET: api/Trainers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TrainerViewModel>>> GetTrainers()
@@ -190,22 +173,3 @@ namespace Ffitness.Controllers
         }
     }
 }
-/*
-                var activitiesToRemove = trainerToUpdate.Activities.ToList();
-                foreach (var activity in activitiesToRemove)
-                {
-                    if (!trainerFromUi.Activities.Contains(activity.Id))
-                    {
-                        trainerToUpdate.Activities.Remove(activity);
-                        //_context.Entry(activity).State = EntityState.Modified;
-                    }
-                }*/
-
-/*trainerToUpdate.Activities.ForEach(activity =>
-{
-    var activityToRemove = _context.Activities.Find(activity.Id);
-    if (!trainerFromUi.Activities.Contains(activityToRemove.Id))
-    {
-        trainerToUpdate.Activities.Remove(activityToRemove);
-    }
-});*/

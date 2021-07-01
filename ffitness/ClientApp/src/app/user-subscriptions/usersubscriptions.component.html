@@ -8,8 +8,9 @@
     <h1>Your subscriptions</h1>
     <hr>
 
-    <div>
+    <div *ngIf="currentSubscription">
       <h4>Active subscription</h4>
+      <p>While your subscription is active, you can book a spot in any class for free!</p>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="currentSubscription">
         <thead>
           <tr>
@@ -28,7 +29,7 @@
       </table>
     </div>
 
-    <div>
+    <div *ngIf="futureSubscriptions">
       <h4>Future subscriptions</h4>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="futureSubscriptions">
         <thead>
@@ -48,7 +49,7 @@
       </table>
     </div>
 
-    <div>
+    <div *ngIf="pastSubscriptions">
       <h4>Past subscriptions</h4>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="pastSubscriptions">
         <thead>
