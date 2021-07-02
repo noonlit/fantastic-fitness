@@ -1,15 +1,15 @@
 <div class="container">
   <div class="form-row justify-content-md-center">
     <!--<div class="col col-lg-4">-->
-      <div class="form-group col col-lg-8 offset-3">
+      <div class="form-wrapper col col-md-8 offset-3">
         <h3> REGISTER </h3>
         <form>
-          <label style=" width: 50%">First name <input class="form-control " style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.firstName" name="firstName"></label><br>
-          <label style=" width: 50%">Last name <input class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.lastName" name="lastName"></label><br>
-          <label style=" width: 50%">Email <input class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.email" name="email"></label><br>
-          <label style=" width: 50%">Username <input class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.username" name="username"></label><br>
-          <label style=" width: 50%">Password <input type="password" class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.password" name="password"></label><br>
-          <label style=" width: 50%">Password Confirmation <input type="password" class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.confirmPassword" name="confirmPassword"></label><br>
+          <label style=" width: 50%">First name <input class="form-control "  [(ngModel)]="registrationData.firstName" name="firstName"></label><br>
+          <label style=" width: 50%">Last name <input class="form-control"  [(ngModel)]="registrationData.lastName" name="lastName"></label><br>
+          <label style=" width: 50%">Email <input class="form-control"  [(ngModel)]="registrationData.email" name="email"></label><br>
+          <label style=" width: 50%">Username <input class="form-control"  [(ngModel)]="registrationData.username" name="username"></label><br>
+          <label style=" width: 50%">Password <input type="password" class="form-control"  [(ngModel)]="registrationData.password" name="password"></label><br>
+          <label style=" width: 50%">Password Confirmation <input type="password" class="form-control"  [(ngModel)]="registrationData.confirmPassword" name="confirmPassword"></label><br>
           <label style=" width: 50%">
             Birthday <input class="form-control" placeholder="yyyy-mm-dd"
                             name="dp" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="registrationData.birthdateData" ngbDatepicker #d="ngbDatepicker"><br>

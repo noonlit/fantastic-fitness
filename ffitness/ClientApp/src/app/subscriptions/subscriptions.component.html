@@ -16,7 +16,7 @@
 
 <div class="card-section-wrapper py-4">
 
-  <div class="card-wrapper">
+  <div class="card-wrapper ">
     <ng-container *ngIf="subscriptions">
       <div *ngFor="let subscription of subscriptions; let i = index" class="card-item">
         <div class="card-item-photo">
@@ -40,7 +40,7 @@
               </label>
               <br>
 
-              <button class="btn btn-primary" (click)="startSubscription(subscription.id, i.value)">
+              <button class="btn  btn-fantastic" (click)="startSubscription(subscription.id, i.value)">
                 Subscribe
               </button>
             </form>

@@ -152,3 +152,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div.card-item:hover {
   box-shadow: #2a5f50 0px 2px 8px 0px;
 }
+
+
+.btn-fantastic {
+  width: 50%;
+  border: 2px solid #00c98d;
+}
+
+.form-wrapper   {
+  width: 50% ;
+}
+
+.form-wrapper .form-control {
+   border-bottom: 2px solid #00c98d;
+   border-top:0; border-right:0;
+   border-left:0; border-radius:0;
+}

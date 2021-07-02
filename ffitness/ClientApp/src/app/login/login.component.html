@@ -1,14 +1,14 @@
 <div class="container">
-  <div class="form-row justify-content-md-center">
+  <div class="form-row justify-content-sm-center">
     <!--<div class="col col-lg-4">-->
-    <div class="form-group col col-lg-8 offset-3">
+    <div class="form-group col col-sm-8 offset-3">
       <div class="form-wrapper">
         <h3> LOGIN </h3>
         <br>
         <form>
-          <label style=" width: 50%">Email <input class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="loginData.email" name="email"></label><br>
-          <label style=" width: 50%">Password <input type="password" class="form-control" style="border-bottom: 2px solid #00c98d; border-top:0; border-right:0; border-left:0; border-radius:0;" [(ngModel)]="loginData.password" name="password"></label><br><br>
-          <button class="btn btn-light" style="width: 50%; border: 2px solid #00c98d;" (click)="logIn()">Log in</button>
+          <label >Email <input class="form-control"  [(ngModel)]="loginData.email" name="email"></label><br>
+          <label >Password <input type="password" class="form-control" [(ngModel)]="loginData.password" name="password"></label><br><br>
+          <button class="btn btn-light btn-fantastic"  (click)="logIn()">Log in</button>
         </form>
       </div>
     </div>
