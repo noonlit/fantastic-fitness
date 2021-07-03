@@ -16,12 +16,15 @@ code {
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  background-color: #f8f9fa  !important;
 }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+h1, h2 {
+    text-align: center
+}
 
 /* Card styles */
 
@@ -115,9 +118,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   position: relative;
 }
 
-  .card-item-photo img {
-    max-width: 300px;
-  }
+.card-item, .card-item-photo img {
+  max-width: 300px;
+}
 
 .card-item-details {
   padding: 15px;
@@ -151,4 +154,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 div.card-item:hover {
   box-shadow: #2a5f50 0px 2px 8px 0px;
+}
+
+.btn-light:hover {
+  border: 1px solid #00c98d;
+}
+
+form, form label {
+    width: 100%;
+}
+
+.form-wrapper {
+    width: 50%;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
 }

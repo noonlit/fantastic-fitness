@@ -41,7 +41,7 @@
 
           Activity type:
           <div class="form-check" *ngFor="let option of ACTIVITY_TYPES; let i = index">
-            <input class="form-check-input" type="radio" name="activity-types" id="{{option}}" value="{{i}}" [(ngModel)]="activity.type">
+            <input class="form-check-input" type="radio" [value]="i" name="activity.type" [(ngModel)]="activity.type">
             <label class="form-check-label" for="{{option}}">
               {{option}}
             </label>

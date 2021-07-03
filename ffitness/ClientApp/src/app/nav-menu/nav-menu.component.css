@@ -26,7 +26,7 @@ nav {
 */
 
 .nav-link:hover {
-  transform: translateY(-0.25em);
+  transform: translateY(-0.15em);
 }
 
 app-login-menu a.nav-link:hover {

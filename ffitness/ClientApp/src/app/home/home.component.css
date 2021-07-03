@@ -6,5 +6,9 @@
 
 .caption {
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.2)
+    background-color: rgba(0, 0, 0, 0.3)
+}
+
+.caption h1 {
+    font-size: 4rem;
 }

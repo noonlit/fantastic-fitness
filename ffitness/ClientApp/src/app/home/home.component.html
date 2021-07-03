@@ -28,7 +28,8 @@
   </div>
 </div>
 <div class="container py-4 text-center">
-  <h2 class="title">About Us</h2>
+  <h2>About Us</h2>
+  <br>
   <p>
     At our gym, we strive to create a friendly, non-intimidating atmosphere.
     If you are a beginner, we are here to welcome you with our gym introductory programs that provide the basics of exercise.
@@ -37,13 +38,14 @@
   <p>
     We also offer group classes, which are a great way to add variety to your fitness routine - you never know, you might find something you really enjoy!
   </p>
+
+  <p>Contact us at <a href="mailto: abc@example.com">abc@example.com</a> or call us between 9-18:00 at 0711 111 111.</p>
 </div>
 
-<div class="card-section-wrapper py-4">
-  <h2 class="title">our instructors</h2>
-
+<div class="card-section-wrapper py-4" *ngIf="trainers">
+  <h2>Our Instructors</h2>
   <div class="card-wrapper">
-    <ng-container *ngIf="trainers">
+    <ng-container>
       <div *ngFor="let trainer of trainers" class="card-item">
         <div class="card-item-photo">
           <img src="trainer.png" />
