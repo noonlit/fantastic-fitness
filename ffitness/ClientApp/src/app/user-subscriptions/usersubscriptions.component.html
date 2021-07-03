@@ -35,7 +35,7 @@
           <tr>
             <td class="col-3"> {{ currentSubscription.startTime | date:'longDate' }} </td>
             <td class="col-3"> {{ currentSubscription.endTime | date:'longDate' }} </td>
-            <td class="col-3"> {{ currentSubscription.daysLeft }} (out of {{ currentSubscription.subscription.duration }}) </td>
+            <td class="col-3"> {{ currentSubscription.daysUntilEnd }} (out of {{ currentSubscription.subscription.duration }}) </td>
             <td class="col-3">
             </td>
           </tr>

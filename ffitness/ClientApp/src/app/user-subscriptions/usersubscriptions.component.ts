@@ -28,15 +28,8 @@ export class UserSubscriptionsComponent implements OnInit {
       .subscribe(
         result => {
           for (let item of result) {
-            const daysToStart = this.service.calcDaysBetween(Date.now(), Date.parse(item.startTime));
-            const daysToEnd = this.service.calcDaysBetween(Date.now(), Date.parse(item.endTime));
-            item.isActive = daysToStart <= 0 && daysToEnd > 0;
-            item.isPast = daysToEnd <= 0;
-            item.isFuture = daysToStart > 0;
-
             if (item.isActive) {
               this.currentSubscription = item;
-              item.daysLeft = daysToEnd + 1;
               continue;
             }
 
@@ -53,12 +46,6 @@ export class UserSubscriptionsComponent implements OnInit {
         },
         error => this.errorMessages = error.error.errors
       );
-  }
-
-  calcDaysLeft(from: number, until: number) {
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-
-    return Math.round((until - from) / oneDay);
   }
 
   deleteSubscription(subscription) {

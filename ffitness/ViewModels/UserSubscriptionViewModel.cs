@@ -14,5 +14,10 @@ namespace Ffitness.ViewModels
 		public int SubscriptionId { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsPast { get; set; }
+		public bool IsFuture { get; set; }
+		public int DaysUntilEnd { get; set; }
+
 	}
 }

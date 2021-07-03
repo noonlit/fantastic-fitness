@@ -22,11 +22,6 @@ export class AdminUserSubscriptionsComponent implements OnInit {
       .subscribe(
         result => {
           for (let item of result) {
-            const daysToStart = this.service.calcDaysBetween(Date.now(), Date.parse(item.startTime));
-            const daysToEnd = this.service.calcDaysBetween(Date.now(), Date.parse(item.endTime));
-            item.isActive = daysToStart <= 0 && daysToEnd > 0;
-            item.isPast = daysToEnd <= 0;
-            item.isFuture = daysToStart > 0;
             this.subscriptions = [... this.subscriptions, item];
           }
         },

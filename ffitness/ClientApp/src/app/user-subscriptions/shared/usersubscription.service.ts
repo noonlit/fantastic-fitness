@@ -41,10 +41,4 @@ export class UserSubscriptionComponentService {
   save(subscription: UserSubscription): Observable<UserSubscription> {
     return this.httpClient.post<UserSubscription>(this.getApiUrl(), subscription);
   }
-
-  calcDaysBetween(from: number, until: number) {
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-
-    return Math.round((until - from) / oneDay);
-  }
 }

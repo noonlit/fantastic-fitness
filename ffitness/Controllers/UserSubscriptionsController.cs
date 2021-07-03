@@ -68,7 +68,16 @@ namespace Ffitness.Controllers
                 .Include(s => s.Subscription)
                 .ToListAsync();
 
-            return _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
+            var mappedResult = _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
+
+            mappedResult.ForEach(vm => {
+                vm.IsActive = DateTime.Now >= vm.StartTime && DateTime.Now < vm.EndTime;
+                vm.IsFuture = DateTime.Now < vm.StartTime;
+                vm.IsPast = DateTime.Now > vm.EndTime;
+                vm.DaysUntilEnd = vm.EndTime.Subtract(DateTime.Now).Days;
+            });
+
+            return mappedResult;
         }
 
         [HttpGet("User/{subscriptionId}")]
@@ -96,21 +105,23 @@ namespace Ffitness.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
+            var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
+            subscriptionEntity.User = user;
+            subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
+
             var existingSubscriptions = await _context.UserSubscriptions
-                .Where(s => s.UserId == user.Id)
                 .Include(s => s.Subscription)
+                .Where(s => s.UserId == user.Id)
                 .ToListAsync();
 
-            var overlappingSubscription = existingSubscriptions.Any(s => s.EndTime > userSubscription.StartTime);
+            var overlappingSubscription = existingSubscriptions.Any(s =>
+                s.StartTime <= subscriptionEntity.EndTime && s.EndTime >= subscriptionEntity.StartTime
+            );
 
             if (overlappingSubscription)
 			{
                 return BadRequest($"This subscription would overlap your current one. Please check your subscriptions status in your account dashboard.");
             }
-
-            var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
-            subscriptionEntity.User = user;
-            subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
             _context.UserSubscriptions.Add(subscriptionEntity);
             await _context.SaveChangesAsync();
