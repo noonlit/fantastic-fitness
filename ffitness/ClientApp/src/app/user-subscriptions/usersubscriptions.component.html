@@ -22,7 +22,7 @@
     <div *ngIf="currentSubscription">
       <h4>Active subscription</h4>
       <p>While your subscription is active, you can book a spot in any class for free!</p>
-      <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="currentSubscription">
+      <table class='table table-hover' aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th class="col-3">Start Date</th>
@@ -43,7 +43,7 @@
       </table>
     </div>
 
-    <div *ngIf="futureSubscriptions">
+    <div *ngIf="futureSubscriptions.length > 0">
       <h4>Future subscriptions</h4>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="futureSubscriptions">
         <thead>
@@ -69,7 +69,7 @@
       </table>
     </div>
 
-    <div *ngIf="pastSubscriptions">
+    <div *ngIf="pastSubscriptions.length > 0">
       <h4>Past subscriptions</h4>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="pastSubscriptions">
         <thead>
