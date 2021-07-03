@@ -41,7 +41,9 @@ namespace Ffitness.Controllers
                .ThenBy(s => s.StartTime)
                .ToListAsync();
 
-            return _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
+            var mappedResult = _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
+
+            return AddCalculatedFields(mappedResult);
         }
 
         // GET: api/UserSubscriptions/5
@@ -70,14 +72,7 @@ namespace Ffitness.Controllers
 
             var mappedResult = _mapper.Map<List<UserSubscription>, List<UserSubscriptionViewModel>>(result);
 
-            mappedResult.ForEach(vm => {
-                vm.IsActive = DateTime.Now >= vm.StartTime && DateTime.Now < vm.EndTime;
-                vm.IsFuture = DateTime.Now < vm.StartTime;
-                vm.IsPast = DateTime.Now > vm.EndTime;
-                vm.DaysUntilEnd = vm.EndTime.Subtract(DateTime.Now).Days;
-            });
-
-            return mappedResult;
+            return AddCalculatedFields(mappedResult);
         }
 
         [HttpGet("User/{subscriptionId}")]
@@ -109,16 +104,7 @@ namespace Ffitness.Controllers
             subscriptionEntity.User = user;
             subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
-            var existingSubscriptions = await _context.UserSubscriptions
-                .Include(s => s.Subscription)
-                .Where(s => s.UserId == user.Id)
-                .ToListAsync();
-
-            var overlappingSubscription = existingSubscriptions.Any(s =>
-                s.StartTime <= subscriptionEntity.EndTime && s.EndTime >= subscriptionEntity.StartTime
-            );
-
-            if (overlappingSubscription)
+            if (hasOverlappingSubscriptions(subscriptionEntity))
 			{
                 return BadRequest($"This subscription would overlap your current one. Please check your subscriptions status in your account dashboard.");
             }
@@ -135,15 +121,9 @@ namespace Ffitness.Controllers
         public async Task<ActionResult<UserSubscriptionViewModel>> PostUserSubscription(UserSubscriptionViewModel userSubscription)
         {
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
+            subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
-            var existingSubscriptions = await _context.UserSubscriptions
-                .Where(s => s.UserId == subscriptionEntity.UserId)
-                .Include(s => s.Subscription)
-                .ToListAsync();
-
-            var overlappingSubscription = existingSubscriptions.Any(s => s.EndTime > userSubscription.StartTime);
-
-            if (overlappingSubscription)
+            if (hasOverlappingSubscriptions(subscriptionEntity))
             {
                 return BadRequest($"This subscription would overlap a current one.");
             }
@@ -170,9 +150,28 @@ namespace Ffitness.Controllers
             return NoContent();
         }
 
-        private bool UserSubscriptionExists(int id)
-        {
-            return _context.UserSubscriptions.Any(e => e.Id == id);
+        private bool hasOverlappingSubscriptions(UserSubscription subscriptionEntity)
+		{
+            var existingSubscriptions =  _context.UserSubscriptions
+                .Where(s => s.UserId == subscriptionEntity.UserId)
+                .Include(s => s.Subscription)
+                .ToList();
+
+            return existingSubscriptions.Any(s =>
+                s.StartTime <= subscriptionEntity.EndTime && s.EndTime >= subscriptionEntity.StartTime
+            );
+        }
+
+        private List<UserSubscriptionViewModel> AddCalculatedFields(List<UserSubscriptionViewModel> list)
+		{
+            list.ForEach(vm => {
+                vm.IsActive = DateTime.Now >= vm.StartTime && DateTime.Now < vm.EndTime;
+                vm.IsFuture = DateTime.Now < vm.StartTime;
+                vm.IsPast = DateTime.Now > vm.EndTime;
+                vm.DaysUntilEnd = vm.EndTime.Subtract(DateTime.Now).Days;
+            });
+
+            return list;
         }
     }
 }
