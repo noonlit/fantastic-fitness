@@ -60,4 +60,16 @@ export class UserSubscriptionsComponent implements OnInit {
 
     return Math.round((until - from) / oneDay);
   }
+
+  deleteSubscription(subscription) {
+    this.service.delete(subscription)
+      .subscribe(
+        () => {
+          this.message = "Success!"
+          this.errorMessages = [];
+          this.futureSubscriptions = this.futureSubscriptions.filter(u => u.id !== subscription.id);
+        },
+        error => this.errorMessages = error.error.errors
+      );
+  }
 }

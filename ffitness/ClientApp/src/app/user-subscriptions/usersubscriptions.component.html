@@ -8,22 +8,36 @@
     <h1>Your subscriptions</h1>
     <hr>
 
+    <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+    <div *ngFor="let errorMessage of errorMessages | keyvalue">
+      <div *ngFor="let textMessage of errorMessage.value" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ textMessage }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+
     <div *ngIf="currentSubscription">
       <h4>Active subscription</h4>
       <p>While your subscription is active, you can book a spot in any class for free!</p>
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="currentSubscription">
         <thead>
           <tr>
-            <th class="col-4">Start Date</th>
-            <th class="col-4">End Date</th>
-            <th class="col-4">Days Left</th>
+            <th class="col-3">Start Date</th>
+            <th class="col-3">End Date</th>
+            <th class="col-3">Days Left</th>
+            <th class="col-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="col-4"> {{ currentSubscription.startTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ currentSubscription.endTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ currentSubscription.daysLeft }} (out of {{ currentSubscription.subscription.duration }}) </td>
+            <td class="col-3"> {{ currentSubscription.startTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ currentSubscription.endTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ currentSubscription.daysLeft }} (out of {{ currentSubscription.subscription.duration }}) </td>
+            <td class="col-3">
+            </td>
           </tr>
         </tbody>
       </table>
@@ -34,16 +48,22 @@
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="futureSubscriptions">
         <thead>
           <tr>
-            <th class="col-4">Start Date</th>
-            <th class="col-4">End Date</th>
-            <th class="col-4">Days Total</th>
+            <th class="col-3">Start Date</th>
+            <th class="col-3">End Date</th>
+            <th class="col-3">Days Total</th>
+            <th class="col-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let subscription of futureSubscriptions">
-            <td class="col-4"> {{ subscription.startTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ subscription.endTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ subscription.subscription.duration }} </td>
+            <td class="col-3"> {{ subscription.startTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ subscription.endTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ subscription.subscription.duration }} </td>
+            <td class="col-3">
+              <a class="btn btn-danger" (click)="deleteSubscription(subscription)" aria-label="Delete" title="Delete">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -54,16 +74,18 @@
       <table class='table table-hover' aria-labelledby="tableLabel" *ngIf="pastSubscriptions">
         <thead>
           <tr>
-            <th class="col-4">Start Date</th>
-            <th class="col-4">End Date</th>
-            <th class="col-4">Days Total</th>
+            <th class="col-3">Start Date</th>
+            <th class="col-3">End Date</th>
+            <th class="col-3">Days Total</th>
+            <th class="col-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let subscription of pastSubscriptions">
-            <td class="col-4"> {{ subscription.startTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ subscription.endTime | date:'longDate' }} </td>
-            <td class="col-4"> {{ subscription.subscription.duration }} </td>
+            <td class="col-3"> {{ subscription.startTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ subscription.endTime | date:'longDate' }} </td>
+            <td class="col-3"> {{ subscription.subscription.duration }} </td>
+            <td class="col-3"></td>
           </tr>
         </tbody>
       </table>
