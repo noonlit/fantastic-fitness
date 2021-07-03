@@ -5,16 +5,6 @@ a {
   color: #0366d6;
 }
 
-code {
-  color: #e01a76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
 body {
   background-color: #f8f9fa !important;
 }
@@ -30,6 +20,14 @@ body {
 
 h1, h2 {
   text-align: center
+}
+
+.container-fluid {
+  padding-bottom: 1.5%;
+}
+
+.row h1 {
+  text-align: left;
 }
 
 /* Card styles renamed*/
@@ -103,10 +101,6 @@ div.card-item:hover {
 }
 
 /* Forms and buttons */
-.btn-light:hover {
-  border: 1px solid #00c98d;
-}
-
 form, form label {
   width: 100%;
 }
@@ -120,6 +114,16 @@ form, form label {
   color: #2a5f50;
 }
 
+.btn-light {
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+}
+
+  .btn-light:hover {
+    background-color: #dadfe4;
+    border-color: #dadfe4;
+  }
+
 .bg-primary {
-  background-color: #2a5f50!important;
+  background-color: #2a5f50 !important;
 }

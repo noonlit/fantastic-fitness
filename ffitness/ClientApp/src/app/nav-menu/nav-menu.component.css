@@ -29,6 +29,10 @@ nav {
   transform: translateY(-0.15em);
 }
 
+nav .link-active a {
+    color: #fff;
+}
+
 app-login-menu a.nav-link:hover {
   transform: translateY(-0.25em);
 }

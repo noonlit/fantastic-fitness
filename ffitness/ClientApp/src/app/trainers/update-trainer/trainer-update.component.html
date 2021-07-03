@@ -30,6 +30,7 @@
                     type="text"
                     class="form-control"></textarea>
 
+          <p>Activities:</p>
           <ng-container *ngIf="activities">
             <div *ngFor="let activity of activities" class="form-group">
               <input class="form-check-input" type="checkbox" [checked]="initialActivityIds.includes(activity.id)" (change)="onChangeCheckboxState($event, activity)">

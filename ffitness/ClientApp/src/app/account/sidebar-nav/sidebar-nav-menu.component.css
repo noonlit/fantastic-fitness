@@ -1,0 +1,12 @@
+.sidenav .link-active {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.sidenav a:hover {
+  text-decoration: none;
+}
+
+.sidenav a:not(.link-active):hover {
+  color: inherit;
+}

@@ -57,6 +57,7 @@ export class AdminCalendarComponent implements OnInit {
   weekStartsOn = DAYS_OF_WEEK.SUNDAY;
   activeDayIsOpen: boolean = true;
   errorMessages = [];
+  mainErrorMessage;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -85,9 +86,11 @@ export class AdminCalendarComponent implements OnInit {
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         if (event.start < new Date()) {
+          this.mainErrorMessage = "Past events cannot be edited.";
           return;
         }
 
+        this.mainErrorMessage = null;
         this.openModal(event);
       },
     },
@@ -96,9 +99,11 @@ export class AdminCalendarComponent implements OnInit {
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         if (event.start < new Date()) {
+          this.mainErrorMessage = "Past events cannot be deleted.";
           return;
         }
 
+        this.mainErrorMessage = null;
         this.deleteEvent(event);
       },
     },
@@ -112,6 +117,8 @@ export class AdminCalendarComponent implements OnInit {
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
     if (newStart < new Date()) {
+      this.mainErrorMessage = "Past events cannot be rescheduled.";
+      this.cd.detectChanges();
       return;
     }
 
@@ -124,9 +131,12 @@ export class AdminCalendarComponent implements OnInit {
     });
 
     if (overlappingEvents.length > 0) {
+      this.mainErrorMessage = "Events should not overlap.";
+      this.cd.detectChanges();
       return;
     }
 
+    this.mainErrorMessage = null;
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
@@ -181,8 +191,12 @@ export class AdminCalendarComponent implements OnInit {
     this.selectedDayViewDate = date;
 
     if (date < new Date()) {
+      this.mainErrorMessage = "The selected time is in the past.";
+      this.cd.detectChanges();
       return;
     }
+
+    this.mainErrorMessage = null;
 
     let event: CalendarEvent = {
       title: 'New event',
@@ -228,7 +242,7 @@ export class AdminCalendarComponent implements OnInit {
       start: new Date(scheduledActivity.startTime),
       end: new Date(scheduledActivity.endTime),
       actions: this.actions,
-      color: { primary: scheduledActivity.activity.primaryColour, secondary: scheduledActivity.activity.secondaryColour },
+      color: { primary: '#' + scheduledActivity.activity.primaryColour, secondary: '#' + scheduledActivity.activity.secondaryColour },
       draggable: true,
       resizable: {
         beforeStart: true,

@@ -39,13 +39,13 @@
         <textarea id="Description" type="text" class="form-control" placeholder="The best trainer in the world!" formControlName="Description"></textarea>
       </div>
 
+      <p>Activities</p>
       <div class="form-group" *ngFor="let activity of activities">
-        <input class="form-check-input" type="checkbox" (change)="onChangeCheckboxState($event, activity.id)"> 
+        <input class="form-check-input" type="checkbox" (change)="onChangeCheckboxState($event, activity.id)">
         <label class="form-check-label">{{ activity.name }}</label>
       </div>
 
-
-      <button type="submit" class="btn btn-light">Submit</button>
+      <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
   </div>
 </div>
