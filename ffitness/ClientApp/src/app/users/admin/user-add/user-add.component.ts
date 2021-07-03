@@ -9,7 +9,7 @@ import { UserComponentService } from '../../shared/user.service';
 export class AdminUserAddComponent implements OnInit {
   @Input() user: User = new User();
   message: string;
-  errorMessages: [];
+  errorMessages = [];
 
   constructor(
     private service: UserComponentService,
@@ -20,6 +20,8 @@ export class AdminUserAddComponent implements OnInit {
   }
 
   saveUser() {
+    this.errorMessages = [];
+
     this.service.save(this.user)
       .subscribe(
         () => {
@@ -28,7 +30,21 @@ export class AdminUserAddComponent implements OnInit {
           this.user = new User();
           this.cd.detectChanges();
         },
-        error => this.errorMessages = error.error.errors
+        error => {
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors;
+            return;
+          }
+
+          if (!error.error) {
+            return;
+          }
+
+          for (const element of error.error) {
+            this.errorMessages[element.code] = [];
+            this.errorMessages[element.code].push(element.description);
+          }
+        }
       );
   }
 }

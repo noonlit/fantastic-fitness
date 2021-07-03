@@ -170,6 +170,14 @@ namespace Ffitness.Controllers
                 EmailConfirmed = true // a hack, but we're not implementing email confirmation
             };
 
+            if (newUser.PlainPassword == null)
+            {
+                var message = new { Code = 1, Description = "Password is mandatory!" };
+                var errors = new List<object>();
+                errors.Add(message);
+                return BadRequest(errors);
+            }
+
             var result = await _userManager.CreateAsync(user, newUser.PlainPassword);
 
             if (result.Succeeded)

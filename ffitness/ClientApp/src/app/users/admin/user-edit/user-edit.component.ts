@@ -12,7 +12,7 @@ import { User } from '../../shared/user.model';
 export class AdminUserEditComponent implements OnInit {
   @Input() user: User;
   message: string;
-  errorMessages: []
+  errorMessages = [];
 
   constructor(private userService: UserComponentService,
     private route: ActivatedRoute,
@@ -35,6 +35,7 @@ export class AdminUserEditComponent implements OnInit {
 
   save(): void {
     this.user.birthDate = this.user.birthdateData.year + '-' + this.user.birthdateData.month + '-' + this.user.birthdateData.day;
+    this.errorMessages = [];
 
     this.userService.update(this.user)
       .subscribe(
@@ -42,7 +43,21 @@ export class AdminUserEditComponent implements OnInit {
           this.message = "Success!"
           this.errorMessages = [];
         },
-        error => this.errorMessages = error.error.errors
+        error => {
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors;
+            return;
+          }
+
+          if (!error.error) {
+            return;
+          }
+
+          for (const element of error.error) {
+            this.errorMessages[element.code] = [];
+            this.errorMessages[element.code].push(element.description);
+          }
+        }
       );
   }
 
