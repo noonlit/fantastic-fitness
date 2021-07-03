@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Ffitness.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Ffitness.Controllers
 {
@@ -51,6 +52,14 @@ namespace Ffitness.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 EmailConfirmed = true // a hack, but we're not implementing email confirmation
             };
+
+            if (user.BirthDate != null && user.BirthDate > DateTime.Today.AddYears(-14))
+			{
+                var message = new { Code = 1, Description = "We hope you're at least 14!" };
+                var errors  = new List<object>();
+                errors.Add(message);
+                return BadRequest(errors);
+			}
 
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
 

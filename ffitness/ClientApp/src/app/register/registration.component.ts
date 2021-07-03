@@ -19,6 +19,8 @@ export class RegistrationComponent {
     private authService: AuthService
   ) { }
   register() {
+    this.errorMessages = [];
+
     if (this.registrationData.birthdateData && this.registrationData.birthdateData.year && this.registrationData.birthdateData.month && this.registrationData.birthdateData.day) {
       this.registrationData.birthdate = this.registrationData.birthdateData.year + '-' + this.registrationData.birthdateData.month + '-' + this.registrationData.birthdateData.day;
     }
@@ -28,7 +30,21 @@ export class RegistrationComponent {
         () => {
           window.location.href = '/login';
         },
-        error => this.errorMessages = error.error.errors
+        error => {
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors;
+            return;
+          }
+
+          if (!error.error) {
+            return;
+          }
+
+          for (const element of error.error) {
+            this.errorMessages[element.code] = [];
+            this.errorMessages[element.code].push(element.description);
+          }
+        }
       );
   }
 }
