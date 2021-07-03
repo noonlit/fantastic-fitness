@@ -36,7 +36,7 @@ export class UserSubscriptionsComponent implements OnInit {
 
             if (item.isActive) {
               this.currentSubscription = item;
-              item.daysLeft = daysToEnd;
+              item.daysLeft = daysToEnd + 1;
               continue;
             }
 
