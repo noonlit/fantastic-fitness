@@ -102,6 +102,7 @@ namespace Ffitness.Controllers
 
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
             subscriptionEntity.User = user;
+            subscriptionEntity.UserId = user.Id;
             subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
             if (hasOverlappingSubscriptions(subscriptionEntity))
@@ -121,6 +122,7 @@ namespace Ffitness.Controllers
         public async Task<ActionResult<UserSubscriptionViewModel>> PostUserSubscription(UserSubscriptionViewModel userSubscription)
         {
             var subscriptionEntity = _mapper.Map<UserSubscription>(userSubscription);
+            subscriptionEntity.User = await _context.Users.FindAsync(userSubscription.UserId);
             subscriptionEntity.Subscription = await _context.Subscriptions.FindAsync(userSubscription.SubscriptionId);
 
             if (hasOverlappingSubscriptions(subscriptionEntity))
@@ -158,7 +160,8 @@ namespace Ffitness.Controllers
                 .ToList();
 
             return existingSubscriptions.Any(s =>
-                s.StartTime <= subscriptionEntity.EndTime && s.EndTime >= subscriptionEntity.StartTime
+                subscriptionEntity.StartTime >= s.StartTime && subscriptionEntity.StartTime <= s.EndTime ||
+                subscriptionEntity.EndTime >= s.StartTime && subscriptionEntity.EndTime <= s.EndTime
             );
         }
 
